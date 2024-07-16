@@ -1,0 +1,12 @@
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="svg-icon " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" x="0px" y="0px" width="64" height="64">
+    <ellipse class="svg-icon-prime svg-icon-stroke" cx="31.45" cy="32.38" rx="7.48" ry="7.48" stroke="#021048" fill="#021048" stroke-width="2px"></ellipse>
+    <path class="svg-icon-outline-s" d="M54.14,54.29A30.57,30.57,0,0,1,32.2,63a30.34,30.34,0,0,1-21.85-8.71A31.18,31.18,0,0,1,1,32.38a31.18,31.18,0,0,1,9.35-21.91A31.18,31.18,0,0,1,32.2,1a31.37,31.37,0,0,1,21.94,9.47A30.67,30.67,0,0,1,63,32.38,30.67,30.67,0,0,1,54.14,54.29Z" stroke="#FFFFFF" fill="none" stroke-width="2px"></path>
+    <path class="svg-icon-outline-s" d="M1,32.89a15.35,15.35,0,0,1,.09-2" stroke="#FFFFFF" fill="none" stroke-width="2px"></path>
+    <path class="svg-icon-outline-s dashed-21" d="M5.79,23.9a24.23,24.23,0,0,1,4.57-3.36C16,17.3,23.7,15.3,32.24,15.3s16.28,2,21.88,5.24a21.48,21.48,0,0,1,6.51,5.51" stroke="#FFFFFF" fill="none" stroke-width="2px"></path>
+    <path class="svg-icon-outline-s" d="M62.7,29.74a8,8,0,0,1,.2,2" stroke="#FFFFFF" fill="none" stroke-width="2px"></path>
+    <path class="svg-icon-outline-s" d="M63,31.08C63,36,59.72,41,54.12,44.23a45,45,0,0,1-22,5.65,44.17,44.17,0,0,1-21.78-5.65C4.76,41,1,36.52,1,31.59" stroke="#FFFFFF" fill="none" stroke-width="2px"></path>
+    <path class="svg-icon-outline-s" d="M32.87,63a16.42,16.42,0,0,1-2-.11" stroke="#FFFFFF" fill="none" stroke-width="2px"></path>
+    <path class="svg-icon-outline-s dashed-22" d="M24.38,59.6a23.31,23.31,0,0,1-4.11-5.32C17,48.67,15,40.93,15,32.38s2-16.29,5.23-21.89a20.92,20.92,0,0,1,6.23-7l1-.65" stroke="#FFFFFF" fill="none" stroke-width="2px"></path>
+    <path class="svg-icon-outline-s" d="M30.89,1.3a7.81,7.81,0,0,1,2-.27" stroke="#FFFFFF" fill="none" stroke-width="2px"></path>
+    <path class="svg-icon-outline-s" d="M31.41,1c4.93,0,9.44,3.86,12.67,9.46a44.62,44.62,0,0,1,5.81,21.89,44.69,44.69,0,0,1-5.81,21.9C40.85,59.88,36.34,63,31.41,63" stroke="#FFFFFF" fill="none" stroke-width="2px"></path>
+</svg>
