@@ -65,7 +65,7 @@ function Header() {
               <li>
                 <a
                   href="#"
-                  className="font-bold font-cairo block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 min-[870px]:hover:bg-transparent min-[870px]:hover:text-[#d8fdff] min-[870px]:p-0 min-[870px]:dark:hover:text-blue-500 dark:text-white dark:hover:bg-[#1d4ed8] dark:hover:text-white min-[870px]:dark:hover:bg-transparent dark:border-gray-700"
+                  className="font-bold font-cairo block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 min-[870px]:hover:bg-transparent min-[870px]:hover:text-[#d8fdff] min-[870px]:p-0 min-[870px]:dark:hover:text-blue-500 dark:text-white dark:hover:bg-[#1E38A3] dark:hover:text-white min-[870px]:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   عن نانوبايت
                 </a>
@@ -73,7 +73,7 @@ function Header() {
               <li>
                 <a
                   href="#"
-                  className="font-bold font-cairo block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 min-[870px]:hover:bg-transparent min-[870px]:hover:text-[#d8fdff] min-[870px]:p-0 min-[870px]:dark:hover:text-blue-500 dark:text-white dark:hover:bg-[#1d4ed8] dark:hover:text-white min-[870px]:dark:hover:bg-transparent dark:border-gray-700"
+                  className="font-bold font-cairo block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 min-[870px]:hover:bg-transparent min-[870px]:hover:text-[#d8fdff] min-[870px]:p-0 min-[870px]:dark:hover:text-blue-500 dark:text-white dark:hover:bg-[#1E38A3] dark:hover:text-white min-[870px]:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   الدعم الفني
                 </a>
@@ -81,7 +81,7 @@ function Header() {
               <li>
                 <a
                   href="#"
-                  className="font-bold font-cairo block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 min-[870px]:hover:bg-transparent min-[870px]:hover:text-[#d8fdff] min-[870px]:p-0 min-[870px]:dark:hover:text-blue-500 dark:text-white dark:hover:bg-[#1d4ed8] dark:hover:text-white min-[870px]:dark:hover:bg-transparent dark:border-gray-700"
+                  className="font-bold font-cairo block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 min-[870px]:hover:bg-transparent min-[870px]:hover:text-[#d8fdff] min-[870px]:p-0 min-[870px]:dark:hover:text-blue-500 dark:text-white dark:hover:bg-[#1E38A3] dark:hover:text-white min-[870px]:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   النطاقات
                 </a>
@@ -89,7 +89,7 @@ function Header() {
               <li>
                 <a
                   href="#"
-                  className="font-bold font-cairo block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 min-[870px]:hover:bg-transparent min-[870px]:hover:text-[#d8fdff] min-[870px]:p-0 min-[870px]:dark:hover:text-blue-500 dark:text-white dark:hover:bg-[#1d4ed8] dark:hover:text-white min-[870px]:dark:hover:bg-transparent dark:border-gray-700"
+                  className="font-bold font-cairo block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 min-[870px]:hover:bg-transparent min-[870px]:hover:text-[#d8fdff] min-[870px]:p-0 min-[870px]:dark:hover:text-blue-500 dark:text-white dark:hover:bg-[#1E38A3] dark:hover:text-white min-[870px]:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   خدماتنا
                 </a>
@@ -97,7 +97,7 @@ function Header() {
               <li>
                 <a
                   href="#"
-                  className="font-bold font-cairo block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 min-[870px]:hover:bg-transparent min-[870px]:hover:text-[#d8fdff] min-[870px]:p-0 min-[870px]:dark:hover:text-blue-500 dark:text-white dark:hover:bg-[#1d4ed8] dark:hover:text-white min-[870px]:dark:hover:bg-transparent dark:border-gray-700"
+                  className="font-bold font-cairo block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 min-[870px]:hover:bg-transparent min-[870px]:hover:text-[#d8fdff] min-[870px]:p-0 min-[870px]:dark:hover:text-blue-500 dark:text-white dark:hover:bg-[#1E38A3] dark:hover:text-white min-[870px]:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   الرئيسية
                 </a>
