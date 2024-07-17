@@ -1,0 +1,215 @@
+  .co2ntainer {
+    background: linear-gradient(180deg, #1a318c 0%, #161e41 100%);
+    font-family: "Cairo", sans-serif;
+    text-align: right;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #LogIn_div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 446px;
+    height: 642px;
+    background-color: #182867;
+    border-radius: 15px;
+    box-shadow: 0px 4px 101.6px 46px #192b77;
+    color: white;
+  }
+  #Form_LogIn {
+    display: flex;
+    flex-direction: column;
+    width: 398px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  .Email {
+    margin-top: 20px;
+  }
+  .Password {
+    margin-top: 40px;
+  }
+  .Form_LogIn_div {
+    display: flex;
+    justify-content: center;
+  }
+  .LogIn_title_h1 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 2.375rem;
+  }
+  #Email,
+  #Password {
+    text-align: right;
+    background: none;
+    border: none;
+    border-bottom: 2px solid white;
+    outline: none;
+    color: white;
+    margin-top: 5px;
+  }
+  #Email::placeholder,
+  #Password::placeholder {
+    color: white;
+    opacity: 65%;
+  }
+  #Forgot_Password {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    text-decoration: none;
+    color: white;
+  }
+  .Remember_me {
+    margin-right: 5px;
+  }
+  #Remember_me {
+    transform: scale(1.2);
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  #Registration {
+    padding: 5px 0 5px 0;
+    color: black;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 10px;
+    background-color: white;
+  }
+  .Quick_entry_paragraph {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border-bottom: 2px solid white;
+    line-height: 0.1em;
+  }
+  .Quick_entry_paragraph span {
+    background: #182867;
+    padding: 0 10px;
+  }
+  .icon_Login_div {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-top: 20px;
+  }
+  .icon_Login_div a {
+    text-decoration: none;
+    color: white;
+  }
+  .google,
+  .facebook {
+    margin-right: 25px;
+  }
+  .new_account {
+    text-align: center;
+    font-size: 0.9375rem;
+    font-weight: bold;
+    margin-top: 10px;
+    padding-top: 15px;
+    border-top: 2px solid white;
+  }
+  .new_account a {
+    text-decoration: none;
+    color: white;
+  }
+  .Welcome_Login {
+    /* width: 40%; */
+    height: 100vh;
+    background: linear-gradient(180deg, #182764 0%, #1a318c 100%);
+    border-radius: 10px;
+    border-bottom-left-radius: 55px;
+  }
+  .Logo_Login {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .Logo_NanoByte {
+    display: flex;
+    width: 69px;
+    height: 74px;
+    margin-right: 50px;
+    margin-top: 16px;
+  }
+  .paragraph_logo {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 25px;
+    margin-right: 15px;
+  }
+  .Welcome_Login_paragraph {
+    color: white;
+    font-size: 2.25rem;
+    font-weight: bold;
+    margin-right: 60px;
+    margin-top: 30px;
+  }
+  .Welcome_Login_Img_dedicated {
+    height: 80%;
+    width: 100%;
+  }
+  @media (max-width: 1030px) {
+    .co2ntainer {
+      justify-content: center;
+      align-items: center;
+
+    }
+    .Welcome_Login {
+      display: none;
+    }
+  }
+  @media (max-width: 1030px) {
+    .Welcome_Login {
+      display: none;
+      
+    }}
+  @media (max-width: 450px) {
+    body {
+      width: 100%;
+    }
+    
+    #LogIn_div {
+      width: auto;
+      height: auto;
+      padding-left: 3%;
+      padding-right: 3%;
+    }
+    #Form_LogIn {
+      width: 350px;
+    }
+    .co2ntainer {
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  @media (max-width: 380px) {
+    body {
+      width: 100%;
+    }
+    #LogIn_div {
+      width: auto;
+      height: auto;
+      padding-left: 3%;
+      padding-right: 3%;
+    }
+    #Form_LogIn {
+      width: 300px;
+    }
+    .co2ntainer {
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  @media (max-height: 700px) {
+    #LogIn_div {
+      height: auto;
+    }
+    .Welcome_Login_Img_dedicated {
+      height: 60%;
+      width: 83%;
+    }
+  }
+  
