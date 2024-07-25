@@ -1,7 +1,7 @@
 import dedicated_server_logIn from "../Photo/dedicated_server_logIn.png";
 import logolit_removebg_preview from "../Photo/logolit-removebg-preview.png";
 import { Link } from "react-router-dom";
-import "./Login.css";
+
 
 
 function LogIn() {
