@@ -65,7 +65,7 @@ function SingUp() {
               placeholder="ادخل كلمة المرور"
               className="text-right bg-transparent mb-[20px] border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
             />
-            <div className="[list-style:none] text-[red]">
+            <div className="[list-style:none] text-[red] mb-2 ">
             
               <li className=""> اكثر من 8 احرف</li>
               <li className="">حرف كبير على الأقل</li>
