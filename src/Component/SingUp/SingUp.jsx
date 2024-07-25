@@ -1,23 +1,21 @@
-import dedicated_server_logIn from "../Photo/dedicated_server_logIn.png";
+import dedicated_server_SingUp from "../Photo/dedicated_server_logIn.png";
 import logolit_removebg_preview from "../Photo/logolit-removebg-preview.png";
 import { Link } from "react-router-dom";
-import "./Login.css";
+import "./SingUp.css";
 
-
-function LogIn() {
-  
+function SingUp() {
   return (
     <>
-          <title>تسجيل الدخول - NanoByte</title>
-        <div className="flex flex-col min-[1050px]:flex-row min-[1050px]:justify-between items-center min-h-screen bg-gradient-to-r from-[#1a318c] to-[#161e41] font-cairo text-right overflow-hidden">
+      <title>إنشاء حساب - NanoByte</title>
+<div className="flex flex-col min-[1050px]:flex-row min-[1050px]:justify-between items-center min-h-screen bg-gradient-to-r from-[#1a318c] to-[#161e41] font-cairo text-right overflow-hidden">
   {/* النموذج */}
   <div className="min-[1050px]:w-1/2 flex justify-center items-center w-full h-full p-4 min-[1050px]:p-0">
     <div
       id="SingUp_div"
-      className="flex flex-col justify-center w-full min-[1050px]:w-[446px] min-[1050px]:pt-[40px] bg-[#182867] rounded-[15px] shadow-[0px_4px_101.6px_46px_#192b77] text-white p-4 min-[1050px]:p-6 overflow-hidden max-w-full h-full"
+      className="flex flex-col justify-center w-full min-[1050px]:w-[446px] min-[1050px]:h-[640px] bg-[#182867] rounded-[15px] shadow-[0px_4px_101.6px_46px_#192b77] text-white p-4 min-[1050px]:p-6 overflow-hidden max-w-full h-full"
     >
       <h1 className="text-[2.3rem] mb-[25px] text-center font-bold text-2xl">
-      تسجيل الدخول
+        إنشاء حساب
       </h1>
       <div className="flex justify-center">
         <form
@@ -25,8 +23,26 @@ function LogIn() {
           id="Form_SingUp"
           className="flex flex-col w-full text-[0.9375rem] font-semibold"
         >
-         
-          
+          <label htmlFor="First_Name" className="mt-5">
+            الأسم الأول
+          </label>
+          <input
+            type="text"
+            name="First_Name"
+            id="First_Name"
+            placeholder="ادخل اسمك الأول"
+            className="text-right bg-transparent border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
+          />
+          <label htmlFor="Last_Name" className="mt-5">
+            الأسم الأخير
+          </label>
+          <input
+            type="text"
+            name="Last_Name"
+            id="Last_Name"
+            placeholder="ادخل اسمك الأخير"
+            className="text-right bg-transparent border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
+          />
           <label htmlFor="Email" className="mt-5">
             البريد الألكتروني
           </label>
@@ -37,7 +53,7 @@ function LogIn() {
             placeholder="ادخل بريدك الألكتروني"
             className="text-right bg-transparent border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
           />
-          <label htmlFor="Password" className="mt-11">
+          <label htmlFor="Password" className="mt-5">
             كلمة المرور
           </label>
           <input
@@ -45,24 +61,9 @@ function LogIn() {
             name="Password"
             id="Password"
             placeholder="ادخل كلمة المرور"
-            className="text-right bg-transparent border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
+            className="text-right bg-transparent mb-[20px] border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
           />
-          {/* <!-- نسيت كلمة المرور --> */}
-          <a href="#" id="Forgot_Password" className="mt-5 mb-4 no-underline text-white">
-          هل نسيت كلمة المرور ؟
-        </a>
 
-          <div className="flex items-center mb-5 justify-end">
-            <label htmlFor="Remember_me" className="mr-2">
-              تذكرني
-            </label>
-            <input
-              type="checkbox"
-              name="Remember_me"
-              id="Remember_me"
-              className="transform scale-125 text-xl"
-            />
-          </div>
           <input
             type="submit"
             value="دخــــول"
@@ -92,9 +93,9 @@ function LogIn() {
           </a>
         </div>
         <div className="text-center text-[0.9375rem] font-bold mt-2 pt-4 border-t-2 border-white">
-          ليس لديك حساب حتى الآن ؟{" "}
-          <Link to="/singup" className="no-underline text-white">
-            إنشاء حساب جديد
+        هل لديك حساب ؟ {" "}
+          <Link to="/login" className="no-underline text-white">
+            تسجيل الدخول
           </Link>
         </div>
       </div>
@@ -120,19 +121,21 @@ function LogIn() {
     </div>
     <div className="flex flex-col items-end">
       <p className="text-white text-3xl font-bold mb-4">
-      !أهلاً وسهلاً بك من جديد<br/> .نحن هنا لمساعدتك
-       
+        أهلاً وسهلاً بك قم بإنشاء
+        <br /> حساب للوصول إلى خدماتنا
       </p>
       <img
         className="w-full max-w-[400px] h-auto"
-        src={dedicated_server_logIn}
+        src={dedicated_server_SingUp}
         alt="dedicated server SingUp"
       />
     </div>
   </div>
 </div>
+
+
     </>
   );
 }
 
-export default LogIn;
+export default SingUp;

@@ -1,9 +1,10 @@
-import Header from "../Component/Header/Header";
+import Header from "../Header/Header";
 import { Link } from "react-router-dom";
 
 function Error404() {
   return (
     <>
+        <title>Page Not Found - NanoByte</title>
     <Header />
       <div class="flex flex-col h-screen justify-center items-center bg-gray-100">
         <div class="flex flex-col items-center">

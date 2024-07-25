@@ -11,7 +11,11 @@ export default {
     fontFamily: {
       'cairo':  ["Cairo", 'sans-serif']
     },
-    
+    extend: {
+      screens: {
+        'lg-1050': '1050px', 
+      },
+    },
   },
   plugins: [],
 }
