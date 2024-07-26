@@ -27,13 +27,14 @@ function SingUp() {
   const [CapitalLetterColor, setCapitalLetterColor] = useState("text-[red]");
   const [NoAtleastColor, setNoAtleastColor] = useState("text-[red]");
   const [SpecialCharactersColor, setSpecialCharacters] = useState("text-[red]");
+  const NoArabicPassword = /[\u0600-\u06FF]/.test(ValidationPassword);
+  const EightLetters = /[A-Za-z\d\W]{8,}/.test(ValidationPassword);
+  const CapitalLetter = /[A-Z]/.test(ValidationPassword);
+  const NoAtleast = /\d/.test(ValidationPassword);
+  const SpecialCharacters = /(?=.*[^\w\s])/.test(ValidationPassword);
   useEffect(() => {
     const ShowAndHide = ValidationPassword;
-    const NoArabicPassword = /[\u0600-\u06FF]/.test(ValidationPassword);
-    const EightLetters = /[A-Za-z\d\W]{8,}/.test(ValidationPassword);
-    const CapitalLetter = /[A-Z]/.test(ValidationPassword);
-    const NoAtleast = /\d/.test(ValidationPassword);
-    const SpecialCharacters = /(?=.*[^\w\s])/.test(ValidationPassword);
+ 
     if (EightLetters) {
       setEightLettersColor("text-[#3fc028]");
     } else {
@@ -76,11 +77,10 @@ function SingUp() {
     /^(?=.*[A-Z])(?=.*\d)(?=.*[\W])(?=.*\S)(?!.*\s{2,})[A-Za-z\d\W_]{8,}$/.test(
       ValidationPassword
     );
-    
+
   function sub() {
     if (ValidationPassword === "" || !SubmitPassword) {
       setVerificationSendPassword("flex");
-
     } else {
       setVerificationSendPassword("hidden");
     }
@@ -99,37 +99,40 @@ function SingUp() {
             className="flex flex-col justify-center w-full min-[1050px]:w-[446px] min-[1050px]:h-[61.0%] bg-[#182867] rounded-[15px] shadow-[0px_4px_101.6px_46px_#192b77] text-white p-4 min-[1050px]:p-6  max-w-full h-full"
           >
             {/* رسالة طلب كلمة المرور في العربي */}
-            
-              <div
-                className={`${NoArabic} font-bold mb-1 [direction:rtl] items-center p-4  text-sm text-[#fff] border border-[#6c1818] rounded-lg bg-red-50 dark:bg-[#bc8622] dark:text-red-400 dark:border-red-800`}
-              >
-                <svg
-                  className="flex-shrink-0 inline w-4 h-4 me-3"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                </svg>
 
-                <div className={`${NoArabic}`}>الرجاء كتابة كلمة المرور باستخدام الأحرف الإنجليزية</div>
+            <div
+              className={`${NoArabic} font-bold mb-1 [direction:rtl] items-center p-4  text-sm text-[#fff] border border-[#a0731e] rounded-lg bg-red-50 dark:bg-[#bc8622] dark:text-red-400 dark:border-red-800`}
+            >
+              <svg
+                className="flex-shrink-0 inline w-4 h-4 me-3"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+              </svg>
+
+              <div className={`${NoArabic}`}>
+                الرجاء كتابة كلمة المرور باستخدام الأحرف الإنجليزية
+              </div>
             </div>
             {/* رسالة طلب كلمة المرور وفقًا للمتطلبات  المحددة*/}
-            
-              <div
-                className={`${VerificationSendPassword} mb-1 font-bold [direction:rtl] items-center p-4  text-sm text-[#fff] border border-[#6c1818] rounded-lg bg-red-50 dark:bg-[#6c1e1e] dark:text-red-400 dark:border-red-800`}
+
+            <div
+              className={`${VerificationSendPassword} mb-1 font-bold [direction:rtl] items-center p-4  text-sm text-[#fff] border border-[#6c1818] rounded-lg bg-red-50 dark:bg-[#6c1e1e] dark:text-red-400 dark:border-red-800`}
+            >
+              <svg
+                className="flex-shrink-0 inline w-4 h-4 me-3"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
               >
-                <svg
-                  className="flex-shrink-0 inline w-4 h-4 me-3"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                </svg>
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+              </svg>
 
-                <div className={`${VerificationSendPassword}`}>يرجى إدخال كلمة المرور وفقًا للمتطلبات المحددة</div>
-
+              <div className={`${VerificationSendPassword}`}>
+                يرجى إدخال كلمة المرور وفقًا للمتطلبات المحددة
+              </div>
             </div>
 
             {/* بداية الفورم */}
@@ -140,7 +143,7 @@ function SingUp() {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  sub();
+                  NoArabicPassword ? null : sub();
                 }}
                 action=""
                 id="Form_SingUp"
