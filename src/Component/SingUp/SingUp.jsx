@@ -9,13 +9,14 @@ function SingUp() {
   const [ValidationEmail, setValidationEmail] = useState("");
   const [EmailMessage, setEmailMessage] = useState("hidden");
 
-  
   useEffect(() => {
-    const Email_Message = /^(?![^\s@]+@[^\s@]+\.[^\s@]+$).+/.test(ValidationEmail)
-    if(Email_Message) {
-      setEmailMessage("block")
-    }else {
-      setEmailMessage("hidden")
+    const Email_Message = /^(?![^\s@]+@[^\s@]+\.[^\s@]+$).+/.test(
+      ValidationEmail
+    );
+    if (Email_Message) {
+      setEmailMessage("block");
+    } else {
+      setEmailMessage("hidden");
     }
   }, [ValidationEmail]);
   // تحقق الباسورد \\
@@ -29,10 +30,10 @@ function SingUp() {
   useEffect(() => {
     const ShowAndHide = ValidationPassword;
     const NoArabicPassword = /[\u0600-\u06FF]/.test(ValidationPassword);
-    const EightLetters = /[A-Za-z\d@$!%*?&]{8,}/.test(ValidationPassword);
+    const EightLetters = /[A-Za-z\d\W]{8,}/.test(ValidationPassword);
     const CapitalLetter = /[A-Z]/.test(ValidationPassword);
     const NoAtleast = /\d/.test(ValidationPassword);
-    const SpecialCharacters = /(?=.*[@$!%*?&])/.test(ValidationPassword);
+    const SpecialCharacters = /(?=.*[^\w\s])/.test(ValidationPassword);
     if (EightLetters) {
       setEightLettersColor("text-[#3fc028]");
     } else {
@@ -67,7 +68,24 @@ function SingUp() {
   function ShowThPassword() {
     setShowPassword(!ShowPassword);
   }
-// نهاية تحقق الباسورد \\
+  // نهاية تحقق الباسورد \\
+  const [VerificationSendPassword, setVerificationSendPassword] =
+    useState("hidden");
+
+  const SubmitPassword =
+    /^(?=.*[A-Z])(?=.*\d)(?=.*[\W])(?=.*\S)(?!.*\s{2,})[A-Za-z\d\W_]{8,}$/.test(
+      ValidationPassword
+    );
+    
+  function sub() {
+    if (ValidationPassword === "" || !SubmitPassword) {
+      setVerificationSendPassword("flex");
+
+    } else {
+      setVerificationSendPassword("hidden");
+    }
+  }
+
   return (
     <>
       <title>إنشاء حساب - NanoByte</title>
@@ -81,28 +99,49 @@ function SingUp() {
             className="flex flex-col justify-center w-full min-[1050px]:w-[446px] min-[1050px]:h-[61.0%] bg-[#182867] rounded-[15px] shadow-[0px_4px_101.6px_46px_#192b77] text-white p-4 min-[1050px]:p-6  max-w-full h-full"
           >
             {/* رسالة طلب كلمة المرور في العربي */}
-            <div
-              className={` ${NoArabic} flex font-bold [direction:rtl] items-center p-4 mb-4 text-sm text-[#fff] border border-[#6c1818] rounded-lg bg-red-50 dark:bg-[#6c1e1e] dark:text-red-400 dark:border-red-800`}
-              role="alert"
-            >
-              <svg
-                className="flex-shrink-0 inline w-4 h-4 me-3"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
+            
+              <div
+                className={`${NoArabic} font-bold mb-1 [direction:rtl] items-center p-4  text-sm text-[#fff] border border-[#6c1818] rounded-lg bg-red-50 dark:bg-[#bc8622] dark:text-red-400 dark:border-red-800`}
               >
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-              </svg>
+                <svg
+                  className="flex-shrink-0 inline w-4 h-4 me-3"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
 
-              <div>الرجاء كتابة كلمة المرور باستخدام الأحرف الإنجليزية فقط</div>
+                <div className={`${NoArabic}`}>الرجاء كتابة كلمة المرور باستخدام الأحرف الإنجليزية</div>
+            </div>
+            {/* رسالة طلب كلمة المرور وفقًا للمتطلبات  المحددة*/}
+            
+              <div
+                className={`${VerificationSendPassword} mb-1 font-bold [direction:rtl] items-center p-4  text-sm text-[#fff] border border-[#6c1818] rounded-lg bg-red-50 dark:bg-[#6c1e1e] dark:text-red-400 dark:border-red-800`}
+              >
+                <svg
+                  className="flex-shrink-0 inline w-4 h-4 me-3"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+
+                <div className={`${VerificationSendPassword}`}>يرجى إدخال كلمة المرور وفقًا للمتطلبات المحددة</div>
+
             </div>
 
-            <h1 className=" text-[2.3rem] mb-[25px] text-center font-bold text-2xl">
+            {/* بداية الفورم */}
+            <h1 className=" text-[2.3rem] mb-[25px] mt-4 text-center font-bold text-2xl">
               إنشاء حساب
             </h1>
             <div className="flex justify-center">
               <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  sub();
+                }}
                 action=""
                 id="Form_SingUp"
                 className="flex flex-col w-full text-[0.9375rem] font-semibold"
@@ -134,14 +173,17 @@ function SingUp() {
                   البريد الألكتروني
                 </label>
                 <input
-                onChange={(e) => setValidationEmail(e.target.value)}
+                  onChange={(e) => setValidationEmail(e.target.value)}
                   type="email"
                   name="Email"
                   id="Email"
                   placeholder="ادخل بريدك الألكتروني"
                   className="text-right bg-transparent border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
                 />
-                <p className={`${EmailMessage} mt-4 text-[red]`}> test@gmail.com : إدخال بريد الكتروني  صحيح على سبيل المثال</p>
+                <p className={`${EmailMessage} mt-4 text-[#ff4646]`}>
+                  {" "}
+                  test@gmail.com : ادخل بريد الكتروني صحيح على سبيل المثال
+                </p>
                 {/* كلمة المرور */}
                 <label htmlFor="Password" className="mt-5">
                   كلمة المرور
@@ -168,7 +210,7 @@ function SingUp() {
                     className="text-right bg-transparent mb-[20px] border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65 flex-grow pl-10"
                   />
                 </div>
-                  {/* تحقق كلمة المرور */}
+                {/* تحقق كلمة المرور */}
                 <div className={`[list-style:none] mb-2 ${ShowAndHide}`}>
                   <p className={EightLettersColor}> اكثر من 8 احرف</p>
                   <li className={CapitalLetterColor}>حرف كبير على الأقل</li>
