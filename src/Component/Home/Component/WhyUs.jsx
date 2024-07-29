@@ -11,7 +11,7 @@ import svgexport_20 from "../../Photo/svgexport-20.svg";
 function WhyUs() {
   return (
     <>
-      <div className="font-cairo from-purple-800 to-indigo-800 py-12 px-4">
+      <div className="font-cairo from-purple-800 to-indigo-800 py-12 px-4 mt-20">
   <div className="max-w-7xl mx-auto">
     <h2 className="text-white sm:text-4xl text-2xl font-bold text-center mb-5">
       لماذا نحن
