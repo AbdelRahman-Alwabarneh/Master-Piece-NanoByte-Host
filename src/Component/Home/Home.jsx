@@ -1,7 +1,8 @@
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import HeroSection from "./Component/HeroSection";
-
+import WhyUs from "./Component/WhyUs";
+import ServiceCards from "./Component/ServiceCards";
 function HomePage() {
   return (
     <>
@@ -9,6 +10,8 @@ function HomePage() {
     <title>البوابة الرئيسية - NanoByte</title>
       <Header />
       <HeroSection/>
+      <ServiceCards/>
+      <WhyUs/>
       <Footer/></div>
     </>
   );

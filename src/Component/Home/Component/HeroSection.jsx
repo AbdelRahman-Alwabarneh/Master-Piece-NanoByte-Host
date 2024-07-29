@@ -5,7 +5,7 @@ import dedicated_server_with_cpu from "../../Photo/dedicated_server-with-cpu.png
 function HeroSection() {
   return (
     <>
-      <div className="mt-[72px] bg-[linear-gradient(180deg,_#1A318C_0%,_#161E41_100%)] [direction:rtl] font-cairo">
+      <div className="mt-[72px]  [direction:rtl] font-cairo">
         <div
           className=" items-center w-10/12 grid-cols-2 mx-auto overflow-x-hidden lg:grid md:py-14 lg:py-24 xl:py-14 lg:mt-3 xl:mt-5"
           data-aos="fade-right"
@@ -32,8 +32,8 @@ function HeroSection() {
             </div>
           </div>
 
-          <div className="pb-10 overflow-hidden md:p-10 lg:p-0 sm:pb-0">
-            <div className="">
+          <div className="pb-10  md:p-10 lg:p-0 sm:pb-0">
+            
             <img
               id="heroImg1"
               className=" rounded-[100%] transition-all duration-300 ease-in-out hover:scale-105 lg:w-full sm:mx-auto sm:w-4/6 sm:pb-12 lg:pb-0"
@@ -44,7 +44,7 @@ function HeroSection() {
             />
             </div>
           </div>
-        </div>
+       
       </div>
     </>
   );
