@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import LogoNanoByte from "../Photo/logolit-removebg-preview.png";
 
 function Header() {
   const [BorgarMenu, setBorgarMenu] = useState(false);
@@ -51,8 +52,8 @@ function Header() {
               </span>
               <img
                 className="h-14"
-                src="https://cdn.discordapp.com/attachments/993570904544124972/1262514447046672516/logolit-removebg-preview.png?ex=6696dfb4&is=66958e34&hm=66320acf9e7d8b5ed952d8c5d54f8fe97a98c5e4746c83a257084a3ee178b087&"
-                alt="sdsad"
+                src={LogoNanoByte}
+                alt="Logo NanoByte"
               />
             </Link>
           </div>

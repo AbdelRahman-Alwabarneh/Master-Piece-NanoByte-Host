@@ -2,17 +2,21 @@ import dedicated_server_SingUp from "../Photo/dedicated_server_logIn.png";
 import logolit_removebg_preview from "../Photo/logolit-removebg-preview.png";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SingUp() {
   const [FirstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
+  const [FirstNameShowAndHide, setFirstNameShowAndHide] = useState("hidden");
+  const [LastNameShowAndHide, setLastNameShowAndHide] = useState("hidden");
 
   const [ValidationEmail, setValidationEmail] = useState("");
   const [EmailMessage, setEmailMessage] = useState("hidden");
 
+  const Email_Message = /^(?![^\s@]+@[^\s@]+\.[^\s@]+$).+/.test(
+    ValidationEmail
+  );
   useEffect(() => {
-    const Email_Message = /^(?![^\s@]+@[^\s@]+\.[^\s@]+$).+/.test(
-      ValidationEmail
-    );
     if (Email_Message) {
       setEmailMessage("block");
     } else {
@@ -34,7 +38,7 @@ function SingUp() {
   const SpecialCharacters = /(?=.*[^\w\s])/.test(ValidationPassword);
   useEffect(() => {
     const ShowAndHide = ValidationPassword;
- 
+
     if (EightLetters) {
       setEightLettersColor("text-[#3fc028]");
     } else {
@@ -77,13 +81,39 @@ function SingUp() {
     /^(?=.*[A-Z])(?=.*\d)(?=.*[\W])(?=.*\S)(?!.*\s{2,})[A-Za-z\d\W_]{8,}$/.test(
       ValidationPassword
     );
+  // تخقق ارسال البيانات
+  const navigate = useNavigate();
 
   function sub() {
+        if (FirstName === "") {
+      setFirstNameShowAndHide("block");
+      return;
+    } else {
+      setFirstNameShowAndHide("hidden");
+    }
+    if (LastName === "") {
+      setLastNameShowAndHide("block");
+      return;
+    } else {
+      setLastNameShowAndHide("hidden");
+    }
+    if (ValidationEmail === "" || Email_Message) {
+      setEmailMessage("block");
+      return;
+    }
     if (ValidationPassword === "" || !SubmitPassword) {
       setVerificationSendPassword("flex");
+      return;
     } else {
       setVerificationSendPassword("hidden");
     }
+
+    console.log(`First Name : ${FirstName}`)
+    console.log(`Last Name : ${LastName}`)
+    console.log(`Email : ${ValidationEmail}`)
+    console.log(`Password : ${ValidationPassword}`)
+    navigate("/");
+
   }
 
   return (
@@ -154,23 +184,32 @@ function SingUp() {
                   الأسم الأول
                 </label>
                 <input
+                  onChange={(e) => setFirstName(e.target.value)}
                   type="text"
                   name="First_Name"
                   id="First_Name"
                   placeholder="ادخل اسمك الأول"
                   className="text-right bg-transparent border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
                 />
+                <div className={`${FirstNameShowAndHide} mt-2 text-[red]`}>
+                  الرجاء إدخال الاسم الأول
+                </div>
                 {/* الأسم الأخير */}
                 <label htmlFor="Last_Name" className="mt-5">
                   الأسم الأخير
                 </label>
                 <input
+                  onChange={(e) => setLastName(e.target.value)}
                   type="text"
                   name=""
                   id=""
                   placeholder="ادخل اسمك الأخير"
                   className="text-right bg-transparent border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
                 />
+                <div className={`${LastNameShowAndHide} mt-2 text-[red]`}>
+                  الرجاء إدخال الاسم الأخير
+                </div>
+
                 {/* البريد الألكتروني */}
                 <label htmlFor="Email" className="mt-5">
                   البريد الألكتروني
