@@ -7,15 +7,16 @@ function Error404() {
     <>
         <title>Page Not Found - NanoByte</title>
     <Header />
-      <div class="flex flex-col h-screen justify-center items-center bg-[linear-gradient(180deg,_#1A318C_0%,_#161E41_100%)]">
-        <div class="flex flex-col items-center">
-          <h1 class="text-[250px] font-bold font-cairo fw text-[white]">404</h1>
-          <p class="text-[30px] font-bold  font-cairo text-gray-600 mb-6 text-[white]">Page Not Found</p>
+      <div className="flex flex-col h-screen justify-center items-center bg-[linear-gradient(180deg,_#1A318C_0%,_#161E41_100%)]">
+        <div className="flex flex-col items-center">
+          <h1 className="text-[180px] font-bold font-cairo fw text-[white]">404</h1>
+          <p className="text-[30px] font-bold  font-cairo text-gray-600 mb-6 text-[white]">الصفحة غير موجودة</p>
+          <p className="text-lg font-[600] text-[white] mb-7">يمكنك الذهاب للصفحة الرئيسية واستكشاف الصفحات والخدمات المتنوعة لدينا</p>
           <Link
             to="/"
-            class="px-4 py-2 font-medium text-white bg-indigo-500 rounded-md hover:bg-indigo-600 transition-all duration-200 ease-in-out"
+            className="px-4 py-2 font-medium text-white bg-[#3B82F6] rounded-md hover:bg-indigo-600 transition-all duration-200 ease-in-out"
           >
-            Go Home
+          الصفحة الرئيسية
           </Link>
         </div>
       </div>

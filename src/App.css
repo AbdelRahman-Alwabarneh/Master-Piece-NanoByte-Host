@@ -1,0 +1,21 @@
+/* width */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: linear-gradient(180deg, #1A318C 0%, #2A2A72 100%); /* لون أغمق لزيادة التباين مع الخلفية */
+  
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #1650d6; /* لون أفتح قليلاً من التراك مع تدرج خفيف */
+    border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #0066ff; /* لون أفتح عند التمرير */
+}

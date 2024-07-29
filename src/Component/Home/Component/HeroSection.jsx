@@ -15,7 +15,7 @@ function HeroSection() {
             <h1 className="text-3xl font-semibold text-[white] xl:text-5xl lg:text-3xl ">
               <span className="block w-full mb-3">نانوبايت هوست</span> المكان الآمن
             </h1>
-            <p className="py-4 text-lg font-semibold text-[white] 2xl:py-8 md:py-6 2xl:pr-5">
+            <p className="py-4 text-lg font-semibold text-[white] 2xl:py-8 md:py-6">
               انطلق مع نانوبايت هوست واستمتع بأفضل خدمات الحوسبة السحابية،<br /> حيث
               نقدم خدمات احترافية متميزة من فريقنا في نانوبايت هوست. <br />لا تقلق
               بشأن هجمات DDOS.<br /> فنحن نوفر لك أمانًا مضمونًا لتجربة استخدام
