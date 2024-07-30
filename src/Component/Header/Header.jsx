@@ -9,7 +9,7 @@ function Header() {
   }
   return (
     <>
-      <nav className=" bg-navbar-color dark:bg-gray-900 inline-block	 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+      <nav className=" bg-navbar-color inline-block	 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
           <button
             onClick={toggle}
@@ -63,7 +63,7 @@ function Header() {
             } w-full min-[870px]:flex min-[870px]:w-auto min-[870px]:order-1`}
             id="navbar-sticky"
           >
-            <ul className="w-full text-center flex flex-col p-4 min-[870px]:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 min-[870px]:space-x-8 rtl:space-x-reverse min-[870px]:flex-row min-[870px]:mt-0 min-[870px]:border-0 min-[870px]:bg-navbar-color bg-[#1b4ab2] min-[870px]:dark:bg-gray-900 border-[#3955c7]">
+            <ul className="w-full text-center flex flex-col p-4 min-[870px]:p-0 mt-4 font-medium border  rounded-lg  min-[870px]:space-x-8 rtl:space-x-reverse min-[870px]:flex-row min-[870px]:mt-0 min-[870px]:border-0 min-[870px]:bg-navbar-color bg-[#1b4ab2]  border-[#3955c7]">
               <li>
                 <Link
                   to="/AboutNanobyte"

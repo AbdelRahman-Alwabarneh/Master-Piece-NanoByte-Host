@@ -4,16 +4,16 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  theme: {
-    colors: {
-      'navbar-color': '#1E38A3',
-    },
-    fontFamily: {
-      'cairo':  ["Cairo", 'sans-serif']
-    },
+   theme: {
     extend: {
+      colors: {
+        'navbar-color': '#1E38A3',
+      },
+      fontFamily: {
+        'cairo': ["Cairo", 'sans-serif'],
+      },
       screens: {
-        'lg-1050': '1050px', 
+        'lg-1050': '1050px',
       },
     },
   },
