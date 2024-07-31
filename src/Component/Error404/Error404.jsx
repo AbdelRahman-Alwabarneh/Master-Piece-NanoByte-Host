@@ -10,7 +10,7 @@ function Error404() {
       <div className="flex flex-col h-screen justify-center items-center bg-[linear-gradient(180deg,_#1A318C_0%,_#161E41_100%)]">
         <div className="flex flex-col items-center">
           <h1 className="text-[180px] font-bold font-cairo fw text-[white]">404</h1>
-          <p className="text-[30px] font-bold  font-cairo text-gray-600 mb-6 text-[white]">الصفحة غير موجودة</p>
+          <p className="text-[30px] font-bold  font-cairo mb-6 text-[white]">الصفحة غير موجودة</p>
           <p className="text-lg font-[600] font-cairo text-[white] mb-7">يمكنك الذهاب للصفحة الرئيسية واستكشاف الصفحات والخدمات المتنوعة لدينا</p>
           <Link
             to="/"

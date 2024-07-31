@@ -131,7 +131,7 @@ function SingUp() {
             {/* رسالة طلب كلمة المرور في العربي */}
 
             <div
-              className={`${NoArabic} font-bold mb-1 [direction:rtl] items-center p-4  text-sm text-[#fff] border border-[#a0731e] rounded-lg bg-red-50 dark:bg-[#bc8622] dark:text-red-400 dark:border-red-800`}
+              className={`${NoArabic} font-bold mb-1 [direction:rtl] items-center p-4  text-sm text-[#fff] border border-[#a0731e] rounded-lg bg-red-50 dark:bg-[#bc8622]`}
             >
               <svg
                 className="flex-shrink-0 inline w-4 h-4 me-3"
