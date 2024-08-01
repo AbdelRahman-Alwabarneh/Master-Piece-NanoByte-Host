@@ -1,5 +1,6 @@
 
 import dedicated_server_with_cpu from "../../Photo/dedicated_server-with-cpu.png";
+import { Link } from "react-router-dom";
 
 
 function HeroSection() {
@@ -27,12 +28,12 @@ function HeroSection() {
         كما أن فريق الدعم الفني متاح على مدار الساعة لضمان أفضل تجربة لكم.
       </p>
       <div className="mt-4 text-center lg:text-right">
-        <a
-          href="#contact"
+        <Link
+          to="/singup"
           className="px-5 font-bold py-3 text-lg tracking-wider text-white bg-blue-500 rounded-lg md:px-8 hover:bg-blue-600 group"
         >
           <span>انطلق معنا</span>
-        </a>
+        </Link>
       </div>
     </div>
 

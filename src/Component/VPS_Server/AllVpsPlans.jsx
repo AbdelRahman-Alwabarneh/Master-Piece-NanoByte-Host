@@ -38,15 +38,15 @@ function AllVpsPlans() {
             </tr>
         </thead>
         <tbody className="text-base">
-            {Plans.map((item, index) => (
+            {Plans.map((Plan, index) => (
                 <tr key={index} className={`border-b border-[#003366] ${index % 2 === 0 ? 'bg-[#123961]' : 'bg-[#103254]'} text-white hover:bg-[#1d4976]`}>
-                    <th scope="row" className="px-6 py-3 font-medium text-white whitespace-nowrap">{item.name}</th>
-                    <td className="px-6 py-7">{item.ram}</td>
-                    <td className="px-6 py-7">{item.cpu}</td>
-                    <td className="px-6 py-7">{item.storage}</td>
-                    <td className="px-6 py-7">{item.speed}</td>
-                    <td className="px-6 py-7">{item.protection}</td>
-                    <td className="px-6 py-7">{item.price}</td>
+                    <th scope="row" className="px-6 py-3 font-medium text-white whitespace-nowrap">{Plan.name}</th>
+                    <td className="px-6 py-7">{Plan.ram}</td>
+                    <td className="px-6 py-7">{Plan.cpu}</td>
+                    <td className="px-6 py-7">{Plan.storage}</td>
+                    <td className="px-6 py-7">{Plan.speed}</td>
+                    <td className="px-6 py-7">{Plan.protection}</td>
+                    <td className="px-6 py-7">{Plan.price}</td>
                     <td className="px-6 py-7">
                         <ButtonVps />
                     </td>
