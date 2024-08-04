@@ -17,19 +17,20 @@ function ServiceCards() {
       <div className="font-cairo grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 p-4 mt-10 px-4  max-w-screen-xl mx-auto">
         {/* <!-- Card 1 --> */}
         <div className="bg-gradient-to-b bg-[#182D7E] w-full h-full rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out dark:border-gray-700 flex flex-col justify-between">
-          <Link to="/" className="flex justify-center items-center mt-4">
+         <Link to="/LinuxWebsiteHosting">
+          <div className="flex justify-center items-center mt-4">
             <img
               className="rounded-t-lg w-[230px] object-contain"
               src={Website1}
               alt="Image 1"
             />
-          </Link>
+          </div>
           <div className="p-5 flex-grow">
-            <Link to="/">
+            <div>
               <h5 className="mb-2 text-xl font-bold text-center tracking-tight text-white">
                 إستضافة مواقع
               </h5>
-            </Link>
+            </div>
             <p className="text-center mb-3 font-normal text-gray-300">
               أفضل إستظافة مواقع بلوحتين تدعم اكثر من لغة
             </p>
@@ -37,22 +38,24 @@ function ServiceCards() {
           <h1 className="text-center mb-3 font-bold text-gray-200 p-5">
             تبدأ الأسعار من 1.99$ شهري
           </h1>
+          </Link>
         </div>
         {/* <!-- Card 2 --> */}
         <div className="bg-gradient-to-b bg-[#182D7E] w-full h-full rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out dark:border-gray-700 flex flex-col justify-between">
-          <Link to="/" className="flex justify-center items-center mt-4">
+        <Link to="/">
+        <div className="flex justify-center items-center mt-4">
             <img
               className="rounded-t-lg w-[230px] object-contain"
               src={Website2}
               alt="Image 1"
             />
-          </Link>
+          </div>
           <div className="p-5 flex-grow">
-            <Link to="/">
+            <div>
               <h5 className="mb-2 text-xl font-bold text-center tracking-tight text-white">
                 إستضافة خوادم ألعاب
               </h5>
-            </Link>
+            </div>
             <p className="text-center mb-3 font-normal text-gray-300">
               إستضافة ألعاب بلوحة تحكم سهلة ومميزة
             </p>
@@ -60,6 +63,7 @@ function ServiceCards() {
           <h1 className="text-center mb-3 font-bold text-gray-200 p-5">
             تبدأ الأسعار من 4$ شهري
           </h1>
+          </Link>
         </div>
         {/* <!-- Card 3 --> */}
         <div className="bg-gradient-to-b bg-[#182D7E] w-full h-full rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out dark:border-gray-700 flex flex-col justify-between">

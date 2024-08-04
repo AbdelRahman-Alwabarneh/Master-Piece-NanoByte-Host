@@ -17,7 +17,7 @@ function AllVpsPlans() {
   return (
     <>
             <title>الخوادم المشتركة - NanoByte</title>
-            <h2 className="font-cairo text-3xl font-bold text-center text-white mb-3 mt-[200px] p-4 rounded-md">
+            <h2 className="font-cairo text-3xl font-bold text-center text-white mb-1 mt-[200px] p-4 rounded-md">
   (VPS) إستضافة خوادم مشتركة
 </h2>
 <p className="font-cairo text-white text-center">
@@ -25,7 +25,7 @@ function AllVpsPlans() {
 </p>
 <div className="font-cairo relative overflow-x-auto shadow-md sm:rounded-lg mt-[50px] [direction:rtl] max-w-7xl mx-auto rounded-[20px]">
     <table className="w-full text-base text-center text-gray-200">
-        <thead className="text-base text-white uppercase bg-[#144270] rounded-t-lg">
+        <thead className="text-base text-white uppercase bg-[#1b4976] rounded-t-lg">
             <tr>
                 <th scope="col" className="px-6 py-3">الأسم</th>
                 <th scope="col" className="px-6 py-3">الرامات</th>
@@ -39,7 +39,7 @@ function AllVpsPlans() {
         </thead>
         <tbody className="text-base">
             {Plans.map((Plan, index) => (
-                <tr key={index} className={`border-b border-[#003366] ${index % 2 === 0 ? 'bg-[#123961]' : 'bg-[#103254]'} text-white hover:bg-[#1d4976]`}>
+                <tr key={index} className={`border-b border-[#003366] ${index % 2 === 0 ? 'bg-[#235a92]' : 'bg-[#194f86]'} text-white hover:bg-[#174776]`}>
                     <th scope="row" className="px-6 py-3 font-medium text-white whitespace-nowrap">{Plan.name}</th>
                     <td className="px-6 py-7">{Plan.ram}</td>
                     <td className="px-6 py-7">{Plan.cpu}</td>

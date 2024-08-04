@@ -1,70 +1,72 @@
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import FeaturesOfOurServices1 from "./FeaturesOfOurServices3";
-import FeaturesOfOurServices2 from "./FeaturesOfOurServices4";
-function DedicatedServer() {
+import Header from "../../Header/Header";
+import Footer from "../../Footer/Footer";
+import { Link } from "react-router-dom";
+import FeaturesOfOurServices5 from "./FeaturesOfOurServices5";
+
+function PlanWindows() {
   const Plans = [
     {
-      name: "AMD Ryzen™ 7 3800X",
+      name: "خطة الأعمال",
       incentivize: "خطة متقدمة بأداء استثنائي وحماية قوية",
       Duration: "شهري",
       Description: [
-        "AMD Ryzen™ 7 3800X (max. 16x 4.4 Ghz)",
-        "64GB DDR4 RAM ECC",
-        "NVMe SSD 2x 512GB STORAGE",
-        "Unlimited traffic (fair use policy)",
-        "1x IPv4 + 1x IPMI / KVM included IP address",
-        "DDoS protection 4.5Tbit/s",
-        "Location Frankfurt - DE",
+        "مساحة تخزين غير محدودة",
+        "عدد المواقع الإلكترونية غير محدودة",
+        "عدد الإيميلات غير محدودة",
+        "حركة البيانات غير محدودة",
       ],
-      price: "$145.00 USD",
+      price: "$9.99 USD",
     },
     {
-      name: "AMD Ryzen™ 5 3600",
+      name: "الخطة الإحترافية",
       incentivize: "خطة قوية مع أداء مذهل وحماية متقدمة",
       Duration: "شهري",
       Description: [
-        "AMD Ryzen™ 5 3600 (max. 12x 4.2 Ghz)",
-        "64GB DDR4 RAM ECC",
-        "NVMe SSD 2x 256GB STORAGE",
-        "Unlimited traffic (fair use policy)",
-        "1x IPv4 + 1x IPMI / KVM included IP address",
-        "DDoS protection 4.5Tbit/s",
-        "1 month minimum contract term",
-        "Location Frankfurt - DE",
+        "300GB SSD مساحة تخزين",
+        "30 عدد المواقع الإلكترونية",
+        "عدد الإيميلات غير محدودة",
+        "حركة البيانات غير محدودة",
       ],
-      price: "$99.99 USD",
+      price: "$4.99 USD",
     },
     {
-      name: "Intel Core i7-4770",
+      name: "الخطة الأساسية",
       incentivize: "خطة مثالية بأداء قوي وسعر مناسب",
       Duration: "شهري",
       Description: [
-        "CPU Intel Core i7-4770",
-        "RAM 4x RAM 8192 MB DDR3",
-        "HDD 2x HDD SATA 2,0 TB Enterprise",
-        "Traffic 1 Gbit/s - Unlimited",
-        "Location HEL1-DC2 (Finland, HEL)",
+        "20GB SSD مساحة تخزين",
+        "موقع واحد فقط إلكتروني",
+        "إيميلات عدد 5 إيميلات",
+        "حركة بيانات غير محدودة",
       ],
-      price: "$40.00 USD",
+      price: "$1.99 USD",
     },
   ];
 
   return (
     <>
-            <title>الخوادم المركزية - NanoByte</title>
+      <title>إستضافة مواقع لينيكس - NanoByte</title>
       <Header />
       <section className="font-cairo mt-[72px]">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
           <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
             <h2 className="mb-5 text-4xl tracking-tight font-extrabold text-white">
-              ( Dedicated ) إستضافة خوادم مركزية
+            ( Plesk ) إستضافة مواقع ويندوز
             </h2>
             <p className="mb-5 font-light text-white sm:text-xl">
-              .استعد لتجربة استثنائية ومتميزة مع نانوبايت هوست
-              <br />
-              .نقدم لك خدماتنا عالية الجودة لتلبية احتياجاتك بكفاءة واحترافية
+            ولغات البرمجة التي تدعمها تطبيقات الويندوز .NET إستضافة تدعم تطبيقات الويندوز مثل
+              لتطبيقات
             </p>
+            <Link to="/LinuxWebsiteHosting">
+              <button class="mr-5 bg-transparent border border-white text-white font-bold py-3 px-6 rounded-[10px] shadow-lg transform transition-all duration-500 ease-in-out hover:bg-blue-700 hover:scale-110 hover:brightness-110 hover:animate-pulse ">
+                إستضافة مواقع لينيكس
+              </button>
+            </Link>
+            <Link to="/WindowsWebsiteHosting">
+              <button class="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-[10px] shadow-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:brightness-110 hover:animate-pulse ">
+                إستضافة مواقع الويندوز
+              </button>
+            </Link>
           </div>
           <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-12 lg:space-y-0 mt-[100px]">
             {Plans.map((Plan, index) => (
@@ -93,7 +95,7 @@ function DedicatedServer() {
                   {Plan.Description.map((desc, index) => (
                     <li
                       key={index}
-                      className="flex items-center justify-center text-center space-x-3"
+                      className="flex items-center justify-center text-center space-x-3 text-[1.1rem] font-semibold py-3"
                     >
                       <span>{desc}</span>
                     </li>
@@ -110,11 +112,11 @@ function DedicatedServer() {
           </div>
         </div>
       </section>
-            <FeaturesOfOurServices1/>
-            <FeaturesOfOurServices2/>
+
+      <FeaturesOfOurServices5 />
       <Footer />
     </>
   );
 }
 
-export default DedicatedServer;
+export default PlanWindows;
