@@ -146,7 +146,7 @@ function LogIn() {
               {/* هل لديك حساب */}
               <div className="text-center text-[0.9375rem] font-bold mt-2 pt-4 border-t-2 border-white">
                 ليس لديك حساب حتى الآن ؟{" "}
-                <Link to="/singup" className="no-underline text-white">
+                <Link to="/SignUp" className="no-underline text-white">
                   إنشاء حساب جديد
                 </Link>
               </div>

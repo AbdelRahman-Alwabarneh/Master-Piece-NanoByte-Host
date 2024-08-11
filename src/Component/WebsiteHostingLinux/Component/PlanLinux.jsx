@@ -49,25 +49,27 @@ function PlanLinux() {
       <Header />
       <section className="font-cairo mt-[72px]">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-          <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
-            <h2 className="mb-5 text-4xl tracking-tight font-extrabold text-white">
-              ( Cpanel ) إستضافة مواقع لينيكس
-            </h2>
-            <p className="mb-5 font-light text-white sm:text-xl">
-              وتحتوي على نظام التثبيت بضغطة واحدة Laveral و PHP أفضل إستضافة
-              لتطبيقات
-            </p>
-            <Link to="/LinuxWebsiteHosting">
-              <button class="mr-5 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-[10px] shadow-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:brightness-110 hover:animate-pulse ">
-                إستضافة مواقع لينيكس
-              </button>
-            </Link>
-            <Link to="/WindowsWebsiteHosting">
-              <button class="bg-transparent border border-white text-white font-bold py-3 px-6 rounded-[10px] shadow-lg transform transition-all duration-500 ease-in-out hover:bg-blue-700 hover:scale-110 hover:brightness-110 hover:animate-pulse ">
-                إستضافة مواقع الويندوز
-              </button>
-            </Link>
-          </div>
+        <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
+  <h2 className="mb-5 text-4xl tracking-tight font-extrabold text-white">
+    (Cpanel) إستضافة مواقع لينيكس
+  </h2>
+  <p className="mb-5 font-light text-white sm:text-xl">
+    أفضل إستضافة لتطبيقات Laveral و PHP وتحتوي على نظام التثبيت بضغطة واحدة
+  </p>
+  <div className="flex flex-col sm:flex-row justify-center items-center gap-5">
+    <Link to="/LinuxWebsiteHosting">
+      <button className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-[10px] shadow-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:brightness-110 hover:animate-pulse">
+        إستضافة مواقع لينيكس
+      </button>
+    </Link>
+    <Link to="/WindowsWebsiteHosting">
+      <button className="w-full sm:w-auto bg-transparent border border-white text-white font-bold py-3 px-6 rounded-[10px] shadow-lg transform transition-all duration-500 ease-in-out hover:bg-blue-700 hover:scale-110 hover:brightness-110 hover:animate-pulse">
+        إستضافة مواقع الويندوز
+      </button>
+    </Link>
+  </div>
+</div>
+
           <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-12 lg:space-y-0 mt-[100px]">
             {Plans.map((Plan, index) => (
               <div

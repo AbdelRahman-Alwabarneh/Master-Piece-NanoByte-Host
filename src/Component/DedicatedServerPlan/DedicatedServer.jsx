@@ -40,7 +40,7 @@ function DedicatedServer() {
       incentivize: "خطة مثالية بأداء قوي وسعر مناسب",
       Duration: "شهري",
       Description: [
-        "CPU Intel Core i7-4770",
+        `CPU Intel Core i7-4770`,
         "RAM 4x RAM 8192 MB DDR3",
         "HDD 2x HDD SATA 2,0 TB Enterprise",
         "Traffic 1 Gbit/s - Unlimited",
@@ -93,7 +93,7 @@ function DedicatedServer() {
                   {Plan.Description.map((desc, index) => (
                     <li
                       key={index}
-                      className="flex items-center justify-center text-center space-x-3"
+                      className={`flex items-center justify-center text-center space-x-3`}
                     >
                       <span>{desc}</span>
                     </li>

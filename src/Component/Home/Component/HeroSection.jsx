@@ -34,7 +34,7 @@ function HeroSection() {
           </p>
           <div className=" text-center lg:text-right">
             <Link
-              to="/singup"
+              to="/SignUp"
               className="relative inline-flex items-center justify-center px-5 py-3 font-bold text-lg tracking-wider text-white bg-gradient-to-r from-blue-500 to-blue-700 rounded-lg md:px-8 transition-transform duration-500 ease-in-out transform hover:scale-110 hover:from-blue-600 hover:to-blue-800 group shadow-lg hover:shadow-2xl"
             >
               <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-500 to-blue-700 opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100 rounded-lg"></span>

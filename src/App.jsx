@@ -7,6 +7,7 @@ import VpsServer from "./Component/VPS_Server/VpsServer";
 import DedicatedServer from "./Component/DedicatedServerPlan/DedicatedServer";
 import LinuxWebsiteHosting from "./Component/WebsiteHostingLinux/LinuxWebsiteHosting";
 import WindowsWebsiteHosting from "./Component/WindowsWebsiteHosting/WindowsWebsiteHosting";
+import DomainsPage from "./Component/Domains/Domains";
 import { Link } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
@@ -20,9 +21,16 @@ function App() {
           <Route path="*" element={<Error404 />} />
           <Route path="/VpsServer" element={<VpsServer />} />
           <Route path="/DedicatedServer" element={<DedicatedServer />} />
-          <Route path="/LinuxWebsiteHosting" element={<LinuxWebsiteHosting />} />
-          <Route path="/WindowsWebsiteHosting" element={<WindowsWebsiteHosting />} />
-          <Route path="/SingUp" element={<SingUp />} />
+          <Route
+            path="/LinuxWebsiteHosting"
+            element={<LinuxWebsiteHosting />}
+          />
+          <Route
+            path="/WindowsWebsiteHosting"
+            element={<WindowsWebsiteHosting />}
+          />
+          <Route path="/domains" element={<DomainsPage />} />
+          <Route path="/SignUp" element={<SingUp />} />
           <Route path="/LogIn" element={<LogIn />} />
         </Routes>
       </BrowserRouter>
