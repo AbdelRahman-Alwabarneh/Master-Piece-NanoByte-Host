@@ -79,7 +79,7 @@ function LogIn() {
                   name="Email"
                   id="Email"
                   placeholder="ادخل بريدك الألكتروني"
-                  className="text-right bg-transparent border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
+                  className="text-right bg-transparent border-b-2 border-white focus:border-blue-200 outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
                 />
                 <div className={`${ValidationEmailShowAndHide} mt-2 text-[red]`}>الرجاء إدخال البريد الألكتروني</div>
 
@@ -106,7 +106,7 @@ function LogIn() {
                     name="Password"
                     id="Password"
                     placeholder="ادخل كلمة المرور"
-                    className="text-right bg-transparent border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65 flex-grow pl-10"
+                    className="text-right bg-transparent border-b-2 border-white focus:border-blue-200 outline-none text-white mt-1 placeholder-white placeholder-opacity-65 flex-grow pl-10"
                   />
                 </div>
                 <div className={`${ValidationPasswordShowAndHide} mt-2 text-[red]`}>الرجاء إدخال كلمة المرور</div>
@@ -116,7 +116,7 @@ function LogIn() {
                   type="submit"
                   value="دخــــول"
                   id="Registration"
-                  className="px-[0] py-[5px] text-[black] mt-[20px] text-center text-[1.5rem] font-bold rounded-[10px] bg-[white]"
+                  className="px-[0] cursor-pointer py-[5px] text-[black] mt-[20px] text-center text-[1.5rem] font-bold rounded-[10px] bg-[white]"
                 />
               </form>
             </div>
@@ -146,7 +146,7 @@ function LogIn() {
               {/* هل لديك حساب */}
               <div className="text-center text-[0.9375rem] font-bold mt-2 pt-4 border-t-2 border-white">
                 ليس لديك حساب حتى الآن ؟{" "}
-                <Link to="/SignUp" className="no-underline text-white">
+                <Link to="/SignUp" className="no-underline text-white hover:text-blue-300">
                   إنشاء حساب جديد
                 </Link>
               </div>

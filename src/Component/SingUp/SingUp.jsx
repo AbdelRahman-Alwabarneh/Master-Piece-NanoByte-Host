@@ -189,7 +189,7 @@ function SingUp() {
                   name="First_Name"
                   id="First_Name"
                   placeholder="ادخل اسمك الأول"
-                  className="text-right bg-transparent border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
+                  className="text-right bg-transparent border-b-2 border-white focus:border-blue-200 outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
                 />
                 <div className={`${FirstNameShowAndHide} mt-2 text-[red]`}>
                   الرجاء إدخال الاسم الأول
@@ -204,7 +204,7 @@ function SingUp() {
                   name=""
                   id=""
                   placeholder="ادخل اسمك الأخير"
-                  className="text-right bg-transparent border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
+                  className="text-right bg-transparent border-b-2 border-white focus:border-blue-200 outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
                 />
                 <div className={`${LastNameShowAndHide} mt-2 text-[red]`}>
                   الرجاء إدخال الاسم الأخير
@@ -220,7 +220,7 @@ function SingUp() {
                   name="Email"
                   id="Email"
                   placeholder="ادخل بريدك الألكتروني"
-                  className="text-right bg-transparent border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
+                  className="text-right bg-transparent border-b-2 border-white focus:border-blue-200 outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
                 />
                 <p className={`${EmailMessage} mt-4 text-[#ff4646]`}>
                   {" "}
@@ -249,7 +249,7 @@ function SingUp() {
                     name="Password"
                     id="Password"
                     placeholder="ادخل كلمة المرور"
-                    className="text-right bg-transparent mb-[20px] border-b-2 border-white outline-none text-white mt-1 placeholder-white placeholder-opacity-65 flex-grow pl-10"
+                    className="text-right bg-transparent mb-[20px] border-b-2 border-white focus:border-blue-200 outline-none text-white mt-1 placeholder-white placeholder-opacity-65 flex-grow pl-10"
                   />
                 </div>
                 {/* تحقق كلمة المرور */}
@@ -267,7 +267,7 @@ function SingUp() {
                   type="submit"
                   value="دخــــول"
                   id="Registration"
-                  className="px-[0] py-[5px] text-[black] text-center text-[1.5rem] font-bold rounded-[10px] bg-[white]"
+                  className="px-[0] py-[5px] cursor-pointer text-[black] text-center text-[1.5rem] font-bold rounded-[10px] bg-[white]"
                 />
               </form>
             </div>
@@ -297,7 +297,7 @@ function SingUp() {
               {/* هل لديك حساب */}
               <div className="text-center text-[0.9375rem] font-bold mt-2 pt-4 border-t-2 border-white">
                 هل لديك حساب ؟{" "}
-                <Link to="/login" className="no-underline text-white">
+                <Link to="/login" className="no-underline text-white hover:text-blue-300">
                   تسجيل الدخول
                 </Link>
               </div>
