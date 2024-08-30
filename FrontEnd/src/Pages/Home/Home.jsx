@@ -4,6 +4,7 @@ import HeroSection from "./Component/HeroSection";
 import WhyUs from "./Component/WhyUs";
 import ServiceCards from "./Component/ServiceCards";
 import FAQ from "./Component/FAQ/FAQ";
+import SignupSuccessfull from "../../Components/alertSignup/signupSuccess";
 function HomePage() {
   return (
     <>
@@ -15,6 +16,7 @@ function HomePage() {
         <WhyUs />
         <FAQ />
         <Footer />
+        <SignupSuccessfull />
       </div>
     </>
   );

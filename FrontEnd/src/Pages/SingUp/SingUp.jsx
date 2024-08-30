@@ -3,13 +3,16 @@ import logolit_removebg_preview from "../../Assets/Photo/logolit-removebg-previe
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function SingUp() {
+  // تعريف الحالة للأسماء
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [FirstNameShowAndHide, setFirstNameShowAndHide] = useState("hidden");
   const [LastNameShowAndHide, setLastNameShowAndHide] = useState("hidden");
 
+  // تحقق البريد الإلكتروني
   const [ValidationEmail, setValidationEmail] = useState("");
   const [EmailMessage, setEmailMessage] = useState("hidden");
 
@@ -23,84 +26,98 @@ function SingUp() {
       setEmailMessage("hidden");
     }
   }, [ValidationEmail]);
-  // تحقق الباسورد \\
+
+  // تحقق الباسورد
   const [ValidationPassword, setValidationPassword] = useState("");
   const [ShowAndHide, setShowAndHide] = useState("hidden");
   const [NoArabic, setNoArabic] = useState("hidden");
+
+  // ألوان تحقق الباسورد
   const [EightLettersColor, setEightLettersColor] = useState("text-[red]");
   const [CapitalLetterColor, setCapitalLetterColor] = useState("text-[red]");
   const [NoAtleastColor, setNoAtleastColor] = useState("text-[red]");
   const [SpecialCharactersColor, setSpecialCharacters] = useState("text-[red]");
+
+  // شروط تحقق الباسورد
   const NoArabicPassword = /[\u0600-\u06FF]/.test(ValidationPassword);
   const EightLetters = /[A-Za-z\d\W]{8,}/.test(ValidationPassword);
   const CapitalLetter = /[A-Z]/.test(ValidationPassword);
   const NoAtleast = /\d/.test(ValidationPassword);
   const SpecialCharacters = /(?=.*[^\w\s])/.test(ValidationPassword);
+  const [VerificationSendPassword, setVerificationSendPassword] =
+    useState("hidden");
   useEffect(() => {
-    const ShowAndHide = ValidationPassword;
-
     if (EightLetters) {
       setEightLettersColor("text-[#3fc028]");
     } else {
       setEightLettersColor("text-[red]");
     }
+
     if (CapitalLetter) {
       setCapitalLetterColor("text-[#3fc028]");
     } else {
       setCapitalLetterColor("text-[red]");
     }
+
     if (NoAtleast) {
       setNoAtleastColor("text-[#3fc028]");
     } else {
       setNoAtleastColor("text-[red]");
     }
+
     if (SpecialCharacters) {
       setSpecialCharacters("text-[#3fc028]");
     } else {
       setSpecialCharacters("text-[red]");
     }
-    if (ShowAndHide) {
+
+    if (ValidationPassword) {
       setShowAndHide("block");
     }
+
     if (NoArabicPassword) {
       setNoArabic("flex");
+      setVerificationSendPassword("hidden");
     } else {
       setNoArabic("hidden");
     }
   }, [ValidationPassword]);
 
+  // حالة إظهار وإخفاء الباسورد
   const [ShowPassword, setShowPassword] = useState(false);
   function ShowThPassword() {
     setShowPassword(!ShowPassword);
   }
-  // نهاية تحقق الباسورد \\
-  const [VerificationSendPassword, setVerificationSendPassword] =
-    useState("hidden");
 
+  // تحقق إرسال الباسورد
   const SubmitPassword =
     /^(?=.*[A-Z])(?=.*\d)(?=.*[\W])(?=.*\S)(?!.*\s{2,})[A-Za-z\d\W_]{8,}$/.test(
       ValidationPassword
     );
-  // تخقق ارسال البيانات
+
+  // التحقق من البيانات وإرسالها
   const navigate = useNavigate();
 
-  function sub() {
-        if (FirstName === "") {
+  async function submitSignUp() {
+    if (FirstName === "") {
       setFirstNameShowAndHide("block");
       return;
     } else {
       setFirstNameShowAndHide("hidden");
     }
+
     if (LastName === "") {
       setLastNameShowAndHide("block");
       return;
     } else {
       setLastNameShowAndHide("hidden");
     }
+
     if (ValidationEmail === "" || Email_Message) {
       setEmailMessage("block");
       return;
     }
+
     if (ValidationPassword === "" || !SubmitPassword) {
       setVerificationSendPassword("flex");
       return;
@@ -108,12 +125,21 @@ function SingUp() {
       setVerificationSendPassword("hidden");
     }
 
-    console.log(`First Name : ${FirstName}`)
-    console.log(`Last Name : ${LastName}`)
-    console.log(`Email : ${ValidationEmail}`)
-    console.log(`Password : ${ValidationPassword}`)
-    navigate("/");
-
+    try {
+      const response = await axios.post(
+        import.meta.env.VITE_Add_User,
+        {
+          First_Name: FirstName,
+          Last_Name: LastName,
+          Email: ValidationEmail,
+          Password: ValidationPassword,
+        },
+        { withCredentials: true }
+      );
+      navigate("/", { state: { signedUp: true } }); // الانتقال لصفحة أخرى عند التسجيل الناجح
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -152,7 +178,7 @@ function SingUp() {
               className={`${VerificationSendPassword} mb-1 font-bold [direction:rtl] items-center p-4  text-sm text-[#fff] border border-[#6c1818] rounded-lg bg-red-50 dark:bg-[#6c1e1e] dark:text-red-400 dark:border-red-800`}
             >
               <svg
-                className="flex-shrink-0 inline w-4 h-4 me-3"
+                className="flex-shrink-0 inline w-4 h-4 me-3 text-white"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
                 viewBox="0 0 20 20"
@@ -160,7 +186,7 @@ function SingUp() {
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
               </svg>
 
-              <div className={`${VerificationSendPassword}`}>
+              <div className={`${VerificationSendPassword} text-white`}>
                 يرجى إدخال كلمة المرور وفقًا للمتطلبات المحددة
               </div>
             </div>
@@ -173,7 +199,7 @@ function SingUp() {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  NoArabicPassword ? null : sub();
+                  NoArabicPassword ? null : submitSignUp();
                 }}
                 action=""
                 id="Form_SingUp"
@@ -297,7 +323,10 @@ function SingUp() {
               {/* هل لديك حساب */}
               <div className="text-center text-[0.9375rem] font-bold mt-2 pt-4 border-t-2 border-white">
                 هل لديك حساب ؟{" "}
-                <Link to="/login" className="no-underline text-white hover:text-blue-300">
+                <Link
+                  to="/login"
+                  className="no-underline text-white hover:text-blue-300"
+                >
                   تسجيل الدخول
                 </Link>
               </div>
