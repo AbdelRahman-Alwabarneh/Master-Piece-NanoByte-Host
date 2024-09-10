@@ -15,6 +15,9 @@ function SingUp() {
   // تحقق البريد الإلكتروني
   const [ValidationEmail, setValidationEmail] = useState("");
   const [EmailMessage, setEmailMessage] = useState("hidden");
+  const [error, setError] = useState('');
+  const [AlertError, setAlertError] = useState("hidden");
+
 
   const Email_Message = /^(?![^\s@]+@[^\s@]+\.[^\s@]+$).+/.test(
     ValidationEmail
@@ -77,6 +80,7 @@ function SingUp() {
 
     if (NoArabicPassword) {
       setNoArabic("flex");
+      setAlertError("hidden")
       setVerificationSendPassword("hidden");
     } else {
       setNoArabic("hidden");
@@ -120,6 +124,7 @@ function SingUp() {
 
     if (ValidationPassword === "" || !SubmitPassword) {
       setVerificationSendPassword("flex");
+      setAlertError("hidden")
       return;
     } else {
       setVerificationSendPassword("hidden");
@@ -138,8 +143,13 @@ function SingUp() {
       );
       navigate("/", { state: { signedUp: true } }); // الانتقال لصفحة أخرى عند التسجيل الناجح
     } catch (error) {
-      console.log(error);
-    }
+      if (error.response && error.response.status === 400) {
+        setAlertError("flex")
+          setError(error.response.data.message); // تعيين رسالة الخطأ
+      } else {
+          setError('حدث خطأ غير متوقع.');
+      }
+  }
   }
 
   return (
@@ -190,6 +200,24 @@ function SingUp() {
                 يرجى إدخال كلمة المرور وفقًا للمتطلبات المحددة
               </div>
             </div>
+            {/* رسالة طلب كلمة المرور وفقًا للمتطلبات  المحددة*/}
+
+            <div
+              className={`${AlertError} mb-1 font-bold [direction:rtl] items-center p-4  text-sm text-[#fff] border border-[#6c1818] rounded-lg bg-red-50 dark:bg-[#6c1e1e] dark:text-red-400 dark:border-red-800`}
+            >
+              <svg
+                className="flex-shrink-0 inline w-4 h-4 me-3 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+              </svg>
+
+              <div className={`${AlertError} text-white`}>
+                {error}
+              </div>
+            </div>
 
             {/* بداية الفورم */}
             <h1 className=" text-[2.3rem] mb-[25px] mt-4 text-center font-bold text-2xl">
@@ -236,16 +264,16 @@ function SingUp() {
                   الرجاء إدخال الاسم الأخير
                 </div>
 
-                {/* البريد الألكتروني */}
+                {/* البريد الإلكتروني */}
                 <label htmlFor="Email" className="mt-5">
-                  البريد الألكتروني
+                  البريد الإلكتروني
                 </label>
                 <input
                   onChange={(e) => setValidationEmail(e.target.value)}
                   type="email"
                   name="Email"
                   id="Email"
-                  placeholder="ادخل بريدك الألكتروني"
+                  placeholder="ادخل بريدك الإلكتروني"
                   className="text-right bg-transparent border-b-2 border-white focus:border-blue-200 outline-none text-white mt-1 placeholder-white placeholder-opacity-65"
                 />
                 <p className={`${EmailMessage} mt-4 text-[#ff4646]`}>
@@ -293,7 +321,7 @@ function SingUp() {
                   type="submit"
                   value="دخــــول"
                   id="Registration"
-                  className="px-[0] py-[5px] cursor-pointer text-[black] text-center text-[1.5rem] font-bold rounded-[10px] bg-[white]"
+                  className="px-[0] py-[5px] cursor-pointer text-[black] text-center text-[1.5rem] font-bold rounded-[10px] bg-[white] hover:bg-gray-300"
                 />
               </form>
             </div>

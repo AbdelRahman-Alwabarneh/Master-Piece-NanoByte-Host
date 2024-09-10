@@ -22,6 +22,11 @@ const userRoutes = require('./Routes/signupRoutes');
 
 app.use('/api/users', userRoutes);
 
+
+const loginRoutes = require('./Routes/loginRoutes');
+
+app.use('/api/login', loginRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

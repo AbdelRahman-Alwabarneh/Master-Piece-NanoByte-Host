@@ -33,7 +33,32 @@ function SignupSuccessfull() {
       });
       navigate("/", { replace: true, state: {} });
     }
+    if (location.state?.login) {
+        toast.success("تم تسجيل الدخول بنجاح", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce, // استخدام الترانزيشن بالشكل الصحيح
+          icon: (
+            <i className="fa-solid fa-circle-check text-white  text-[20px]"></i>
+          ), // أيقونة صح باللون الأبيض
+          style: {
+            backgroundColor: "#28a745", // اللون الأخضر للخلفية
+            color: "#fff", // اللون الأبيض للنص
+          },
+          progressStyle: {
+            background: "#fff", // شريط التقدم باللون الأبيض
+          },
+        });
+        navigate("/", { replace: true, state: {} });
+      }
   }, [location, navigate]);
+  
   return (
     <>
       <ToastContainer

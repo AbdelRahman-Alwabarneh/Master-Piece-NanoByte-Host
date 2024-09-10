@@ -4,7 +4,7 @@ import HeroSection from "./Component/HeroSection";
 import WhyUs from "./Component/WhyUs";
 import ServiceCards from "./Component/ServiceCards";
 import FAQ from "./Component/FAQ/FAQ";
-import SignupSuccessfull from "../../Components/alertSignup/signupSuccess";
+import SignupSuccessfull from "../../Components/Login&Sginup/signupSuccess";
 function HomePage() {
   return (
     <>

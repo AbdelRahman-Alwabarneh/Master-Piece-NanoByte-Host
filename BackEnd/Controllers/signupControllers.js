@@ -11,6 +11,12 @@ exports.createUser = async (req, res) => {
     if (!First_Name || !Last_Name || !Email || !Password) {
       return res.status(400).json({ message: "All fields are required" });
     }
+
+    const existingUser = await User.findOne({ email: Email });
+    if (existingUser) {
+        return res.status(400).json({ message: 'البريد الإلكتروني مسجل بالفعل.' });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(Password, salt);
 
