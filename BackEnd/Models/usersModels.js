@@ -53,8 +53,12 @@ const usersSchema = new mongoose.Schema({
   },
   googleId: {
     type: String,
-    unique: true,
     trim: true,
+  },
+  discordId: {
+    type: String,
+    trim: true,
+
   },
 });
 

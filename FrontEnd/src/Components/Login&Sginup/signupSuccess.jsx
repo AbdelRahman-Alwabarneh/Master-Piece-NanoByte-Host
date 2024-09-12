@@ -6,7 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 function SignupSuccessfull() {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const queryParams = new URLSearchParams(location.search);
+  const login = queryParams.get("login");
   useEffect(() => {
     // التحقق من وجود رسالة النجاح في الحالة
     if (location.state?.signedUp) {
@@ -33,31 +34,36 @@ function SignupSuccessfull() {
       });
       navigate("/", { replace: true, state: {} });
     }
-    if (location.state?.login) {
-        toast.success("تم تسجيل الدخول بنجاح", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce, // استخدام الترانزيشن بالشكل الصحيح
-          icon: (
-            <i className="fa-solid fa-circle-check text-white  text-[20px]"></i>
-          ), // أيقونة صح باللون الأبيض
-          style: {
-            backgroundColor: "#28a745", // اللون الأخضر للخلفية
-            color: "#fff", // اللون الأبيض للنص
-          },
-          progressStyle: {
-            background: "#fff", // شريط التقدم باللون الأبيض
-          },
-        });
+    if (location.state?.login || login) {
+      toast.success("تم تسجيل الدخول بنجاح", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce, // استخدام الترانزيشن بالشكل الصحيح
+        icon: (
+          <i className="fa-solid fa-circle-check text-white text-[20px]"></i>
+        ), // أيقونة صح باللون الأبيض
+        style: {
+          backgroundColor: "#28a745", // اللون الأخضر للخلفية
+          color: "#fff", // اللون الأبيض للنص
+        },
+        progressStyle: {
+          background: "#fff", // شريط التقدم باللون الأبيض
+        },
+      });
+      // تأخير التنقل قليلًا للتأكد من ظهور الرسالة
+      setTimeout(() => {
         navigate("/", { replace: true, state: {} });
-      }
+      }, 50); // مدة التأخير تتوافق مع مدة إغلاق الرسالة
+    }
   }, [location, navigate]);
+  
+
   
   return (
     <>

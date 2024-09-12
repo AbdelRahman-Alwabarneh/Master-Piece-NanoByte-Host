@@ -32,6 +32,11 @@ const googleAuthRoutes = require("./Routes/googleAuthRoutes");
 
 app.use("/api/googleAuth", googleAuthRoutes);
 
+
+const discordAuthRoutes = require("./Routes/discordRoutes");
+
+app.use("/api/discordAuth", discordAuthRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

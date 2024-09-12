@@ -3,6 +3,8 @@ import logolit_removebg_preview from "../../Assets/Photo/logolit-removebg-previe
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import GoogleLoginButton from "../../Components/Login&Sginup/Button/GoogleLoginButton";
+import DiscordLoginButton from "../../Components/Login&Sginup/Button/DiscordLoginButton";
 import axios from "axios";
 function LogIn() {
   const [ValidationEmail, setValidationEmail] = useState("");
@@ -208,15 +210,11 @@ function LogIn() {
               </p>
               {/* ايكون تسجيل الدخول السريع */}
               <div className="flex justify-center text-2xl mt-3 mb-5 space-x-6">
-                <a href="#" className="text-[2.4rem] no-underline text-white">
-                  <i className="fa-brands fa-google"></i>
-                </a>
+              <GoogleLoginButton />
                 <a href="#" className="text-[2.4rem] no-underline text-white">
                   <i className="fa-brands fa-square-facebook"></i>
                 </a>
-                <a href="#" className="text-[2.4rem] no-underline text-white">
-                  <i className="fa-brands fa-discord"></i>
-                </a>
+                <DiscordLoginButton />
               </div>
               {/* هل لديك حساب */}
               <div className="text-center text-[0.9375rem] font-bold mt-2 pt-4 border-t-2 border-white">
