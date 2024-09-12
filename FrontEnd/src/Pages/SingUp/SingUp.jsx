@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import GoogleLoginButton from "./GoogleLoginButton";
 function SingUp() {
   // تعريف الحالة للأسماء
   const [FirstName, setFirstName] = useState("");
@@ -338,9 +338,7 @@ function SingUp() {
               </p>
               {/* ايكون تسجيل الدخول السريع */}
               <div className="flex justify-center text-2xl mt-3 mb-5 space-x-6">
-                <a href="#" className="text-[2.4rem] no-underline text-white">
-                  <i className="fa-brands fa-google"></i>
-                </a>
+             <GoogleLoginButton />
                 <a href="#" className="text-[2.4rem] no-underline text-white">
                   <i className="fa-brands fa-square-facebook"></i>
                 </a>

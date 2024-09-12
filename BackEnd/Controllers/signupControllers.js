@@ -29,14 +29,12 @@ exports.createUser = async (req, res) => {
     });
 
     // jwt
-    const payload = {
+    const payloadJwt = {
       id: newUser.id,
-      First_Name: newUser.firstName,
-      Last_Name: newUser.lastName,
     };
 
     const secretKey = process.env.JWT_SECRET_KEY;
-    const token = jwt.sign(payload, secretKey, { expiresIn: "2h" });
+    const token = jwt.sign(payloadJwt, secretKey, { expiresIn: "2h" });
 
           // cookie
           res.cookie("authToken", token, {

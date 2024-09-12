@@ -33,14 +33,12 @@ exports.login = async (req, res) => {
       }
 
       // jwt
-      const payload = {
+      const payloadJwt = {
         id: checkRegistration.id,
-        First_Name: checkRegistration.firstName,
-        Last_Name: checkRegistration.lastName,
       };
      
       const secretKey = process.env.JWT_SECRET_KEY;
-      const token = jwt.sign(payload, secretKey, { expiresIn: rememberMe ? "48h": "2h" });
+      const token = jwt.sign(payloadJwt, secretKey, { expiresIn: rememberMe ? "48h": "2h" });
   
 
       // cookie

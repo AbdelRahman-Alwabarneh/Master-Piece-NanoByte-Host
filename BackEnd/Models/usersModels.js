@@ -7,7 +7,6 @@ const usersSchema = new mongoose.Schema({
   },
   lastName: {
     type: String,
-    required: true,
   },
   email: {
     type: String,
@@ -18,7 +17,6 @@ const usersSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
   },
   phoneNumber: {
     type: Number,
@@ -52,6 +50,11 @@ const usersSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  googleId: {
+    type: String,
+    unique: true,
+    trim: true,
   },
 });
 
