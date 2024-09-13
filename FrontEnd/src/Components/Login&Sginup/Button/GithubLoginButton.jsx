@@ -2,7 +2,7 @@
 
 const GithubLoginButton = () => {
   const handleLogin = () => {
-    window.location.href = "http://localhost:2000/api/githubAuth/github"; // تأكد من تطابق الرابط مع إعدادات الخادم
+    window.location.href = import.meta.env.VITE_GITHUB_AUTH;
   };
 
   return (
