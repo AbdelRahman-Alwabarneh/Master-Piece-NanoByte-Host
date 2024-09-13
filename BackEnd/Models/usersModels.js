@@ -58,7 +58,10 @@ const usersSchema = new mongoose.Schema({
   discordId: {
     type: String,
     trim: true,
-
+  },
+  githubId: {
+    type: String,
+    trim: true,
   },
 });
 

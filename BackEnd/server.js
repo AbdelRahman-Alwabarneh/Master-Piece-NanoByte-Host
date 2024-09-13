@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("./Config/config"); // استيراد إعدادات الاتصال بقاعدة البيانات
 require("dotenv").config();
 const app = express();
+const passport = require('passport');
+require('./Config/passport');
 const PORT = process.env.PORT;
 app.use(express.json());
 const cors = require("cors");
@@ -36,6 +38,11 @@ app.use("/api/googleAuth", googleAuthRoutes);
 const discordAuthRoutes = require("./Routes/discordRoutes");
 
 app.use("/api/discordAuth", discordAuthRoutes);
+
+
+const githubAuthRoutes = require("./Routes/githubRoutes");
+
+app.use("/api/githubAuth", githubAuthRoutes);
 
 // بدء تشغيل الخادم
 app.listen(PORT, () => {

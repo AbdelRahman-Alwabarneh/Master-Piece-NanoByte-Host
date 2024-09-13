@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import GoogleLoginButton from "../../Components/Login&Sginup/Button/GoogleLoginButton";
 import DiscordLoginButton from "../../Components/Login&Sginup/Button/DiscordLoginButton";
+import GithubLoginButton from "../../Components/Login&Sginup/Button/GithubLoginButton";
 function SingUp() {
   // تعريف الحالة للأسماء
   const [FirstName, setFirstName] = useState("");
@@ -16,9 +17,8 @@ function SingUp() {
   // تحقق البريد الإلكتروني
   const [ValidationEmail, setValidationEmail] = useState("");
   const [EmailMessage, setEmailMessage] = useState("hidden");
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [AlertError, setAlertError] = useState("hidden");
-
 
   const Email_Message = /^(?![^\s@]+@[^\s@]+\.[^\s@]+$).+/.test(
     ValidationEmail
@@ -81,7 +81,7 @@ function SingUp() {
 
     if (NoArabicPassword) {
       setNoArabic("flex");
-      setAlertError("hidden")
+      setAlertError("hidden");
       setVerificationSendPassword("hidden");
     } else {
       setNoArabic("hidden");
@@ -125,7 +125,7 @@ function SingUp() {
 
     if (ValidationPassword === "" || !SubmitPassword) {
       setVerificationSendPassword("flex");
-      setAlertError("hidden")
+      setAlertError("hidden");
       return;
     } else {
       setVerificationSendPassword("hidden");
@@ -145,12 +145,12 @@ function SingUp() {
       navigate("/", { state: { signedUp: true } }); // الانتقال لصفحة أخرى عند التسجيل الناجح
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        setAlertError("flex")
-          setError(error.response.data.message); // تعيين رسالة الخطأ
+        setAlertError("flex");
+        setError(error.response.data.message); // تعيين رسالة الخطأ
       } else {
-          setError('حدث خطأ غير متوقع.');
+        setError("حدث خطأ غير متوقع.");
       }
-  }
+    }
   }
 
   return (
@@ -215,9 +215,7 @@ function SingUp() {
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
               </svg>
 
-              <div className={`${AlertError} text-white`}>
-                {error}
-              </div>
+              <div className={`${AlertError} text-white`}>{error}</div>
             </div>
 
             {/* بداية الفورم */}
@@ -339,10 +337,8 @@ function SingUp() {
               </p>
               {/* ايكون تسجيل الدخول السريع */}
               <div className="flex justify-center text-2xl mt-3 mb-5 space-x-6">
-             <GoogleLoginButton />
-                <a href="#" className="text-[2.4rem] no-underline text-white">
-                  <i className="fa-brands fa-square-facebook"></i>
-                </a>
+                <GoogleLoginButton />
+                <GithubLoginButton />
                 <DiscordLoginButton />
               </div>
               {/* هل لديك حساب */}
