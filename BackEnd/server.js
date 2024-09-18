@@ -4,6 +4,7 @@ require("dotenv").config();
 const app = express();
 const passport = require('passport');
 require('./Config/passport');
+const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT;
 app.use(express.json());
 const cors = require("cors");
@@ -16,7 +17,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.use(cookieParser());
 // نقطة النهاية الأساسية
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -43,6 +44,11 @@ app.use("/api/discordAuth", discordAuthRoutes);
 const githubAuthRoutes = require("./Routes/githubRoutes");
 
 app.use("/api/githubAuth", githubAuthRoutes);
+
+
+const userDataRoutes = require("./Routes/userDataRoutes");
+
+app.use("/api/userData", userDataRoutes);
 
 // بدء تشغيل الخادم
 app.listen(PORT, () => {

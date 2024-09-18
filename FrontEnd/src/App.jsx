@@ -8,6 +8,7 @@ import DedicatedServer from "./Pages/DedicatedServerPlan/DedicatedServer";
 import LinuxWebsiteHosting from "./Pages/WebsiteHostingLinux/LinuxWebsiteHosting";
 import WindowsWebsiteHosting from "./Pages/WindowsWebsiteHosting/WindowsWebsiteHosting";
 import DomainsPage from "./Pages/Domains/Domains";
+import ControlPanel from "./Pages/UserControlPanel/UserControlPanel";
 import { Link } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
@@ -32,6 +33,7 @@ function App() {
           <Route path="/domains" element={<DomainsPage />} />
           <Route path="/SignUp" element={<SingUp />} />
           <Route path="/LogIn" element={<LogIn />} />
+          <Route path="/UserControlPanel" element={<ControlPanel />} />
         </Routes>
       </BrowserRouter>
     </>

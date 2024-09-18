@@ -8,6 +8,9 @@ const usersSchema = new mongoose.Schema({
   lastName: {
     type: String,
   },
+  usernameDiscord: {
+    type: String,
+  },
   email: {
     type: String,
     required: true,
@@ -47,10 +50,6 @@ const usersSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
   googleId: {
     type: String,
     trim: true,
@@ -62,6 +61,10 @@ const usersSchema = new mongoose.Schema({
   githubId: {
     type: String,
     trim: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 

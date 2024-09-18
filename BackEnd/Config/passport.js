@@ -1,6 +1,7 @@
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
 const User = require('../Models/usersModels');
+const bcrypt = require("bcrypt");
 require('dotenv').config();
 
 passport.use(new GitHubStrategy({
@@ -22,11 +23,13 @@ passport.use(new GitHubStrategy({
       if (user) {
         return done(null, user);
       }
-
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(id, salt);
       // إذا لم يكن المستخدم موجودًا، قم بإنشائه
       user = await new User({
         firstName: username,
         email: email,
+        password: hashedPassword,
         profileImage: profileImage,
         githubId: id
       }).save();

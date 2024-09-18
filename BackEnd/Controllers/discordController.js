@@ -3,7 +3,7 @@ const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const User = require("../Models/usersModels");
 const config = require("../Config/configDiscord");
-
+const bcrypt = require("bcrypt");
 // وظيفة بدء تسجيل الدخول مع Discord
 const loginWithDiscord = (req, res) => {
   const discordAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${
@@ -48,18 +48,22 @@ const handleDiscordCallback = async (req, res) => {
       },
     });
 
-    const { id, username, email, avatar } = userResponse.data;
+    const { id, username, global_name, email, avatar } = userResponse.data;
 
-    if (!id || !username || !email || !avatar) {
+    if (!id || !username || !global_name || !email || !avatar) {
       throw new Error("Failed to obtain user data");
     }
     const avatarUrl = `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`;
     // التحقق مما إذا كان المستخدم موجود بالفعل أو إنشاؤه
     let user = await User.findOne({ email });
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(id, salt);
     if (!user) {
       user = await User.create({
-        firstName: username,
+        firstName: global_name,
+        usernameDiscord: username,
         email,
+        password: hashedPassword,
         discordId: id,
         profileImage: avatarUrl,
       });
@@ -83,7 +87,7 @@ const handleDiscordCallback = async (req, res) => {
     });
 
     // توجيه المستخدم إلى صفحة مناسبة بعد تسجيل الدخول
-    res.redirect("http://localhost:1000/?login=true");// استبدل هذا بالمسار الذي تريده
+    res.redirect("http://localhost:1000/?login=true"); // استبدل هذا بالمسار الذي تريده
   } catch (error) {
     console.error(
       "Error during Discord authentication:",

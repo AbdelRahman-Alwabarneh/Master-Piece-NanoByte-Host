@@ -1,6 +1,6 @@
 const User = require("../Models/usersModels");
 const jwt = require("jsonwebtoken");
-
+const bcrypt = require("bcrypt");
 exports.googleAuth = async (req, res) => {
   try {
     const { google_id, email, name, picture } = req.body;
@@ -23,10 +23,13 @@ exports.googleAuth = async (req, res) => {
     // البحث عن المستخدم أو إنشاء مستخدم جديد
     let user = await User.findOne({ email });
     if (!user) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(google_id, salt);
       user = await User.create({
         firstName,
         lastName,
         email,
+        password: hashedPassword,
         profileImage: picture,
         googleId: google_id,
       });
