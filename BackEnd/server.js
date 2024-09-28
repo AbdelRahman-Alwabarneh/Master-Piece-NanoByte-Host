@@ -50,6 +50,14 @@ const userDataRoutes = require("./Routes/userDataRoutes");
 
 app.use("/api/userData", userDataRoutes);
 
+const logOutRoutes = require("./Routes/logOutRoutes");
+
+app.use("/api/LogOut", logOutRoutes);
+
+const userProfileRoutes = require("./Routes/userProfileRoutes");
+
+app.use("/api/updateProfile", userProfileRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

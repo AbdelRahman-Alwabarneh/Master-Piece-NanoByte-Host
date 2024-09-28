@@ -1,5 +1,6 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Website1 from "../../Assets/Photo/svgexport-10 1.svg";
 import Website2 from "../../Assets/Photo/svgexport-9 1.svg";
 import Website3 from "../../Assets/Photo/svgexport-8 1.svg";
@@ -10,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserProfile } from "../../Redux/Slice/profileSlice";
 import { User, ShoppingBag, LogOut } from "lucide-react";
 function Header() {
+  const navigate = useNavigate();
   const [BorgarMenu, setBorgarMenu] = useState(false);
   const [servicesDropdown, setServicesDropdown] = useState(false);
   const [ProfileDropdown, setProfileDropdown] = useState(false);
@@ -45,6 +47,20 @@ function Header() {
       setIsLoading(false);
     }
   }, [status]);
+  
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post("http://localhost:2000/api/LogOut", {},{
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("خطأ في تسجيل الخروج", error);
+    }
+  };
   return (
     <>
       {isLoading ? (
@@ -125,7 +141,10 @@ function Header() {
                             </Link>
                           </li>
                           <li>
-                            <button className="flex items-center justify-end w-full px-4 py-3 text-red-600 hover:bg-red-50 transition duration-300">
+                            <button
+                              onClick={handleLogout}
+                              className="flex items-center justify-end w-full px-4 py-3 text-red-600 hover:bg-red-50 transition duration-300"
+                            >
                               <span className="font-cairo ml-3">
                                 تسجيل الخروج
                               </span>

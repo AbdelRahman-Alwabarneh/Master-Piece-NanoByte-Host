@@ -22,7 +22,7 @@ const usersSchema = new mongoose.Schema({
     type: String,
   },
   phoneNumber: {
-    type: Number,
+    type: String,
     default: null,
   },
   companyName: {

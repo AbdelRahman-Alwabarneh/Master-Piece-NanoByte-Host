@@ -1,14 +1,35 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// جلب بيانات الملف الشخصي
 export const fetchUserProfile = createAsyncThunk(
   "profile/fetchUserProfile",
-  async () => {
-    const response = await axios.get(import.meta.env.VITE_USER_DATA, {
-      withCredentials: true,
-    });
-    return response.data;
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(import.meta.env.VITE_USER_DATA, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const updateUserProfile = createAsyncThunk(
+  "profile/updateUserProfile",
+  async ({ formData }, { rejectWithValue }) => {
+    try {
+      const x = console.log({
+        pass: formData.firstName,
+      });
+
+      const response = await axios.put("http://localhost:2000/api/updateProfile", {Data : formData}, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 
@@ -16,21 +37,24 @@ const profileSlice = createSlice({
   name: "profile",
   initialState: {
     user: null,
-    status: "idle", // تحديد الحالة الافتراضية كـ "idle"
+    status: "idle",
+    error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchUserProfile.pending, (state) => {
-        state.status = "loading"; // تغيير الحالة إلى "loading"
+        state.status = "loading";
+        state.error = null;
       })
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
-        state.user = action.payload; // تخزين بيانات المستخدم
-        state.status = "succeeded"; // تغيير الحالة إلى "succeeded"
+        state.user = action.payload;
+        state.status = "succeeded";
+        state.error = null;
       })
       .addCase(fetchUserProfile.rejected, (state, action) => {
-        console.error("Error fetching user profile:", action.error.message);
-        state.status = "failed"; // تغيير الحالة إلى "failed"
+        state.status = "failed";
+        state.error = action.payload;
       });
   },
 });

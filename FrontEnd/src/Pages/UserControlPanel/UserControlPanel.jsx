@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { User } from "lucide-react";
 import Header from "../../Components/Header/Header";
@@ -66,7 +67,19 @@ const ControlPanel = () => {
     // إعادة تركيب البريد الإلكتروني
     return `${firstPart}${stars}${lastPart}@${domainPart}`;
   };
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post("http://localhost:2000/api/LogOut",{}, {
+        withCredentials: true,
+      });
 
+      if (response.status === 200) {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("خطأ في تسجيل الخروج", error);
+    }
+  };
   return (
     <>
       <title>منطقة العمل - NanoByte</title>
@@ -223,12 +236,12 @@ const ControlPanel = () => {
               </p>
 
               <div className="flex justify-end space-x-2">
-                <button className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm">
+                <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm">
                   تسجيل خروج
                 </button>
-                <button className="bg-blue-500 text-white px-3 py-1 rounded-lg text-sm">
+                <Link to="/UserProfile" className="bg-blue-500 text-white px-3 py-2 rounded-lg text-sm">
                   تحديث
-                </button>
+                </Link>
               </div>
             </div>
             <div className="bg-white text-black p-4 rounded-lg shadow mb-4 font-bold">

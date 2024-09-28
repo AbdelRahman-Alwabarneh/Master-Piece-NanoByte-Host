@@ -1,0 +1,12 @@
+.react-tel-input .selected-flag {
+    background-color: transparent !important; /* اجعل الخلفية شفافة */
+}
+
+.react-tel-input .selected-flag:hover {
+    background-color: transparent !important; /* اجعل الخلفية شفافة عند التمرير */
+    
+}
+.react-tel-input .flag-dropdown:hover {
+    background-color: #969fc2 !important; /* اجعل الخلفية شفافة عند التمرير */
+    
+}
