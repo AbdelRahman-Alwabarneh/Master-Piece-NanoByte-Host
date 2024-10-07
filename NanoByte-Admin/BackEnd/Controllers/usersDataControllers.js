@@ -1,11 +1,36 @@
-const User = require("../Models/usersModels");
+const allUser = require("../Models/usersModels");
 const bcrypt = require("bcrypt");
+exports.UsersData = async (req, res) => {
+  try {
+    const UsersData = await allUser.find();
+
+    res.status(200).json({ UsersData });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+};
+
+
+exports.UserDetails= async (req, res) => {
+  try {
+    const UsersData = await allUser.findById(req.params.id);
+
+    res.status(200).json({ UsersData });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+};
+
 exports.updateProfile = async (req, res) => {
   const { Data } = req.body;
-
+  
   try {
     // Find user by ID
-    const user = await User.findOne({ email: Data.email });
+    const user = await allUser.findById(req.params.id);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });

@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import Sidebar from "../../Components/Sidebar";
+import Sidebar from "../../Components/Sidebar/Sidebar";
 import ReactECharts from "echarts-for-react";
 
 const HomeDashboard = () => {

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   Home,
   Users,
-  BriefcaseMedical,
   Contact,
   LogOut,
   CalendarCog,
@@ -10,9 +9,12 @@ import {
   ChevronRight,
   ChevronDown,
   ChevronUp,
-  UserCheck,
-  FileText,
-  ShoppingBag,
+  Boxes,
+  Globe,
+  Server,
+  HardDrive,
+  PackageSearch,
+
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import axios from 'axios';
@@ -41,12 +43,14 @@ const Sidebar = () => {
     { icon: Home, text: "الرئيسية", path: "/" },
     { icon: Users, text: "العملاء", path: "/AllUsers" },
     {
-      icon: ShoppingBag,
-      text: "الطلبات",
+      icon: PackageSearch,
+      text: "الخدمات / المنتجات",
       path: "#",
       subMenu: [
-        { icon: UserCheck, text: "إدارة العملاء", path: "/Dashboard/users/manage" },
-        { icon: FileText, text: "تقارير العملاء", path: "/Dashboard/users/reports" },
+        { icon: HardDrive, text: "الخودام المركزية", path: "/Dashboard/users/reports" },
+        { icon: Server, text: "الخوادم المشتركة", path: "/VPSManagement" },
+        { icon: Boxes, text: "إستضافة خوادم ألعاب", path: "/Dashboard/users/reports" },
+        { icon: Globe, text: "إستضافة مواقع", path: "/Dashboard/users/reports" },
       ],
     },
     { icon: CalendarCog, text: "المواعيد", path: "/Dashboard/Appointments" },
@@ -75,7 +79,7 @@ const Sidebar = () => {
               ? "w-64"
               : "w-16"
             : "w-64"
-        } z-10`}
+        } z-50 overflow-y-auto`}
       >
         <div>
           <div className="flex items-center justify-between p-4 mt-5">
@@ -114,7 +118,7 @@ const Sidebar = () => {
                         {isDropdownOpen ? <ChevronUp /> : <ChevronDown />}
                       </button>
                       {isDropdownOpen && (
-                        <ul className="ml-8 space-y-2 w-full bg-[#2f64bb] ">
+                        <ul className={`ml-8 space-y-2 w-full bg-[#2f64bb] ${isMobile? "pr-0" : "pr-2"}`}>
                           {item.subMenu.map((subItem, subIndex) => (
                             <li key={subIndex}>
                               <Link
@@ -181,7 +185,7 @@ const Sidebar = () => {
                   alt=""
                 />
               </div>
-              <span className="font-semibold">عبد الرحمن</span>
+              <div className="font-semibold pr-2">عبد الرحمن</div>
             </div>
           </div>
         )}

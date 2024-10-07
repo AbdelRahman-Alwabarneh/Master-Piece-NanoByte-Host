@@ -8,7 +8,7 @@ import {
 import Header from "../../../Components/Header/Header";
 import Footer from "../../../Components/Footer/Footer";
 import { motion } from "framer-motion"; // لم يتم استخدامه في الكود، لذا يمكنك حذفه إذا لم يكن ضروريًا
-import { Camera, Edit2 } from "lucide-react"; // لم يتم استخدامه في الكود، لذا يمكنك حذفه إذا لم يكن ضروريًا
+import { Camera, Edit2,Eye,EyeOff } from "lucide-react"; // لم يتم استخدامه في الكود، لذا يمكنك حذفه إذا لم يكن ضروريًا
 import Swal from "sweetalert2";
 import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
@@ -17,6 +17,8 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 function UserProfile() {
   const [showPasswordEdit, setShowPasswordEdit] = useState(false);
+  const [showNewPasswordEdit, setshowNewPasswordEdit] = useState(false);
+  const [showConfirmationPasswordEdit, setshowConfirmationPasswordEdit] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true); // التحقق من تطابق كلمة المرور
   const [formData, setFormData] = useState({
     firstName: "",
@@ -103,6 +105,13 @@ function UserProfile() {
   
   const togglePasswordEdit = () => {
     setShowPasswordEdit((prev) => !prev);
+  };
+
+  const showNewPassword = () => {
+    setshowNewPasswordEdit(!showNewPasswordEdit)
+  };
+  const showConfirmationPassword = () => {
+    setshowConfirmationPasswordEdit(!showConfirmationPasswordEdit)
   };
 
   const handleSubmit = (e) => {
@@ -297,7 +306,7 @@ function UserProfile() {
 
                   {showPasswordEdit && (
                     <div className="space-y-2 mt-2">
-                      <div className="space-y-1">
+                      <div className="space-y-1 relative">
                         <label
                           htmlFor="newPassword"
                           className="block text-white text-sm font-medium"
@@ -307,14 +316,21 @@ function UserProfile() {
                         <input
                           id="newPassword"
                           name="newPassword"
-                          type="password"
+                          type={showNewPasswordEdit ? "text" : "password"}
                           value={formData.newPassword}
                           onChange={handleInputChange}
                           className="w-full bg-white bg-opacity-20 border border-white rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all"
                           required
                         />
+                           <button
+                      type="button"
+                      onClick={showNewPassword}
+                      className="absolute inset-y-0 left-0 top-6 px-3 flex items-center text-white hover:text-gray-200"
+                    >
+                      {showNewPasswordEdit ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
                       </div>
-                      <div className="space-y-1">
+                      <div className="space-y-1 relative">
                         <label
                           htmlFor="confirmPassword"
                           className="block text-white text-sm font-medium"
@@ -324,7 +340,7 @@ function UserProfile() {
                         <input
                           id="confirmPassword"
                           name="confirmPassword"
-                          type="password"
+                          type={showConfirmationPasswordEdit? "text" : "password"}
                           value={formData.confirmPassword}
                           onChange={handleInputChange}
                           className={`w-full bg-white bg-opacity-20 border ${
@@ -332,12 +348,19 @@ function UserProfile() {
                           } rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all`}
                           required
                         />
+                                 <button
+                      type="button"
+                      onClick={showConfirmationPassword}
+                      className="absolute inset-y-0 left-0 top-6 px-3 flex items-center text-white hover:text-gray-200"
+                    >
+                      {showConfirmationPasswordEdit ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                      </div>
                         {!passwordMatch && (
                           <p className="text-red-500 text-sm">
                             كلمة المرور غير متطابقة
                           </p>
                         )}
-                      </div>
                     </div>
                   )}
                 </div>
@@ -356,8 +379,9 @@ function UserProfile() {
                       type="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full bg-white bg-opacity-20 border border-white rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all"
+                      className="w-full cursor-not-allowed bg-white bg-opacity-20 border border-white rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all"
                       required
+                      readOnly
                     />
                   </div>
                   <div className="space-y-1">

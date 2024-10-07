@@ -23,7 +23,7 @@ export const updateUserProfile = createAsyncThunk(
         pass: formData.firstName,
       });
 
-      const response = await axios.put("http://localhost:2000/api/updateProfile", {Data : formData}, {
+      const response = await axios.put(import.meta.env.VITE_USER_UPDATE_PROFILE, {Data : formData}, {
         withCredentials: true,
       });
       return response.data;
