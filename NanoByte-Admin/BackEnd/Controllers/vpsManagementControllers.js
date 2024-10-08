@@ -32,8 +32,10 @@ exports.createVPSPlan = async (req, res) => {
         sixMonths: { price: vpsData.prices.find(p => p.duration === 6)?.price || null },
       },
       quantity:vpsData.quantity || 0,
-      isUnlimited:vpsData.isUnlimited,
-      productLink:vpsData.productLink,
+      isUnlimited: vpsData.isUnlimited,
+      productLink: vpsData.productLink,
+      groupId: vpsData.groupId,
+      groupName: vpsData.groupName,
     });
 
     res
@@ -43,8 +45,11 @@ exports.createVPSPlan = async (req, res) => {
     res
       .status(500)
       .json({ message: "Internal server error", error: error.message });
+      console.log({message: "Internal server error", error: error.message});
+      
   }
 };
+
 
 exports.VPSPlanSData = async (req, res) => {
   try {
@@ -73,7 +78,7 @@ exports.VPSDetails= async (req, res) => {
 
 exports.updateVPSPlan = async (req, res) => {
   const { vpsData } = req.body;
-
+  
   try {
     // Find VPS plan by ID
     const vpsPlan = await VPSPlan.findById(req.params.id); // تأكد من أن لديك نموذج VPS
@@ -92,7 +97,8 @@ exports.updateVPSPlan = async (req, res) => {
     vpsPlan.quantity = vpsData.quantity || vpsPlan.quantity;
     vpsPlan.isUnlimited = vpsData.isUnlimited;
     vpsPlan.productLink = vpsData.productLink || vpsPlan.productLink;
-
+    vpsPlan.groupId = vpsData.groupId || vpsPlan.groupId;
+    vpsPlan.groupName = vpsData.groupName || vpsPlan.groupName;
     // Update subscription durations
     const subscriptionDurations = ['oneMonth', 'twoMonths', 'threeMonths', 'fourMonths', 'fiveMonths', 'sixMonths'];
 

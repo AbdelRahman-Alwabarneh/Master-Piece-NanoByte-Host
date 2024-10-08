@@ -64,13 +64,18 @@ const vpsSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
+  groupId: {
+    type: mongoose.Schema.Types.ObjectId,
+    default: null,
+    ref: "Group",
+  },
+  groupName: {
+    type: String,
+    default: null,
+  },
   isHidden: {
     type: Boolean,
     default: false,
-  },
-  category: {
-    type: String,
-    required: true, // تحديد الفئة مثل "Intel" أو "AMD"
   },
   createdAt: {
     type: Date,

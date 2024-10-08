@@ -2,15 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Save, X } from "lucide-react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import { useDispatch, useSelector } from "react-redux";
-import { VPSDetails, updateVPS } from "../../Redux/Slice/VPSManagementSlice"; // تأكد من استيراد الدالة updateVPS
+import { VPSDetails, updateVPS } from "../../Redux/Slice/VPSManagementSlice";
 import { useParams } from "react-router-dom";
 import NoDataFound from "../../Components/NoDataFound/NoDataFound";
 import Loading from "../../Components/Loading/Loading";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const VPSDetailsManagement = () => {
   const dispatch = useDispatch();
   const [isUnlimited, setIsUnlimited] = useState(false);
+  const [groups, setGroups] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [plan, setPlan] = useState({
     name: "",
@@ -30,18 +34,29 @@ const VPSDetailsManagement = () => {
     quantity: "",
     isUnlimited: isUnlimited,
     productLink: "",
+    groupId: "",
+    groupName: "",
+    oldgroupId: "",
   });
-
-  
   const { currentVPS, status } = useSelector((state) => state.VPSData);
   const { id } = useParams();
-
+  
   useEffect(() => {
     if (id) {
       dispatch(VPSDetails(id));
     }
+    fetchGroups();
   }, [dispatch, id]);
-  
+
+  const fetchGroups = async () => {
+    try {
+      const response = await axios.get('http://localhost:2100/api/vpsGroup');
+      setGroups(response.data.AllvpsGroup);
+    } catch (error) {
+      console.error('Error fetching groups:', error);
+    }
+  };
+
   useEffect(() => {
     if (currentVPS) {
       setPlan((prev) => ({
@@ -81,11 +96,12 @@ const VPSDetailsManagement = () => {
         quantity: currentVPS.VPSDetails?.quantity || "",
         isUnlimited: currentVPS.VPSDetails?.isUnlimited || false,
         productLink: currentVPS.VPSDetails?.productLink || "",
+        groupId: currentVPS.VPSDetails?.groupId || "",
+        groupName: currentVPS.VPSDetails?.groupName || "",
+        oldgroupId: currentVPS.VPSDetails?.groupId || "",
       }));
     }
   }, [currentVPS]);
-  
-
   if (status === "loading") {
     return <Loading />;
   }
@@ -115,69 +131,101 @@ const VPSDetailsManagement = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     Swal.fire({
       title: "هل أنت متأكد؟",
       text: "هل تريد تحديث خطة الـ VPS؟",
       icon: "warning",
-      iconColor: "#ffcc00", // لون الأيقونة (لون أصفر للتباين)
-      background: "#18296C", // لون خلفية النافذة
-      color: "#ffffff", // لون النص
+      iconColor: "#ffcc00",
+      background: "#18296C",
+      color: "#ffffff",
       showCancelButton: true,
-      confirmButtonColor: "#1E38A3", // لون زر التأكيد
-      cancelButtonColor: "#d33", // لون زر الإلغاء
+      confirmButtonColor: "#1E38A3",
+      cancelButtonColor: "#d33",
       confirmButtonText: "نعم",
       cancelButtonText: "إلغاء",
-      padding: "2em", // زيادة المساحة الداخلية قليلاً
-      backdrop: "rgba(22, 30, 65, 0.8)", // خلفية مظللة بلون مشابه للخلفية
+      padding: "2em",
+      backdrop: "rgba(22, 30, 65, 0.8)",
       position: "center",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        dispatch(updateVPS({ plan, id }))
-          .then(() => {
-            dispatch(VPSDetails(id));
-            Swal.fire({
-              title: "تم التحديث!",
-              text: "تم تحديث خطة الـ VPS بنجاح.",
-              icon: "success",
-              iconColor: "#28a745", // لون الأيقونة (أخضر للتأكيد)
-              background: "#18296C", // لون خلفية النافذة
-              color: "#ffffff", // لون النص
-              confirmButtonColor: "#1E38A3", // لون زر التأكيد
-              confirmButtonText: "موافق",
-              padding: "2em", // زيادة المساحة الداخلية قليلاً
-              backdrop: "rgba(22, 30, 65, 0.8)", // خلفية مظللة
-              position: "center",
-            });
-          })
-          .catch((error) => {
-            Swal.fire({
-              title: "خطأ!",
-              text: "حدث خطأ أثناء تحديث الخطة.",
-              icon: "error",
-              iconColor: "#ff0000", // لون الأيقونة (أحمر)
-              background: "#18296C", // لون خلفية النافذة
-              color: "#ffffff", // لون النص
-              confirmButtonColor: "#1E38A3", // لون زر التأكيد
-              confirmButtonText: "موافق",
-              padding: "2em", // زيادة المساحة الداخلية قليلاً
-              backdrop: "rgba(22, 30, 65, 0.8)", // خلفية مظللة
-              position: "center",
-            });
+        try {
+          dispatch(updateVPS({ plan, id }))
+          // تنفيذ PATCH request باستخدام axios
+          await axios.patch(`http://localhost:2100/api/vpsGroup/${id}`, {plan});
+
+          // تحديث البيانات بعد النجاح
+          dispatch(VPSDetails(id));
+          Swal.fire({
+            title: "تم التحديث!",
+            text: "تم تحديث خطة الـ VPS بنجاح.",
+            icon: "success",
+            iconColor: "#28a745",
+            background: "#18296C",
+            color: "#ffffff",
+            confirmButtonColor: "#1E38A3",
+            confirmButtonText: "موافق",
+            padding: "2em",
+            backdrop: "rgba(22, 30, 65, 0.8)",
+            position: "center",
           });
+        } catch (error) {
+          Swal.fire({
+            title: "خطأ!",
+            text: "حدث خطأ أثناء تحديث الخطة.",
+            icon: "error",
+            iconColor: "#ff0000",
+            background: "#18296C",
+            color: "#ffffff",
+            confirmButtonColor: "#1E38A3",
+            confirmButtonText: "موافق",
+            padding: "2em",
+            backdrop: "rgba(22, 30, 65, 0.8)",
+            position: "center",
+          });
+        }
       }
     });
-  };
-  
+};
 
-const handleToggle = () => {
+
+  const handleToggle = () => {
     setPlan((prev) => ({
       ...prev,
       isUnlimited: !prev.isUnlimited,
     }));
   };
+
+  const handleGroupSearch = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setPlan(prev => ({ ...prev, groupName: value }));
+    setShowDropdown(true);
+
+    // Auto-select if there's an exact match
+    const exactMatch = groups.find(group => group.groupName.toLowerCase() === value.toLowerCase());
+    if (exactMatch) {
+      handleGroupSelect(exactMatch);
+    } else {
+      setPlan(prev => ({ ...prev, groupId: "" }));
+    }
+  };
+
+  const handleGroupSelect = (group) => {
+    setPlan(prev => ({
+      ...prev,
+      groupId: group._id,
+      groupName: group.groupName
+    }));
+    setShowDropdown(false);
+  };
+
+  const filteredGroups = groups.filter(group =>
+    group.groupName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br text-white font-cairo">
       <Sidebar />
@@ -276,6 +324,35 @@ const handleToggle = () => {
                 required
               />
             </div>
+            <div className="relative">
+              <label className="block text-sm font-medium text-white/80 mb-2">
+                المجموعة
+              </label>
+              <input
+                type="search"
+                name="groupName"
+                value={plan.groupName}
+                onChange={handleGroupSearch}
+                onFocus={() => setShowDropdown(true)}
+                onBlur={() => setTimeout(() => setShowDropdown(false), 100)}
+                className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50 text-white placeholder-white/50 px-4 py-2 transition-all duration-200"
+                placeholder="البحث عن مجموعة"
+                required
+              />
+              {showDropdown && (
+                <div className="absolute z-10 w-full mt-1 bg-[#6c7ab8] backdrop-blur-none rounded-md shadow-lg max-h-60 overflow-auto">
+                  {filteredGroups.map((group) => (
+                    <div
+                      key={group._id}
+                      className="px-4 py-2 hover:bg-white/20 cursor-pointer text-white"
+                      onClick={() => handleGroupSelect(group)}
+                    >
+                      {group.groupName}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
             <div className="col-span-1 sm:col-span-2">
               <label className="block text-sm font-medium text-white/80 mb-2">
                 الأسعار حسب المدة
@@ -307,7 +384,8 @@ const handleToggle = () => {
                           }
                           className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50 text-white placeholder-white/50 px-4 py-2 transition-all duration-200"
                           placeholder="السعر"
-                          required={priceObj.enabled}
+                          required={priceObj.duration === 1 ? true : false}
+                          
                         />
                       </div>
                     );

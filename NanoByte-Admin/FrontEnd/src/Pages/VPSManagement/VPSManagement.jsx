@@ -1,288 +1,287 @@
-import React, { useEffect,useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchVPSData, HiddenVPSPlan} from "../../Redux/Slice/VPSManagementSlice";
 import Loading from "../../Components/Loading/Loading";
 import NoDataFound from "../../Components/NoDataFound/NoDataFound";
-import { Link, useNavigate } from "react-router-dom";
-import { Search, Eye, Trash } from "lucide-react";
+import { Link,useNavigate } from "react-router-dom";
+import { Search, Eye, Trash, ChevronDown, ChevronUp ,Settings2 } from "lucide-react";
 import Swal from "sweetalert2";
+import axios from "axios";
+import { HiddenVPSPlan} from "../../Redux/Slice/VPSManagementSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const VPSManagement = () => {
-  const navigate = useNavigate();
+  const [vpsGroups, setVPSGroups] = useState([]);
+  const [vpsPlans, setVPSPlans] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [expandedGroups, setExpandedGroups] = useState({});
   const dispatch = useDispatch();
-  const { vpsList, status } = useSelector((state) => state.VPSData);
-
-
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchVPSData());
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const [groupsResponse, plansResponse] = await Promise.all([
+        axios.get("http://localhost:2100/api/vpsGroup"),
+        axios.get("http://localhost:2100/api/vpsManagement")
+      ]);
+      setVPSGroups(groupsResponse.data.AllvpsGroup);
+      setVPSPlans(plansResponse.data.VPSPlanData);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
     }
-  }, [dispatch, status]);
+  };
+
+  const toggleGroup = (groupId) => {
+    setExpandedGroups(prev => ({ ...prev, [groupId]: !prev[groupId] }));
+  };
+
+  const handleIsHiddenPlan = async (id, isHidden) => {
+    const actionText = isHidden ? "إظهار" : "إخفاء";
+    const successText = isHidden ? "تم إظهار" : "تم إخفاء";
+    const confirmText = isHidden ? "هل تريد إظهار" : "هل تريد إخفاء";
+  
+    const result = await Swal.fire({
+      title: "هل أنت متأكد؟",
+      text: `${confirmText} خطة الـ VPS؟`,
+      icon: "warning",
+      iconColor: "#ffcc00",
+      background: "#18296C",
+      color: "#ffffff",
+      showCancelButton: true,
+      confirmButtonColor: "#1E38A3",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "نعم",
+      cancelButtonText: "إلغاء",
+      padding: "2em",
+      backdrop: "rgba(22, 30, 65, 0.8)",
+      position: "center",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        dispatch(HiddenVPSPlan(id))
+        
+        setVPSPlans(plans =>
+          plans.map(plan =>
+            plan._id === id ? { ...plan, isHidden: !isHidden } : plan
+          )
+        );
+
+        Swal.fire({
+          title: `${successText}!`,
+          text: `تم ${successText} خطة الـ VPS بنجاح.`,
+          icon: "success",
+          iconColor: "#28a745",
+          background: "#18296C",
+          color: "#ffffff",
+          confirmButtonColor: "#1E38A3",
+          confirmButtonText: "موافق",
+          padding: "2em",
+          backdrop: "rgba(22, 30, 65, 0.8)",
+          position: "center",
+        });
+      } catch (error) {
+        Swal.fire({
+          title: "خطأ!",
+          text: `حدث خطأ أثناء ${actionText} الخطة.`,
+          icon: "error",
+          iconColor: "#ff0000",
+          background: "#18296C",
+          color: "#ffffff",
+          confirmButtonColor: "#1E38A3",
+          confirmButtonText: "موافق",
+          padding: "2em",
+          backdrop: "rgba(22, 30, 65, 0.8)",
+          position: "center",
+        });
+      }
+    }
+  };
+  const navigate = useNavigate();
 
   const handleVPSClick = (vpsId) => {
     navigate(`/VPSDetailsManagement/${vpsId}`);
   };
-
-  const handleisHiddenPlan = async (id, isHidden) => {
-    const actionText = isHidden ? "إخفاء" : "إظهار"; // تحديد النص بناءً على قيمة isHidden
-    const successText = isHidden ? "تم إخفاء" : "تم إظهار";
-    const confirmText = isHidden ? "هل تريد إخفاء" : "هل تريد إظهار";
-  
-    Swal.fire({
-      title: "هل أنت متأكد؟",
-      text: `${confirmText} خطة الـ VPS؟`,
-      icon: "warning",
-      iconColor: "#ffcc00", // لون الأيقونة (لون أصفر للتباين)
-      background: "#18296C", // لون خلفية النافذة
-      color: "#ffffff", // لون النص
-      showCancelButton: true,
-      confirmButtonColor: "#1E38A3", // لون زر التأكيد
-      cancelButtonColor: "#d33", // لون زر الإلغاء
-      confirmButtonText: "نعم",
-      cancelButtonText: "إلغاء",
-      padding: "2em", // زيادة المساحة الداخلية قليلاً
-      backdrop: "rgba(22, 30, 65, 0.8)", // خلفية مظللة بلون مشابه للخلفية
-      position: "center",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(HiddenVPSPlan(id))
-          .then(() => {
-            Swal.fire({
-              title: `${successText}!`,
-              text: `تم ${successText} خطة الـ VPS بنجاح.`,
-              icon: "success",
-              iconColor: "#28a745", // لون الأيقونة (أخضر للتأكيد)
-              background: "#18296C", // لون خلفية النافذة
-              color: "#ffffff", // لون النص
-              confirmButtonColor: "#1E38A3", // لون زر التأكيد
-              confirmButtonText: "موافق",
-              padding: "2em", // زيادة المساحة الداخلية قليلاً
-              backdrop: "rgba(22, 30, 65, 0.8)", // خلفية مظللة
-              position: "center",
-            });
-            dispatch(fetchVPSData()); // جلب البيانات مرة أخرى بعد الإجراء
-          })
-          .catch((error) => {
-            Swal.fire({
-              title: "خطأ!",
-              text: `حدث خطأ أثناء ${actionText} الخطة.`,
-              icon: "error",
-              iconColor: "#ff0000", // لون الأيقونة (أحمر)
-              background: "#18296C", // لون خلفية النافذة
-              color: "#ffffff", // لون النص
-              confirmButtonColor: "#1E38A3", // لون زر التأكيد
-              confirmButtonText: "موافق",
-              padding: "2em", // زيادة المساحة الداخلية قليلاً
-              backdrop: "rgba(22, 30, 65, 0.8)", // خلفية مظللة
-              position: "center",
-            });
-          });
-      }
-    });
-  };
-  
-  
-
-  if (status === "loading") {
+  if (loading) {
     return <Loading />;
   }
 
-  if (status === "failed" || !vpsList || vpsList.length === 0) {
+  if (!vpsGroups || vpsGroups.length === 0) {
     return <NoDataFound />;
   }
+
   return (
-    <div className="flex min-h-screen text-white font-cairo">
+    <div className="flex min-h-screen text-white font-cairo bg-gradient-to-br from-[#1E38A3] to-[#0B1437]">
       <Sidebar />
-      <div className="flex-grow p-2 sm:p-4 md:p-6 md:mr-64 mr-[75px] overflow-x-hidden">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">
-          جدول خطط الـ VPS
+      <div className="flex-grow p-4 md:p-6 md:mr-64 mr-[75px] overflow-x-hidden">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6">
+          مجموعات خطط الـ VPS
         </h1>
-
-        {/* حقل البحث الاحترافي */}
-        <div className="mb-5 flex justify-between items-center flex-wrap">
-          <div className="relative w-full sm:w-1/2">
-            <input
-              type="text"
-              placeholder="ابحث عن خطة..."
-              className="bg-[#1E38A3] border border-[#2f64bb] text-white py-2 px-4 pl-10 rounded-full shadow-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#2f64bb] w-full"
-            />
-            <Search className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
-          </div>
-
-          {/* زر إضافة خطة جديدة */}
+  
+        <div className="mb-6 flex justify-end space-x-2 rtl:space-x-reverse">
           <Link
             to="/addVPSPlan"
-            className="bg-gradient-to-r mt-3 sm:mt-0 from-[#1E38A3] to-[#2f64bb] hover:to-[#1E90FF] text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition duration-200"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-200 text-xs sm:text-sm md:text-base"
           >
             + إضافة خطة جديدة
           </Link>
+          <Link
+            to="/CreateGroup"
+            className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-200 text-xs sm:text-sm md:text-base"
+          >
+            + إضافة مجموعة جديدة
+          </Link>
         </div>
-
-        <div className="overflow-x-auto w-full">
-          <table className="hidden md:table min-w-full bg-[#1E38A3] rounded-lg shadow-lg">
-            <thead>
-              <tr className="bg-[#2f64bb] text-white">
-                <th className="p-2 sm:p-3 text-center text-xs sm:text-sm">
-                  اسم الخطة
-                </th>
-                <th className="p-2 sm:p-3 text-center text-xs sm:text-sm">
-                  الذاكرة (RAM)
-                </th>
-                <th className="p-2 sm:p-3 text-center text-xs sm:text-sm">
-                  الأنوية (CPU)
-                </th>
-                <th className="p-2 sm:p-3 text-center text-xs sm:text-sm">
-                  التخزين
-                </th>
-                <th className="p-2 sm:p-3 text-center text-xs sm:text-sm">
-                  سرعة الاتصال
-                </th>
-                <th className="p-2 sm:p-3 text-center text-xs sm:text-sm">
-                إخفاء/إظهار الخطة
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {vpsList.map((vpsPlan, index) => (
-                <tr
-                  key={vpsPlan._id}
-                  className="border-b border-[#3B82F6] hover:bg-[#2f64bb] transition-colors duration-200 text-center"
-                >
-                  <td className="p-2 sm:p-3 text-xs sm:text-sm hover:text-[#2fceff] cursor-pointer">
-                    <div onClick={() => handleVPSClick(vpsPlan._id)}>
-                      {vpsPlan.planName}
-                    </div>
-                  </td>
-                  <td className="p-2 sm:p-3 text-xs sm:text-sm">
-                    {vpsPlan.ram}
-                  </td>
-                  <td className="p-2 sm:p-3 text-xs sm:text-sm">
-                    {vpsPlan.cpu}
-                  </td>
-                  <td className="p-2 sm:p-3 text-xs sm:text-sm">
-                    {vpsPlan.storage}
-                  </td>
-                  <td className="p-2 sm:p-3 text-xs sm:text-sm">
-                    {vpsPlan.connectionSpeed}
-                  </td>
-                  <td className="p-2 sm:p-3 text-xs sm:text-sm flex items-center justify-center">
-                    <button
-                    onClick={() => handleisHiddenPlan(vpsPlan._id, vpsPlan.isHidden)}
-                    className={`flex items-center justify-center space-x-1 p-2 sm:p-3 text-white rounded-md transition duration-300 
-                    
-                ${
-                  vpsPlan.isHidden
-                    ? "bg-green-500 hover:bg-green-600"
-                    : "bg-red-500 hover:bg-red-600"
-                }`}
-                    >
-                      {vpsPlan.isHidden ? (
-                        <>
-                          <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
-                          {/* أيقونة الاسترجاع */}
-                          <span>استرجاع</span>
-                        </>
-                      ) : (
-                        <>
-                          <Trash className="w-4 h-4 sm:w-5 sm:h-5" />
-                          {/* أيقونة الحذف */}
-                          <span>خذف</span>
-                        </>
-                      )}
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Mobile view */}
-        <div className="md:hidden grid grid-cols-1 gap-4">
-          {vpsList.map((vpsPlan, index) => (
-            <div
-              key={vpsPlan._id}
-              className="bg-[#1E38A3] rounded-lg shadow-lg p-3 sm:p-4"
-            >
-              <p className="mb-2 text-sm">
-                <span className="font-bold">المعرف: </span>
-                {index + 1}
-              </p>
-              <p className="mb-2 text-sm">
-                <span className="font-bold">اسم الخطة: </span>
-                <span onClick={() => handleVPSClick(vpsPlan._id)}>
-                  {vpsPlan.planName}
-                </span>
-              </p>
-              <p className="mb-2 text-sm">
-                <span className="font-bold">الذاكرة (RAM): </span>
-                {vpsPlan.ram}
-              </p>
-              <p className="mb-2 text-sm">
-                <span className="font-bold">الأنوية (CPU): </span>
-                {vpsPlan.cpu}
-              </p>
-              <p className="mb-2 text-sm">
-                <span className="font-bold">التخزين: </span>
-                {vpsPlan.storage}
-              </p>
-              <p className="mb-2 text-sm">
-                <span className="font-bold">سرعة الاتصال: </span>
-                {vpsPlan.connectionSpeed}
-              </p>
-            
-              <button
-                    onClick={() => handleisHiddenPlan(vpsPlan._id, vpsPlan.isHidden)}
-                    className={`flex items-center justify-center space-x-1 p-2 sm:p-3 text-white rounded-md transition duration-300 
-                    
-                ${
-                  vpsPlan.isHidden
-                    ? "bg-green-500 hover:bg-green-600"
-                    : "bg-red-500 hover:bg-red-600"
-                }`}
-                    >
-                      {vpsPlan.isHidden ? (
-                        <>
-                          <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
-                          {/* أيقونة الاسترجاع */}
-                          <span>استرجاع</span>
-                        </>
-                      ) : (
-                        <>
-                          <Trash className="w-4 h-4 sm:w-5 sm:h-5" />
-                          {/* أيقونة الحذف */}
-                          <span>خذف</span>
-                        </>
-                      )}
-                    </button>
+  
+        <div className="space-y-6">
+          {vpsGroups.map((group) => (
+            <div key={group._id} className="bg-[#2f64bb] rounded-lg shadow-xl overflow-hidden">
+              <div
+                className="flex justify-between items-center p-4 cursor-pointer bg-opacity-80 hover:bg-opacity-100 transition-all duration-300"
+                onClick={() => toggleGroup(group._id)}
+              >
+                <h2 className="text-sm sm:text-base md:text-xl font-semibold">
+                  {group.groupName}
+                </h2>
+                <div className="flex">
+                  <Link to={`/DetailsVPSGroup/${group._id}`} className="hover:text-[#b0caff]">
+                    <Settings2 className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3" />
+                  </Link>
+                  {expandedGroups[group._id] ? (
+                    <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5" />
+                  ) : (
+                    <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
+                  )}
+                </div>
+              </div>
+              {expandedGroups[group._id] && (
+                <div className="p-4 bg-[#1E38A3] bg-opacity-50">
+                  <p className="mb-4 text-xs sm:text-sm">{group.description}</p>
+                  {group.plans.length > 0 ? (
+                    <>
+                      {/* Table view for large screens */}
+                      <div className="hidden lg:block overflow-x-auto">
+                        <table className="w-full text-xs sm:text-sm text-left">
+                          <thead className="text-[10px] sm:text-xs uppercase bg-[#2f64bb] bg-opacity-50 text-center">
+                            <tr>
+                              <th className="px-4 py-3">اسم الخطة</th>
+                              <th className="px-4 py-3">الذاكرة</th>
+                              <th className="px-4 py-3">الأنوية</th>
+                              <th className="px-4 py-3">التخزين</th>
+                              <th className="px-4 py-3">سرعة الاتصال</th>
+                              <th className="px-4 py-3">الإجراءات</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {vpsPlans
+                              .filter((plan) => group.plans.includes(plan._id))
+                              .map((plan) => (
+                                <tr
+                                  key={plan._id}
+                                  className="bg-[#2f64bb] text-center bg-opacity-30 border-b border-[#3B82F6] hover:bg-opacity-50 transition-colors duration-200"
+                                >
+                                  <td
+                                    className="px-4 py-3 cursor-pointer hover:text-[#9de3ff]"
+                                    onClick={() => handleVPSClick(plan._id)}
+                                  >
+                                    {plan.planName}
+                                  </td>
+                                  <td className="px-4 py-3">{plan.ram}</td>
+                                  <td className="px-4 py-3">{plan.cpu}</td>
+                                  <td className="px-4 py-3">{plan.storage}</td>
+                                  <td className="px-4 py-3">{plan.connectionSpeed}</td>
+                                  <td className="px-4 py-3 flex items-center justify-center">
+                                    <button
+                                      onClick={() =>
+                                        handleIsHiddenPlan(plan._id, plan.isHidden)
+                                      }
+                                      className={`flex items-center justify-center space-x-1 p-2 text-white rounded-md transition duration-300 ${
+                                        plan.isHidden
+                                          ? "bg-green-500 hover:bg-green-600"
+                                          : "bg-red-500 hover:bg-red-600"
+                                      }`}
+                                    >
+                                      {plan.isHidden ? (
+                                        <>
+                                          <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
+                                          <span className="text-[10px] sm:text-xs">استرجاع</span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <Trash className="w-3 h-3 sm:w-4 sm:h-4" />
+                                          <span className="text-[10px] sm:text-xs">حذف</span>
+                                        </>
+                                      )}
+                                    </button>
+                                  </td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+  
+                      {/* Card view for small screens */}
+                      <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {vpsPlans
+                          .filter((plan) => group.plans.includes(plan._id))
+                          .map((plan) => (
+                            <div
+                              key={plan._id}
+                              className="bg-[#2f64bb] p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                            >
+                              <h3
+                                className="font-semibold mb-2 text-center cursor-pointer hover:text-[#9de3ff] text-sm"
+                                onClick={() => handleVPSClick(plan._id)}
+                              >
+                                {plan.planName}
+                              </h3>
+                              <div className="text-xs sm:text-sm space-y-1">
+                                <p>الذاكرة: {plan.ram}</p>
+                                <p>الأنوية: {plan.cpu}</p>
+                                <p>التخزين: {plan.storage}</p>
+                                <p>سرعة الاتصال: {plan.connectionSpeed}</p>
+                              </div>
+                              <button
+                                onClick={() =>
+                                  handleIsHiddenPlan(plan._id, plan.isHidden)
+                                }
+                                className={`mt-3 w-full flex items-center justify-center space-x-1 p-2 text-white rounded-md transition duration-300 ${
+                                  plan.isHidden
+                                    ? "bg-green-500 hover:bg-green-600"
+                                    : "bg-red-500 hover:bg-red-600"
+                                }`}
+                              >
+                                {plan.isHidden ? (
+                                  <>
+                                    <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
+                                    <span className="text-[10px] sm:text-xs">استرجاع</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Trash className="w-3 h-3 sm:w-4 sm:h-4" />
+                                    <span className="text-[10px] sm:text-xs">حذف</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          ))}
+                      </div>
+                    </>
+                  ) : (
+                    <p className="text-center text-white text-sm">هذه المجموعة فارغة</p>
+                  )}
+                </div>
+              )}
             </div>
           ))}
-        </div>
-
-        {/* Pagination الاحترافي */}
-        <div className="flex justify-center mt-6">
-          <nav className="flex items-center space-x-1">
-            <button className="bg-[#1E38A3] hover:bg-[#2f64bb] text-white py-1 px-3 rounded-md shadow-md transition duration-200 ml-1">
-              السابقة
-            </button>
-            <button className="bg-[#1E38A3] text-white py-1 px-3 rounded-md shadow-md">
-              1
-            </button>
-            <button className="bg-[#1E38A3] text-white py-1 px-3 rounded-md shadow-md">
-              2
-            </button>
-            <button className="bg-[#1E38A3] text-white py-1 px-3 rounded-md shadow-md">
-              3
-            </button>
-            <button className="bg-[#1E38A3] hover:bg-[#2f64bb] text-white py-1 px-3 rounded-md shadow-md transition duration-200">
-              التالية
-            </button>
-          </nav>
         </div>
       </div>
     </div>
   );
+  
 };
 
 export default VPSManagement;

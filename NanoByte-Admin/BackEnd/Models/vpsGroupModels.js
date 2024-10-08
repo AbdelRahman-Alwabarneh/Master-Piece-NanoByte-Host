@@ -19,11 +19,12 @@ const groupSchema = new mongoose.Schema({
       ref: "VPS",
     },
   ],
-  user: {
-    type: mongoose.Schema.Types.ObjectId, // لتحديد المجموعة بناءً على المستخدم
-    ref: "User", // الربط بجدول المستخدمين
-    default: null, // إذا كانت null، ستكون المجموعة مرئية للجميع
-  },
+  users: [
+    {
+      type: mongoose.Schema.Types.ObjectId, // مصفوفة من معرفات المستخدمين
+      ref: "User", // الربط بجدول المستخدمين
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now,

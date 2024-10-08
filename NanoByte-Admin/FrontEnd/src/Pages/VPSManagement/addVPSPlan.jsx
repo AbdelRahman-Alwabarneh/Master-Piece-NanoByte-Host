@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Save, X, ChevronsUpDown, Plus, Minus, Infinity } from "lucide-react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { addVPS } from "../../Redux/Slice/VPSManagementSlice";
 import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
-
+import axios from "axios";
 const AddVPSPlan = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isUnlimited, setIsUnlimited] = useState(false);
-
+  const [groups, setGroups] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const [plan, setPlan] = useState({
     name: "",
     ram: "",
@@ -25,8 +27,22 @@ const AddVPSPlan = () => {
     quantity: "",
     isUnlimited: isUnlimited,
     productLink: "",
+    groupId: "",
+    groupName: "",
   });
+  
+  useEffect(() => {
+    fetchGroups();
+  }, []);
 
+  const fetchGroups = async () => {
+    try {
+      const response = await axios.get('http://localhost:2100/api/vpsGroup');
+      setGroups(response.data.AllvpsGroup);
+    } catch (error) {
+      console.error('Error fetching groups:', error);
+    }
+  };
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setPlan((prev) => ({
@@ -41,44 +57,54 @@ const AddVPSPlan = () => {
     setPlan((prev) => ({ ...prev, prices: newPrices }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
+    // تأكد أن المجموعة محددة
+    if (!plan.groupId) {
+      Swal.fire({
+        title: "خطأ!",
+        text: "يجب اختيار مجموعة صالحة.",
+        icon: "error",
+        iconColor: "#ff0000",
+        background: "#18296C",
+        color: "#ffffff",
+        confirmButtonColor: "#1E38A3",
+        confirmButtonText: "موافق",
+      });
+      return;
+    }
+
     Swal.fire({
       title: "هل أنت متأكد؟",
       text: "هل تريد إضافة خطة الـ VPS الجديدة؟",
       icon: "warning",
-      iconColor: "#ffcc00", // لون الأيقونة (لون أصفر للتباين)
-      background: "#18296C", // لون خلفية النافذة
-      color: "#ffffff", // لون النص
+      iconColor: "#ffcc00",
+      background: "#18296C",
+      color: "#ffffff",
       showCancelButton: true,
-      confirmButtonColor: "#1E38A3", // لون زر التأكيد
-      cancelButtonColor: "#d33", // لون زر الإلغاء
+      confirmButtonColor: "#1E38A3",
+      cancelButtonColor: "#d33",
       confirmButtonText: "نعم",
       cancelButtonText: "إلغاء",
-      padding: "2em", // زيادة المساحة الداخلية قليلاً
-      backdrop: "rgba(22, 30, 65, 0.8)", // خلفية مظللة بلون مشابه للخلفية
-      position: "center",
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(addVPS({ plan }))
-          .unwrap() // لفك الوعد للحصول على الاستجابة
+          .unwrap()
           .then((response) => {
-            const addedVPSId = response.VPS._id; // الحصول على الـ id من استجابة الـ API
+            const addedVPSId = response.VPS._id;
             Swal.fire({
               title: "تمت الإضافة!",
               text: "تم إضافة خطة الـ VPS بنجاح.",
               icon: "success",
-              iconColor: "#28a745", // لون الأيقونة (أخضر للتأكيد)
-              background: "#18296C", // لون خلفية النافذة
-              color: "#ffffff", // لون النص
-              confirmButtonColor: "#1E38A3", // لون زر التأكيد
+              iconColor: "#28a745",
+              background: "#18296C",
+              color: "#ffffff",
+              confirmButtonColor: "#1E38A3",
               confirmButtonText: "موافق",
-              padding: "2em", // زيادة المساحة الداخلية قليلاً
-              backdrop: "rgba(22, 30, 65, 0.8)", // خلفية مظللة بلون مشابه للخلفية
-              position: "center",
-            }).then(() => {
-              navigate(`/VPSDetailsManagement/${addedVPSId}`); // الانتقال إلى صفحة التفاصيل باستخدام الـ id
+            }).then( async () => {
+              await axios.patch(`http://localhost:2100/api/vpsGroup/${addedVPSId}`, {plan});
+              navigate(`/VPSDetailsManagement/${addedVPSId}`);
             });
           })
           .catch((error) => {
@@ -86,14 +112,11 @@ const AddVPSPlan = () => {
               title: "خطأ!",
               text: "حدث خطأ أثناء إضافة الخطة.",
               icon: "error",
-              iconColor: "#ff0000", // لون الأيقونة (أحمر)
-              background: "#18296C", // لون خلفية النافذة
-              color: "#ffffff", // لون النص
-              confirmButtonColor: "#1E38A3", // لون زر التأكيد
+              iconColor: "#ff0000",
+              background: "#18296C",
+              color: "#ffffff",
+              confirmButtonColor: "#1E38A3",
               confirmButtonText: "موافق",
-              padding: "2em", // زيادة المساحة الداخلية قليلاً
-              backdrop: "rgba(22, 30, 65, 0.8)", // خلفية مظللة
-              position: "center",
             });
           });
       }
@@ -108,6 +131,35 @@ const AddVPSPlan = () => {
       isUnlimited: !prev.isUnlimited,
     }));
   };
+
+  const handleGroupSearch = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setPlan(prev => ({ ...prev, groupName: value }));
+    setShowDropdown(true);
+
+    // Auto-select if there's an exact match
+    const exactMatch = groups.find(group => group.groupName.toLowerCase() === value.toLowerCase());
+    if (exactMatch) {
+      handleGroupSelect(exactMatch);
+    } else {
+      setPlan(prev => ({ ...prev, groupId: "" }));
+    }
+  };
+
+  const handleGroupSelect = (group) => {
+    setPlan(prev => ({
+      ...prev,
+      groupId: group._id,
+      groupName: group.groupName
+    }));
+    setShowDropdown(false);
+    setSearchTerm(group.groupName);
+  };
+
+  const filteredGroups = groups.filter(group =>
+    group.groupName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br text-white font-cairo">
@@ -201,12 +253,42 @@ const AddVPSPlan = () => {
                 type="text"
                 name="protection"
                 value={plan.protection}
-                onChange={handleChange}
+                onChange={handleChange} 
                 className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50 text-white placeholder-white/50 px-4 py-2 transition-all duration-200"
                 placeholder="مثال: فايروول متقدم"
                 required
               />
             </div>
+            <div className="relative">
+              <label className="block text-sm font-medium text-white/80 mb-2">
+                المجموعة
+              </label>
+              <input
+                type="text"
+                name="groupName"
+                value={searchTerm}
+                onChange={handleGroupSearch}
+                onFocus={() => setShowDropdown(true)}
+                onBlur={() => setTimeout(() => setShowDropdown(false), 100)}
+                className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50 text-white placeholder-white/50 px-4 py-2 transition-all duration-200"
+                placeholder="البحث عن مجموعة"
+                required
+              />
+              {showDropdown && (
+                <div className="absolute z-10 w-full mt-1 bg-[#6c7ab8] rounded-md shadow-lg max-h-60 overflow-auto">
+                  {filteredGroups.map((group) => (
+                    <div
+                      key={group._id}
+                      className="px-4 py-2 hover:bg-white/20 cursor-pointer text-white"
+                      onClick={() => handleGroupSelect(group)}
+                    >
+                      {group.groupName}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <div className="col-span-1 sm:col-span-2">
               <label className="block text-sm font-medium text-white/80 mb-2">
                 الأسعار حسب المدة

@@ -8,6 +8,8 @@ import Error404 from "./Pages/Error404/Error404";
 import VPSManagement from "./Pages/VPSManagement/VPSManagement";
 import AddVPSPlan from "./Pages/VPSManagement/addVPSPlan";
 import VPSDetailsManagement from "./Pages/VPSManagement/VPSDetailsManagement";
+import CreateGroup from "./Pages/VPSManagement/VPSGroups/CreateVPSGroup";
+import DetailsVPSGroup from "./Pages/VPSManagement/VPSGroups/DetailsVPSGroup";
 function App() {
   return (
     <>
@@ -19,8 +21,13 @@ function App() {
           <Route path="/userDetails/:id" element={<UserDetails />} />
           <Route path="/UserProfile/:id" element={<UserProfile />} />
           <Route path="/VPSManagement" element={<VPSManagement />} />
+          <Route path="/CreateGroup" element={<CreateGroup />} />
+          <Route path="/DetailsVPSGroup/:id" element={<DetailsVPSGroup />} />
           <Route path="/AddVPSPlan" element={<AddVPSPlan />} />
-          <Route path="/VPSDetailsManagement/:id" element={<VPSDetailsManagement />} />
+          <Route
+            path="/VPSDetailsManagement/:id"
+            element={<VPSDetailsManagement />}
+          />
         </Routes>
       </BrowserRouter>
     </>
