@@ -58,6 +58,14 @@ const userProfileRoutes = require("./Routes/userProfileRoutes");
 
 app.use("/api/updateProfile", userProfileRoutes);
 
+const vpsGroupRoutes = require("./Routes/vpsGroupRoutes");
+
+app.use("/api/vpsGroup", vpsGroupRoutes);
+
+const vpsPlansRoutes = require("./Routes/vpsPlansRoutes");
+
+app.use("/api/vpsPlans", vpsPlansRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

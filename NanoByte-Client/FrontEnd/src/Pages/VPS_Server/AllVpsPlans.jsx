@@ -1,65 +1,113 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import ButtonVps from "./Button";
 import FeaturesOfOurServices1 from "./FeaturesOfOurServices1";
 import FeaturesOfOurServices2 from "./FeaturesOfOurServices2";
-function AllVpsPlans() {
-  const Plans = [
-    { name: "NV-1", ram: "2GB", cpu: "3.5GHz / 1 CORE", storage: "50GB SSD", speed: "Upto 10Gbit/s", protection: "DDoS 2.5TB", price: "$6.00 USD" },
-    { name: "NV-2", ram: "4GB", cpu: "3.5GHz / 3 CORE", storage: "75GB SSD", speed: "Upto 10Gbit/s", protection: "DDoS 2.5TB", price: "$9.00 USD" },
-    { name: "NV-3", ram: "6GB", cpu: "3.5GHz / 4 CORE", storage: "90GB SSD", speed: "Upto 10Gbit/s", protection: "DDoS 2.5TB", price: "$11.00 USD" },
-    { name: "NV-4", ram: "8GB", cpu: "3.5GHz / 5 CORE", storage: "100GB SSD", speed: "Upto 10Gbit/s", protection: "DDoS 2.5TB", price: "$16.00 USD" },
-    { name: "NV-5", ram: "12GB", cpu: "3.5GHz / 5 CORE", storage: "120GB SSD", speed: "Upto 10Gbit/s", protection: "DDoS 2.5TB", price: "$19.00 USD" },
-    { name: "NV-6", ram: "16GB", cpu: "3.5GHz / 6 CORE", storage: "140GB SSD", speed: "Upto 10Gbit/s", protection: "DDoS 2.5TB", price: "$25.00 USD" },
-    { name: "NV-7", ram: "24GB", cpu: "3.5GHz / 7 CORE", storage: "160GB SSD", speed: "Upto 10Gbit/s", protection: "DDoS 2.5TB", price: "$35.00 USD" },
-    { name: "NV-8", ram: "32GB", cpu: "3.5GHz / 8 CORE", storage: "180GB SSD", speed: "Upto 10Gbit/s", protection: "DDoS 2.5TB", price: "$45.00 USD" },
-    { name: "NV-9", ram: "48GB", cpu: "3.5GHz / 8 CORE", storage: "220GB SSD", speed: "Upto 10Gbit/s", protection: "DDoS 2.5TB", price: "$65.00 USD" },
-    { name: "NV-10", ram: "64GB", cpu: "3.5GHz / 10 CORE", storage: "250GB SSD", speed: "Upto 10Gbit/s", protection: "DDoS 2.5TB", price: "$95.00 USD" },
-]
+
+const VpsGroupsAndPlans = () => {
+  const [groupsData, setGroupsData] = useState([]);
+  const [plansData, setPlansData] = useState([]);
+  const [expandedGroups, setExpandedGroups] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const groupsResponse = await axios.get('http://localhost:2000/api/vpsGroup',{withCredentials: true});
+        const plansResponse = await axios.get('http://localhost:2000/api/vpsPlans',{withCredentials: true});
+        
+        setGroupsData(groupsResponse.data.vpsGroupsData);
+        setPlansData(plansResponse.data.vpsDataPlans);
+        const initialExpandedState = groupsResponse.data.vpsGroupsData.reduce((acc, group) => {
+          acc[group._id] = true;
+          return acc;
+        }, {});
+        setExpandedGroups(initialExpandedState);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const getPlansForGroup = (groupPlans) => {
+    return plansData.filter(plan => groupPlans.includes(plan._id));
+  };
+
+  const toggleGroup = (groupId) => {
+    setExpandedGroups(prev => ({
+      ...prev,
+      [groupId]: !prev[groupId]
+    }));
+  };
+
   return (
-    <>
-            <title>الخوادم المشتركة - NanoByte</title>
-            <h2 className="font-cairo text-3xl font-bold text-center text-white mb-1 mt-[200px] p-4 rounded-md">
-  (VPS) إستضافة خوادم مشتركة
-</h2>
-<p className="font-cairo text-white text-center">
-    كن مستعدا للانطلاق مع نانوبايت هوست
-</p>
-<div className="font-cairo relative overflow-x-auto shadow-md sm:rounded-lg mt-[50px] [direction:rtl] max-w-7xl mx-auto rounded-[20px]">
-    <table className="w-full text-base text-center text-gray-200">
-        <thead className="text-base text-white uppercase bg-[#1b4976] rounded-t-lg">
-            <tr>
-                <th scope="col" className="px-6 py-3">الأسم</th>
-                <th scope="col" className="px-6 py-3">الرامات</th>
-                <th scope="col" className="px-6 py-3">المعالج</th>
-                <th scope="col" className="px-6 py-3">التخزين</th>
-                <th scope="col" className="px-6 py-3">سرعة الأتصال</th>
-                <th scope="col" className="px-6 py-3">الحماية</th>
-                <th scope="col" className="px-6 py-3">التكلفة الشهرية</th>
-                <th scope="col" className="px-6 py-3">طلب</th>
-            </tr>
-        </thead>
-        <tbody className="text-base">
-            {Plans.map((Plan, index) => (
-                <tr key={index} className={`border-b border-[#003366] ${index % 2 === 0 ? 'bg-[#235a92]' : 'bg-[#194f86]'} text-white hover:bg-[#174776]`}>
-                    <th scope="row" className="px-6 py-3 font-medium text-white whitespace-nowrap">{Plan.name}</th>
-                    <td className="px-6 py-7">{Plan.ram}</td>
-                    <td className="px-6 py-7">{Plan.cpu}</td>
-                    <td className="px-6 py-7">{Plan.storage}</td>
-                    <td className="px-6 py-7">{Plan.speed}</td>
-                    <td className="px-6 py-7">{Plan.protection}</td>
-                    <td className="px-6 py-7">{Plan.price}</td>
-                    <td className="px-6 py-7">
-                        <ButtonVps />
-                    </td>
-                </tr>
-            ))}
-        </tbody>
-    </table>
-</div>
-
-<FeaturesOfOurServices1/>
-<FeaturesOfOurServices2/>
-
-    </>
+    <div className="font-cairo [direction:rtl] max-w-7xl mx-auto mt-[100px] mb-16">
+      <h2 className="text-4xl font-bold text-center text-white mb-4 p-4 rounded-md">
+        (VPS) إستضافة خوادم مشتركة
+      </h2>
+      <p className="text-xl text-white text-center mb-12">
+        كن مستعدا للانطلاق مع نانوبايت هوست
+      </p>
+      {groupsData.map((group) => (
+        <div key={group._id} className="mb-8 bg-[#1b4976] rounded-lg overflow-hidden shadow-xl">
+          <div 
+            className="p-4 cursor-pointer flex justify-between items-center bg-[#235a92]"
+            onClick={() => toggleGroup(group._id)}
+          >
+            <h3 className="text-sm font-bold text-white">{group.groupName}</h3>
+            {expandedGroups[group._id] ? <ChevronUp className="text-white" /> : <ChevronDown className="text-white" />}
+          </div>
+          {expandedGroups[group._id] && (
+            <div className="p-2">
+              
+              {group.plans.length === 0 ? (
+                <p className="text-white">هذه المجموعة فارغة</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-right text-gray-200">
+                    <thead className="text-xs text-center uppercase bg-[#194f86] text-gray-100">
+                      <tr>
+                        <th scope="col" className="px-6 py-3">اسم الخطة</th>
+                        <th scope="col" className="px-6 py-3">الذاكرة</th>
+                        <th scope="col" className="px-6 py-3">المعالج</th>
+                        <th scope="col" className="px-6 py-3">التخزين</th>
+                        <th scope="col" className="px-6 py-3">سرعة الاتصال</th>
+                        <th scope="col" className="px-6 py-3">الحماية</th>
+                        <th scope="col" className="px-6 py-3">السعر الشهري</th>
+                        <th scope="col" className="px-6 py-3">طلب</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {getPlansForGroup(group.plans).map((plan, index) => (
+                        <tr key={plan._id} className={`text-center border-b border-[#003366] text-white hover:bg-[#174776] ${index % 2 === 0 ? 'bg-[#235a92]' : 'bg-[#194f86]'}`}>
+                          <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
+                            {plan.planName}
+                          </th>
+                          <td className="px-6 py-4">{plan.ram}</td>
+                          <td className="px-6 py-4">{plan.cpu}</td>
+                          <td className="px-6 py-4">{plan.storage}</td>
+                          <td className="px-6 py-4">{plan.connectionSpeed}</td>
+                          <td className="px-6 py-4">{plan.security}</td>
+                          <td className="px-6 py-4">${plan.subscriptionDurations.oneMonth.price} USD</td>
+                          <td className="px-6 py-4">
+                            <ButtonVps />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+      <FeaturesOfOurServices1 />
+      <FeaturesOfOurServices2 />
+    </div>
   );
-}
-export default AllVpsPlans;
+};
+
+export default VpsGroupsAndPlans;

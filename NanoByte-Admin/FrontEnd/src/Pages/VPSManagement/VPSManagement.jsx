@@ -3,7 +3,7 @@ import Sidebar from "../../Components/Sidebar/Sidebar";
 import Loading from "../../Components/Loading/Loading";
 import NoDataFound from "../../Components/NoDataFound/NoDataFound";
 import { Link,useNavigate } from "react-router-dom";
-import { Search, Eye, Trash, ChevronDown, ChevronUp ,Settings2 } from "lucide-react";
+import { OctagonX,CircleCheckBig, Eye, Trash, ChevronDown, ChevronUp ,Settings2 } from "lucide-react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { HiddenVPSPlan} from "../../Redux/Slice/VPSManagementSlice";
@@ -143,23 +143,30 @@ const VPSManagement = () => {
                 className="flex justify-between items-center p-4 cursor-pointer bg-opacity-80 hover:bg-opacity-100 transition-all duration-300"
                 onClick={() => toggleGroup(group._id)}
               >
-                <h2 className="text-sm sm:text-base md:text-xl font-semibold">
+                <h2 className="text-sm sm:text-base md:text-sm font-semibold">
                   {group.groupName}
                 </h2>
                 <div className="flex">
+                  
                   <Link to={`/DetailsVPSGroup/${group._id}`} className="hover:text-[#b0caff]">
                     <Settings2 className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3" />
                   </Link>
+                  {group.isVisible ? (
+                    <CircleCheckBig className="w-4 h-4 sm:w-5 sm:h-5 ml-2 text-green-300" />
+                  ) : (
+                    <OctagonX className="w-4 h-4 sm:w-5 sm:h-5 ml-2 text-red-500" />
+                  )}
                   {expandedGroups[group._id] ? (
                     <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5" />
                   ) : (
                     <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
                   )}
+                  
                 </div>
               </div>
               {expandedGroups[group._id] && (
                 <div className="p-4 bg-[#1E38A3] bg-opacity-50">
-                  <p className="mb-4 text-xs sm:text-sm">{group.description}</p>
+                  <p className="mb-4 text-xs sm:text-[13px] whitespace-pre-wrap">{group.description}</p>
                   {group.plans.length > 0 ? (
                     <>
                       {/* Table view for large screens */}

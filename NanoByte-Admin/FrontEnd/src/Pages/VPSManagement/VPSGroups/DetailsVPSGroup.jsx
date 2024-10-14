@@ -153,7 +153,7 @@ const DetailsVPSGroup = () => {
               <textarea
                 value={groupDescription}
                 onChange={(e) => setGroupDescription(e.target.value)}
-                className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white placeholder-white/50 px-3 sm:px-4 py-1.5 sm:py-2 transition-all duration-200 text-xs sm:text-sm max-h-28"
+                className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white placeholder-white/50 px-3 sm:px-4 py-1.5 sm:py-2 transition-all duration-200 text-xs sm:text-sm max-h-40 h-40"
                 placeholder="أدخل وصف المجموعة"
                 required
               />
