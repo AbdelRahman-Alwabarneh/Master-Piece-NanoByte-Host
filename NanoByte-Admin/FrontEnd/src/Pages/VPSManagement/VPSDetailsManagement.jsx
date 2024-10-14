@@ -50,7 +50,7 @@ const VPSDetailsManagement = () => {
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get('http://localhost:2100/api/vpsGroup');
+      const response = await axios.get(import.meta.env.VITE_VPS_GROUP);
       setGroups(response.data.AllvpsGroup);
     } catch (error) {
       console.error('Error fetching groups:', error);
@@ -154,7 +154,7 @@ const VPSDetailsManagement = () => {
         try {
           dispatch(updateVPS({ plan, id }))
           // تنفيذ PATCH request باستخدام axios
-          await axios.patch(`http://localhost:2100/api/vpsGroup/${id}`, {plan});
+          await axios.patch(`${import.meta.env.VITE_VPS_GROUP}/${id}`, {plan});
 
           // تحديث البيانات بعد النجاح
           dispatch(VPSDetails(id));

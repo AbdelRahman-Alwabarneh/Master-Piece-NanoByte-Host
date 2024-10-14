@@ -69,7 +69,7 @@ const ControlPanel = () => {
   };
   const handleLogout = async () => {
     try {
-      const response = await axios.post("http://localhost:2000/api/LogOut",{}, {
+      const response = await axios.post(import.meta.env.VITE_USER_LOG_OUT,{}, {
         withCredentials: true,
       });
 

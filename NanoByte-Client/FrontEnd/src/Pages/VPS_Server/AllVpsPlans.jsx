@@ -13,8 +13,8 @@ const VpsGroupsAndPlans = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const groupsResponse = await axios.get('http://localhost:2000/api/vpsGroup',{withCredentials: true});
-        const plansResponse = await axios.get('http://localhost:2000/api/vpsPlans',{withCredentials: true});
+        const groupsResponse = await axios.get(import.meta.env.VITE_USER_VPS_GROUP,{withCredentials: true});
+        const plansResponse = await axios.get(import.meta.env.VITE_USER_VPS_PLANS,{withCredentials: true});
         
         setGroupsData(groupsResponse.data.vpsGroupsData);
         setPlansData(plansResponse.data.vpsDataPlans);

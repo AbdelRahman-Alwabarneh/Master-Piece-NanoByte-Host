@@ -37,7 +37,7 @@ const AddVPSPlan = () => {
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get('http://localhost:2100/api/vpsGroup');
+      const response = await axios.get(import.meta.env.VITE_VPS_GROUP);
       setGroups(response.data.AllvpsGroup);
     } catch (error) {
       console.error('Error fetching groups:', error);
@@ -103,7 +103,7 @@ const AddVPSPlan = () => {
               confirmButtonColor: "#1E38A3",
               confirmButtonText: "موافق",
             }).then( async () => {
-              await axios.patch(`http://localhost:2100/api/vpsGroup/${addedVPSId}`, {plan});
+              await axios.patch(`${import.meta.env.VITE_VPS_GROUP}/${addedVPSId}`, {plan});
               navigate(`/VPSDetailsManagement/${addedVPSId}`);
             });
           })

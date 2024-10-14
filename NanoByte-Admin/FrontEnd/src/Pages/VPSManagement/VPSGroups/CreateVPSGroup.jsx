@@ -53,7 +53,7 @@ const CreateGroup = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.post(
-            "http://localhost:2100/api/vpsGroup",
+            import.meta.env.VITE_VPS_GROUP,
             groupData
           );
   

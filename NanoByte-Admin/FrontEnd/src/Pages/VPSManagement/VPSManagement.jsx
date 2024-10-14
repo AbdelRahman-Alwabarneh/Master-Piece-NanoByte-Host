@@ -22,8 +22,8 @@ const VPSManagement = () => {
   const fetchData = async () => {
     try {
       const [groupsResponse, plansResponse] = await Promise.all([
-        axios.get("http://localhost:2100/api/vpsGroup"),
-        axios.get("http://localhost:2100/api/vpsManagement")
+        axios.get(import.meta.env.VITE_VPS_GROUP),
+        axios.get(import.meta.env.VITE_VPS_MANAGEMENT)
       ]);
       setVPSGroups(groupsResponse.data.AllvpsGroup);
       setVPSPlans(plansResponse.data.VPSPlanData);

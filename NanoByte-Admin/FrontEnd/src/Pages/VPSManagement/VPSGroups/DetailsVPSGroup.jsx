@@ -19,7 +19,7 @@ const DetailsVPSGroup = () => {
   useEffect(() => {
     const fetchGroupData = async () => {
       try {
-        const response = await axios.get(`http://localhost:2100/api/vpsGroup/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_VPS_GROUP}/${id}`);
         const groupData = response.data.DetailsvpsGroup;
         setGroup(groupData);
         setGroupName(groupData.groupName);
@@ -72,7 +72,7 @@ const DetailsVPSGroup = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.put(
-            `http://localhost:2100/api/vpsGroup/${id}`,
+            `${import.meta.env.VITE_VPS_GROUP}/${id}`,
             { groupData }
           );
           Swal.fire({
