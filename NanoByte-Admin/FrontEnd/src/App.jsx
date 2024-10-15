@@ -10,6 +10,9 @@ import AddVPSPlan from "./Pages/VPSManagement/addVPSPlan";
 import VPSDetailsManagement from "./Pages/VPSManagement/VPSDetailsManagement";
 import CreateGroup from "./Pages/VPSManagement/VPSGroups/CreateVPSGroup";
 import DetailsVPSGroup from "./Pages/VPSManagement/VPSGroups/DetailsVPSGroup";
+import DedicatedServerManagement from "./Pages/DedicatedServerManagement/DedicatedServerManagement";
+import AddDedicatedServer from "./Pages/DedicatedServerManagement/addDedicatedServer";
+import DedicatedServerDetails from "./Pages/DedicatedServerManagement/DetailsDedicatedServer";
 function App() {
   return (
     <>
@@ -28,6 +31,10 @@ function App() {
             path="/VPSDetailsManagement/:id"
             element={<VPSDetailsManagement />}
           />
+          <Route path="/AddDedicatedServer" element={<AddDedicatedServer />} />
+          <Route path="/DedicatedServerManagement" element={<DedicatedServerManagement />} />
+          <Route path="/DedicatedServerDetails/:id" element={<DedicatedServerDetails />} />
+
         </Routes>
       </BrowserRouter>
     </>

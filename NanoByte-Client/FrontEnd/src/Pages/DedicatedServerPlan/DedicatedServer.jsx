@@ -1,54 +1,98 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import FeaturesOfOurServices1 from "./FeaturesOfOurServices3";
 import FeaturesOfOurServices2 from "./FeaturesOfOurServices4";
+import { Link } from "react-router-dom";
+
 function DedicatedServer() {
-  const Plans = [
-    {
-      name: "AMD Ryzen™ 7 3800X",
-      incentivize: "خطة متقدمة بأداء استثنائي وحماية قوية",
-      Duration: "شهري",
-      Description: [
-        "AMD Ryzen™ 7 3800X (max. 16x 4.4 Ghz)",
-        "64GB DDR4 RAM ECC",
-        "NVMe SSD 2x 512GB STORAGE",
-        "Unlimited traffic (fair use policy)",
-        "1x IPv4 + 1x IPMI / KVM included IP address",
-        "DDoS protection 4.5Tbit/s",
-        "Location Frankfurt - DE",
-      ],
-      price: "$145.00 USD",
-    },
-    {
-      name: "AMD Ryzen™ 5 3600",
-      incentivize: "خطة قوية مع أداء مذهل وحماية متقدمة",
-      Duration: "شهري",
-      Description: [
-        "AMD Ryzen™ 5 3600 (max. 12x 4.2 Ghz)",
-        "64GB DDR4 RAM ECC",
-        "NVMe SSD 2x 256GB STORAGE",
-        "Unlimited traffic (fair use policy)",
-        "1x IPv4 + 1x IPMI / KVM included IP address",
-        "DDoS protection 4.5Tbit/s",
-        "1 month minimum contract term",
-        "Location Frankfurt - DE",
-      ],
-      price: "$99.99 USD",
-    },
-    {
-      name: "Intel Core i7-4770",
-      incentivize: "خطة مثالية بأداء قوي وسعر مناسب",
-      Duration: "شهري",
-      Description: [
-        `CPU Intel Core i7-4770`,
-        "RAM 4x RAM 8192 MB DDR3",
-        "HDD 2x HDD SATA 2,0 TB Enterprise",
-        "Traffic 1 Gbit/s - Unlimited",
-        "Location HEL1-DC2 (Finland, HEL)",
-      ],
-      price: "$40.00 USD",
-    },
-  ];
+  const [plans, setPlans] = useState([]);
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:2000/api/dedicatedServerPlans"
+        );
+        setPlans(response.data.DedicatedServerDataPlans);
+      } catch (error) {
+        console.error("Error fetching plans:", error);
+      }
+    };
+
+    fetchPlans();
+  }, []);
+
+  const renderPlans = () => {
+    const topRowPlans = plans.slice(0, 3);
+    const bottomRowPlans = plans.slice(3);
+
+    return (
+      <>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+          {topRowPlans.map((plan, index) =>
+            renderPlanCard(plan, index, topRowPlans.length)
+          )}
+        </div>
+        {bottomRowPlans.length > 0 && (
+          <div className="grid grid-cols-1 gap-6 mb-6">
+            {bottomRowPlans.map((plan, index) =>
+              renderPlanCard(plan, index + 3, plans.length, true)
+            )}
+          </div>
+        )}
+      </>
+    );
+  };
+
+  const renderPlanCard = (plan, index, totalPlans, isBottomRow = false) => {
+    const isMiddle = totalPlans >= 3 && index === 1 && !isBottomRow;
+    const isLast = index === totalPlans - 1 && isBottomRow;
+
+    return (
+      <div
+        key={plan._id}
+        className={`flex flex-col p-6 mx-auto w-full text-center text-white bg-[#276baf] rounded-lg border border-[#1d3585] shadow-lg transition-all duration-300 
+          ${
+            isMiddle
+              ? "sm:scale-100 lg:scale-105 hover:scale-110"
+              : isLast
+              ? "col-span-full max-w-full hover:scale-105"
+              : "hover:scale-105"
+          } hover:shadow-2xl hover:z-10`}
+      >
+        <h3 className="mb-3 text-xl sm:text-2xl lg:text-3xl font-bold">
+          {plan.planTitle}
+        </h3>
+        <p className="font-light px-2 sm:px-4 lg:px-10 text-white text-sm lg:text-lg mb-4">
+          {plan.secondaryTitle}
+        </p>
+        <div className="flex justify-center items-baseline my-4">
+          <span className="mr-2 text-xl sm:text-2xl lg:text-3xl font-extrabold">
+            ${plan.subscriptionDurations.oneMonth.price.toFixed(2)} USD
+          </span>
+          <span className="text-white">/شهري</span>
+        </div>
+        <ul className="mb-4 space-y-2 text-left text-gray-300">
+          {plan.planDescription.split("\n").map((desc, idx) => (
+            <li
+              key={idx}
+              className="flex items-center justify-center text-center space-x-3 text-xs sm:text-sm lg:text-base"
+            >
+              <span>{desc}</span>
+            </li>
+          ))}
+        </ul>
+        <Link
+          to={`/DedicatedDetails/${plan.productLink}`}
+          className="mt-auto text-white bg-[#214d90] hover:bg-[#31458a] focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-4 py-2.5 text-center transition-colors duration-300"
+        >
+          أطلب الأن
+        </Link>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -57,57 +101,16 @@ function DedicatedServer() {
       <section className="font-cairo mt-[72px]">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
           <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
-            <h2 className="mb-5 text-4xl tracking-tight font-extrabold text-white">
+            <h2 className="mb-5 text-2xl sm:text-3xl lg:text-4xl tracking-tight font-extrabold text-white">
               ( Dedicated ) إستضافة خوادم مركزية
             </h2>
-            <p className="mb-5 font-light text-white sm:text-xl">
+            <p className="mb-5 font-light text-white text-sm sm:text-base lg:text-xl">
               .استعد لتجربة استثنائية ومتميزة مع نانوبايت هوست
               <br />
               .نقدم لك خدماتنا عالية الجودة لتلبية احتياجاتك بكفاءة واحترافية
             </p>
           </div>
-          <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-12 lg:space-y-0 mt-[100px]">
-            {Plans.map((Plan, index) => (
-              <div
-                key={Plan.name}
-                className={`flex flex-col p-6 mx-auto max-w-lg text-center text-white bg-[#276baf] rounded-lg border border-[#1d3585] shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl ${
-                  index === 1
-                    ? "hover:scale-[1.12] scale-[1.10]"
-                    : "hover:scale-105"
-                }`}
-              >
-                <h3 className="mb-3 text-3xl font-bold">{Plan.name}</h3>
-                <p className="font-light px-10 text-white sm:text-lg mb-4">
-                  {Plan.incentivize}
-                </p>
-                <div className="flex  justify-center items-baseline my-4">
-                  <span className="mr-2 text-3xl font-extrabold">
-                    {Plan.price}
-                  </span>
-                  <span className="text-white">/{Plan.Duration}</span>
-                </div>
-                <ul
-                  role="list"
-                  className="mb-4 space-y-2 text-left text-gray-300"
-                >
-                  {Plan.Description.map((desc, index) => (
-                    <li
-                      key={index}
-                      className={`flex items-center justify-center text-center space-x-3`}
-                    >
-                      <span>{desc}</span>
-                    </li>
-                  ))}
-                </ul>
-                <a
-                  href="#"
-                  className="mt-auto text-white bg-[#214d90] hover:bg-[#31458a] focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-4 py-2.5 text-center"
-                >
-                  أطلب الأن
-                </a>
-              </div>
-            ))}
-          </div>
+          <div className="[direction:rtl]">{renderPlans()}</div>
         </div>
       </section>
       <FeaturesOfOurServices1 />

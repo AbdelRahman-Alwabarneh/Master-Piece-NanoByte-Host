@@ -47,7 +47,7 @@ const Sidebar = () => {
       text: "الخدمات / المنتجات",
       path: "#",
       subMenu: [
-        { icon: HardDrive, text: "الخودام المركزية", path: "/Dashboard/users/reports" },
+        { icon: HardDrive, text: "الخودام المركزية", path: "/DedicatedServerManagement" },
         { icon: Server, text: "الخوادم المشتركة", path: "/VPSManagement" },
         { icon: Boxes, text: "إستضافة خوادم ألعاب", path: "/Dashboard/users/reports" },
         { icon: Globe, text: "إستضافة مواقع", path: "/Dashboard/users/reports" },

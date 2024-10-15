@@ -119,7 +119,7 @@ exports.updateVPSPlan = async (req, res) => {
   }
 };
 
-// Update VPSPlan status and send email
+
 exports.HiddenVPSPlan = async (req, res) => {
   try {    
     const HiddenPlan = await VPSPlan.findById(req.params.id);

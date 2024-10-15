@@ -33,6 +33,10 @@ const vpsGroupRoutes = require("./Routes/vpsGroupRoutes");
 
 app.use("/api/vpsGroup", vpsGroupRoutes);
 
+const DedicatedServerManagementRoutes = require("./Routes/DedicatedServerManagementRoutes");
+
+app.use("/api/DedicatedServerManagement", DedicatedServerManagementRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

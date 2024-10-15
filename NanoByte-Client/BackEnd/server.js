@@ -66,6 +66,18 @@ const vpsPlansRoutes = require("./Routes/vpsPlansRoutes");
 
 app.use("/api/vpsPlans", vpsPlansRoutes);
 
+const vpsDetailsRoutes = require("./Routes/vpsDetailsRoutes");
+
+app.use("/api/vpsDetails", vpsDetailsRoutes);
+
+const dedicatedServerPlansRoutes = require("./Routes/dedicatedServerPlansRoutes");
+
+app.use("/api/dedicatedServerPlans", dedicatedServerPlansRoutes);
+
+const dedicatedServerDetailsRoutes = require("./Routes/dedicatedServerDetailsRoutes");
+
+app.use("/api/dedicatedServerDetails", dedicatedServerDetailsRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
