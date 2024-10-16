@@ -1,27 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { ChevronDown } from 'lucide-react';
-import { useParams } from "react-router-dom";
-import Header from '../../Components/Header/Header';
-import Footer from '../../Components/Footer/Footer';
-import Loading from '../../Components/Loading/Loading';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { ChevronDown } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import Header from "../../Components/Header/Header";
+import Footer from "../../Components/Footer/Footer";
+import Loading from "../../Components/Loading/Loading";
 const DedicatedOrderDetails = () => {
   const [serverDetails, setServerDetails] = useState(null);
-  const [selectedDuration, setSelectedDuration] = useState('oneMonth');
-  const [promoCode, setPromoCode] = useState('');
+  const [selectedDuration, setSelectedDuration] = useState("oneMonth");
+  const [promoCode, setPromoCode] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const { productLink } = useParams();
+  const navigate = useNavigate();
 
   // Fetch server details on component mount
   useEffect(() => {
     const fetchServerDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:2000/api/dedicatedServerDetails/${productLink}`);
+        const response = await axios.get(
+          `http://localhost:2000/api/dedicatedServerDetails/${productLink}`
+        );
         const data = response.data.DedicatedServerDetails;
         setServerDetails(data);
         setTotalPrice(data.subscriptionDurations.oneMonth.price);
       } catch (error) {
-        console.error('خطأ في جلب تفاصيل الخادم:', error);
+        console.error("خطأ في جلب تفاصيل الخادم:", error);
       }
     };
     fetchServerDetails();
@@ -30,27 +34,38 @@ const DedicatedOrderDetails = () => {
   // Update total price when selected duration changes
   useEffect(() => {
     if (serverDetails) {
-      setTotalPrice(serverDetails.subscriptionDurations[selectedDuration].price);
+      setTotalPrice(
+        serverDetails.subscriptionDurations[selectedDuration].price
+      );
     }
   }, [selectedDuration, serverDetails]);
 
   const applyPromoCode = () => {
-    console.log('تطبيق كود الخصم:', promoCode);
+    console.log("تطبيق كود الخصم:", promoCode);
+  };
+  const handlePayment = () => {
+    Cookies.set("planName",  serverDetails.planTitle, {
+      expires: 1,
+    });
+    Cookies.set("Price", totalPrice, { expires: 1 });
+    Cookies.set("setupFee", serverDetails.setupFee, { expires: 1 });
+    navigate("/Payment");
   };
 
   const getDurationText = (key) => {
     const durationMap = {
-      'oneMonth': 'شهر واحد',
-      'twoMonths': 'شهرين',
-      'threeMonths': 'ثلاثة أشهر',
-      'fourMonths': 'أربعة أشهر',
-      'fiveMonths': 'خمسة أشهر',
-      'sixMonths': 'ستة أشهر'
+      oneMonth: "شهر واحد",
+      twoMonths: "شهرين",
+      threeMonths: "ثلاثة أشهر",
+      fourMonths: "أربعة أشهر",
+      fiveMonths: "خمسة أشهر",
+      sixMonths: "ستة أشهر",
     };
-    return durationMap[key] || `${key.replace('Months', '')} أشهر`;
+    return durationMap[key] || `${key.replace("Months", "")} أشهر`;
   };
 
-  if (!serverDetails) return <Loading/>;
+  if (!serverDetails) return <Loading />;
+  const total = totalPrice + serverDetails.setupFee
 
   return (
     <>
@@ -60,34 +75,41 @@ const DedicatedOrderDetails = () => {
         <div className="flex flex-wrap -mx-4">
           <div className="w-full lg:w-2/3 px-4 mb-8 order-2 lg:order-1">
             <div className="space-y-6">
-            <div className="bg-blue-900 bg-opacity-60 rounded-lg p-6 shadow-2xl space-y-6">
-  <h2 className="text-2xl font-bold mb-4 text-center text-white border-b border-blue-700 pb-3">
-    ملخص الطلب
-  </h2>
+              <div className="bg-blue-900 bg-opacity-60 rounded-lg p-6 shadow-2xl space-y-6">
+                <h2 className="text-2xl font-bold mb-4 text-center text-white border-b border-blue-700 pb-3">
+                  ملخص الطلب
+                </h2>
 
-  <div className="space-y-4">
-    <div className="flex justify-between items-center">
-      <span className="font-semibold text-white">أسم الخطة:</span>
-      <span className="text-white">{serverDetails.planTitle}</span>
-    </div>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="font-semibold text-white">أسم الخطة:</span>
+                    <span className="text-white">
+                      {serverDetails.planTitle}
+                    </span>
+                  </div>
 
-    <div className="flex justify-between items-center">
-      <span className="font-semibold text-white">وصف الخطة:</span>
-      <span className="text-white">{serverDetails.secondaryTitle}</span>
-    </div>
+                  <div className="flex justify-between items-center">
+                    <span className="font-semibold text-white">وصف الخطة:</span>
+                    <span className="text-white">
+                      {serverDetails.secondaryTitle}
+                    </span>
+                  </div>
 
-    <div className="space-y-2">
-      <span className="font-semibold text-white">تفاصيل الخطة:</span>
-      <p className="whitespace-pre-wrap text-white bg-blue-800 bg-opacity-30 p-3 rounded-md">
-        {serverDetails.planDescription}
-      </p>
-    </div>
-  </div>
-</div>
-
+                  <div className="space-y-2">
+                    <span className="font-semibold text-white">
+                      تفاصيل الخطة:
+                    </span>
+                    <p className="whitespace-pre-wrap text-white bg-blue-800 bg-opacity-30 p-3 rounded-md">
+                      {serverDetails.planDescription}
+                    </p>
+                  </div>
+                </div>
+              </div>
 
               <div className="bg-blue-800 bg-opacity-50 rounded-lg p-4 shadow-lg">
-                <label htmlFor="duration" className="block mb-2 font-semibold">مدة الاشتراك:</label>
+                <label htmlFor="duration" className="block mb-2 font-semibold">
+                  مدة الاشتراك:
+                </label>
                 <div className="relative">
                   <select
                     id="duration"
@@ -108,7 +130,9 @@ const DedicatedOrderDetails = () => {
               </div>
 
               <div className="bg-blue-800 bg-opacity-50 rounded-lg p-4 shadow-lg">
-                <label htmlFor="promoCode" className="block mb-2 font-semibold">كود الخصم:</label>
+                <label htmlFor="promoCode" className="block mb-2 font-semibold">
+                  كود الخصم:
+                </label>
                 <div className="flex space-x-2">
                   <input
                     type="text"
@@ -130,35 +154,36 @@ const DedicatedOrderDetails = () => {
           </div>
 
           <div className="w-full lg:w-1/3 px-4 mb-8 order-1 lg:order-2">
-  <div 
-    className="bg-blue-800 bg-opacity-50 rounded-lg p-4 shadow-lg sticky" 
-    style={{ top: '80px' }}
-  >
-    <h2 className="text-xl font-semibold mb-4 border-b border-blue-600 pb-2">
-      ملخص الطلب
-    </h2>
-    <div className="space-y-3 mb-4">
-      <div className="flex justify-between">
-        <span>{serverDetails.planTitle}</span>
-        <span className="font-bold">${totalPrice}</span>
-      </div>
-      <div className="flex justify-between">
-        <span>رسوم الإعداد</span>
-        <span className="font-bold">$0.00</span>
-      </div>
-    </div>
-    <div className="border-t border-blue-600 pt-3">
-      <div className="flex justify-between items-center mb-4">
-        <span className="font-semibold">الإجمالي المطلوب</span>
-        <span className="text-2xl font-bold text-white">${totalPrice}</span>
-      </div>
-      <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded transition duration-300 text-sm shadow-md">
-        الاستمرار للدفع
-      </button>
-    </div>
-  </div>
-</div>
-
+            <div
+              className="bg-blue-800 bg-opacity-50 rounded-lg p-4 shadow-lg sticky"
+              style={{ top: "80px" }}
+            >
+              <h2 className="text-xl font-semibold mb-4 border-b border-blue-600 pb-2">
+                ملخص الطلب
+              </h2>
+              <div className="space-y-3 mb-4">
+                <div className="flex justify-between">
+                  <span>{serverDetails.planTitle}</span>
+                  <span className="font-bold">${(totalPrice).toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>رسوم الإعداد</span>
+                  <span className="font-bold">${(serverDetails.setupFee).toFixed(2)}</span>
+                </div>
+              </div>
+              <div className="border-t border-blue-600 pt-3">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="font-semibold">الإجمالي المطلوب</span>
+                  <span className="text-2xl font-bold text-white">
+                    ${(total).toFixed(2)}
+                  </span>
+                </div>
+                <button onClick={handlePayment} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded transition duration-300 text-sm shadow-md">
+                  الاستمرار للدفع
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <Footer />

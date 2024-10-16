@@ -12,6 +12,7 @@ import ControlPanel from "./Pages/UserControlPanel/UserControlPanel";
 import UserProfile from "./Pages/UserControlPanel/UserProfile/UserProfile";
 import VPSDetails from "./Pages/VPS_Details/VPS_Details";
 import DedicatedOrderDetails from "./Pages/DedicatedServerDetails/DedicatedServerDetails";
+import PaymentPage from "./Pages/Payment/Payment";
 import { Link } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
@@ -42,6 +43,7 @@ function App() {
 
           <Route path="/VPSDetails/:productLink" element={<VPSDetails />} />
           <Route path="/DedicatedDetails/:productLink" element={<DedicatedOrderDetails />} />
+          <Route path="/Payment" element={<PaymentPage />} />
 
         </Routes>
       </BrowserRouter>

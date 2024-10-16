@@ -24,6 +24,7 @@ const AddVPSPlan = () => {
       duration: i + 1,
       price: "",
     })),
+    setupFee: "",
     quantity: "",
     isUnlimited: isUnlimited,
     productLink: "",
@@ -311,6 +312,20 @@ const AddVPSPlan = () => {
                   </div>
                 ))}
               </div>
+            </div>
+            <div className="col-span-1 sm:col-span-2">
+              <label className="block text-sm font-medium text-white/80 mb-2">
+              رسوم الإعداد
+              </label>
+              <input
+                type="number"
+                name="setupFee"
+                value={plan.setupFee}
+                onChange={handleChange}
+                className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50 text-white placeholder-white/50 px-4 py-2 transition-all duration-200"
+                placeholder="أدخل رسوم الأعداد"
+                required
+              />
             </div>
             <div className="col-span-1 sm:col-span-2">
               <label className="block text-sm font-medium text-white/80 mb-2">

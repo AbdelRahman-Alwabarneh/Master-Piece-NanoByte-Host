@@ -31,6 +31,7 @@ exports.createVPSPlan = async (req, res) => {
         fiveMonths: { price: vpsData.prices.find(p => p.duration === 5)?.price || null },
         sixMonths: { price: vpsData.prices.find(p => p.duration === 6)?.price || null },
       },
+      setupFee:vpsData.setupFee || 0,
       quantity:vpsData.quantity || 0,
       isUnlimited: vpsData.isUnlimited,
       productLink: vpsData.productLink,
@@ -94,6 +95,7 @@ exports.updateVPSPlan = async (req, res) => {
     vpsPlan.storage = vpsData.storage || vpsPlan.storage;
     vpsPlan.connectionSpeed = vpsData.connectionSpeed || vpsPlan.connectionSpeed;
     vpsPlan.security = vpsData.protection || vpsPlan.security;
+    vpsPlan.setupFee = vpsData.setupFee || vpsPlan.setupFee;
     vpsPlan.quantity = vpsData.quantity || vpsPlan.quantity;
     vpsPlan.isUnlimited = vpsData.isUnlimited;
     vpsPlan.productLink = vpsData.productLink || vpsPlan.productLink;

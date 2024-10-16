@@ -51,6 +51,10 @@ const vpsSchema = new mongoose.Schema({
       enabled: { type: Boolean, default: true },
     },
   },
+  setupFee: {
+    type: Number, 
+    default: 0,
+  },
   quantity: {
     type: Number, // لدعم الأرقام أو الكميات اللانهائية (null)
     default: null,

@@ -5,6 +5,7 @@ exports.DedicatedServerDetails = async (req, res) => {
     
     const DedicatedServerDetails = await DedicatedServer.findOne({
         productLink: req.params.productLink,
+        isHidden: false,
     });
 
     res.status(200).json({ DedicatedServerDetails });
