@@ -37,6 +37,10 @@ const DedicatedServerManagementRoutes = require("./Routes/DedicatedServerManagem
 
 app.use("/api/DedicatedServerManagement", DedicatedServerManagementRoutes);
 
+const discountCodeRoutes = require("./Routes/discountCodeRoutes");
+
+app.use("/api/discountCode", discountCodeRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

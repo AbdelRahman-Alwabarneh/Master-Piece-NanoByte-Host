@@ -13,6 +13,9 @@ import DetailsVPSGroup from "./Pages/VPSManagement/VPSGroups/DetailsVPSGroup";
 import DedicatedServerManagement from "./Pages/DedicatedServerManagement/DedicatedServerManagement";
 import AddDedicatedServer from "./Pages/DedicatedServerManagement/addDedicatedServer";
 import DedicatedServerDetails from "./Pages/DedicatedServerManagement/DetailsDedicatedServer";
+import DiscountCodeManagement from "./Pages/DiscountCode/DiscountCodeManagement";
+import AddDiscountCode from "./Pages/DiscountCode/addDiscountCode";
+import DetailsDiscountCode from "./Pages/DiscountCode/DetailsDiscountCode";
 function App() {
   return (
     <>
@@ -34,6 +37,10 @@ function App() {
           <Route path="/AddDedicatedServer" element={<AddDedicatedServer />} />
           <Route path="/DedicatedServerManagement" element={<DedicatedServerManagement />} />
           <Route path="/DedicatedServerDetails/:id" element={<DedicatedServerDetails />} />
+
+          <Route path="DiscountCodeManagement" element={<DiscountCodeManagement />} />
+          <Route path="AddDiscountCode" element={<AddDiscountCode />} />
+          <Route path="DetailsDiscountCode/:id" element={<DetailsDiscountCode />} />
 
         </Routes>
       </BrowserRouter>

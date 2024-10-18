@@ -14,16 +14,16 @@ import {
   Server,
   HardDrive,
   PackageSearch,
-
+  BadgePercent,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // حالة التحكم بالقائمة المنسدلة
+  const [openDropdown, setOpenDropdown] = useState(null); // لتحديد القائمة المفتوحة
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -32,12 +32,16 @@ const Sidebar = () => {
       setIsMobile(window.innerWidth < 768);
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen); // تفعيل القائمة المنسدلة
+
+  // فتح القائمة الفرعية بناءً على القائمة التي تم النقر عليها
+  const toggleDropdown = (menuName) => {
+    setOpenDropdown(openDropdown === menuName ? null : menuName);
+  };
 
   const menuItems = [
     { icon: Home, text: "الرئيسية", path: "/" },
@@ -46,11 +50,22 @@ const Sidebar = () => {
       icon: PackageSearch,
       text: "الخدمات / المنتجات",
       path: "#",
+      menuName: "services", // تعريف اسم القائمة
       subMenu: [
         { icon: HardDrive, text: "الخودام المركزية", path: "/DedicatedServerManagement" },
         { icon: Server, text: "الخوادم المشتركة", path: "/VPSManagement" },
         { icon: Boxes, text: "إستضافة خوادم ألعاب", path: "/Dashboard/users/reports" },
         { icon: Globe, text: "إستضافة مواقع", path: "/Dashboard/users/reports" },
+      ],
+    },
+    {
+      icon: PackageSearch,
+      text: "إِدارة الترويج",
+      path: "#",
+      menuName: "promotion", // تعريف اسم القائمة
+      subMenu: [
+        { icon: BadgePercent, text: "العروض الترويجية", path: "/DiscountCodeManagement" },
+
       ],
     },
     { icon: CalendarCog, text: "المواعيد", path: "/Dashboard/Appointments" },
@@ -59,14 +74,16 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/admin/LogOutAdmin', {}, {
-        withCredentials: true
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/admin/LogOutAdmin",
+        {},
+        { withCredentials: true }
+      );
       if (response.status === 200) {
-        navigate('/login');
+        navigate("/login");
       }
     } catch (error) {
-      console.error('خطأ في تسجيل الخروج', error);
+      console.error("خطأ في تسجيل الخروج", error);
     }
   };
 
@@ -74,11 +91,7 @@ const Sidebar = () => {
     <div className="font-cairo">
       <div
         className={`bg-[#1E38A3] text-white h-screen fixed right-0 top-0 flex flex-col justify-between transition-all duration-300 ease-in-out ${
-          isMobile
-            ? isOpen
-              ? "w-64"
-              : "w-16"
-            : "w-64"
+          isMobile ? (isOpen ? "w-64" : "w-16") : "w-64"
         } z-50 overflow-y-auto`}
       >
         <div>
@@ -91,7 +104,11 @@ const Sidebar = () => {
                 className="text-white mx-1 rounded"
                 onClick={toggleSidebar}
               >
-                {isOpen ? <ChevronRight width={24} /> : <Logs width={24} height={24} />}
+                {isOpen ? (
+                  <ChevronRight width={24} />
+                ) : (
+                  <Logs width={24} height={24} />
+                )}
               </button>
             )}
           </div>
@@ -103,35 +120,49 @@ const Sidebar = () => {
                     <div>
                       <button
                         className={`flex items-center justify-between p-4 w-full rounded-t transition-colors duration-200 font-semibold ${
-                          isDropdownOpen
+                          openDropdown === item.menuName
                             ? "bg-[#2f64bb] text-white"
                             : "hover:bg-[#60A5FA] text-gray-300"
                         }`}
-                        onClick={toggleDropdown}
+                        onClick={() => toggleDropdown(item.menuName)}
                       >
                         <div className="flex items-center">
                           <item.icon
-                            className={isMobile && !isOpen ? "mx-auto" : "mr-2 ml-1"}
+                            className={
+                              isMobile && !isOpen ? "mx-auto" : "mr-2 ml-1"
+                            }
                           />
                           {(!isMobile || isOpen) && <span>{item.text}</span>}
                         </div>
-                        {isDropdownOpen ? <ChevronUp /> : <ChevronDown />}
+                        {openDropdown === item.menuName ? (
+                          <ChevronUp />
+                        ) : (
+                          <ChevronDown />
+                        )}
                       </button>
-                      {isDropdownOpen && (
-                        <ul className={`ml-8 space-y-2 w-full bg-[#2f64bb] ${isMobile? "pr-0" : "pr-2"}`}>
+                      {openDropdown === item.menuName && (
+                        <ul
+                          className={`ml-8 space-y-2 w-full bg-[#2f64bb] ${
+                            isMobile ? "pr-0" : "pr-2"
+                          }`}
+                        >
                           {item.subMenu.map((subItem, subIndex) => (
                             <li key={subIndex}>
                               <Link
                                 to={subItem.path}
-                                className={`flex items-center p-2 ${isOpen && "pr-4 py-3"} rounded transition-colors duration-200 font-semibold ${
+                                className={`flex items-center p-2 ${
+                                  isOpen && "pr-4 py-3"
+                                } rounded transition-colors duration-200 font-semibold ${
                                   location.pathname === subItem.path
                                     ? "bg-[#3B82F6] text-white"
                                     : "hover:bg-[#60A5FA] text-gray-300"
                                 }`}
                               >
-                                {/* عرض الأيقونة فقط عند حجم الشاشة الصغير */}
                                 {isMobile && !isOpen && (
-                                  <subItem.icon width={24} className="mx-auto " />
+                                  <subItem.icon
+                                    width={24}
+                                    className="mx-auto"
+                                  />
                                 )}
                                 {(!isMobile || isOpen) && (
                                   <>
@@ -167,7 +198,9 @@ const Sidebar = () => {
                   onClick={handleLogout}
                   className="flex items-center w-full p-4 rounded transition-colors duration-200 hover:bg-red-600 text-gray-300 font-semibold"
                 >
-                  <LogOut className={isMobile && !isOpen ? "mx-auto" : "mr-2 ml-1"} />
+                  <LogOut
+                    className={isMobile && !isOpen ? "mx-auto" : "mr-2 ml-1"}
+                  />
                   {(!isMobile || isOpen) && <span>تسجيل الخروج</span>}
                 </button>
               </li>
