@@ -14,6 +14,7 @@ export default {
       },
       screens: {
         'lg-1050': '1050px',
+        'lg-1074': '1074px',
       },
     },
   },

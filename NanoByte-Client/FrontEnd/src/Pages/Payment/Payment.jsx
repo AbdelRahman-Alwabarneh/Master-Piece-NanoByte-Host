@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { CreditCard, ChevronDown, ExternalLink } from "lucide-react";
-import Paypal_logo from "../../Assets/Photo/Paypal_logo.png";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Header from "../../Components/Header/Header";
@@ -8,27 +9,44 @@ import Footer from "../../Components/Footer/Footer";
 
 const PaymentPage = () => {
   const [paymentMethod, setPaymentMethod] = useState("credit-card");
+  const [paymentError, setPaymentError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("تم تقديم نموذج الدفع");
   };
 
-  const handlePayPalClick = () => {
-    console.log("جاري الانتقال إلى PayPal");
-  };
   const planName = Cookies.get("planName");
   const Price = parseFloat(Cookies.get("Price")).toFixed(2);
+  const discountAmount = parseFloat(Cookies.get("discountAmount")).toFixed(2);
   const setupFee = parseFloat(Cookies.get("setupFee")).toFixed(2);
 
   if (!planName || isNaN(Price) || isNaN(setupFee)) {
-    console.log("لا توجد خطة مخزنة في الكوكي.");
-  } else {
-    console.log(planName);
-    console.log(Price);
-    console.log(setupFee);
+    navigate("/");
   }
+
   const totalPrice = (parseFloat(Price) + parseFloat(setupFee)).toFixed(2);
+
+  const onPayPalApprove = async (data, actions) => {
+    try {
+      const captureResponse = await actions.order.capture();
+      const paymentData = {
+        planName,
+        orderNumber: captureResponse.id,
+        amount: parseFloat(totalPrice),
+        paymentMethod: "PayPal",
+      };
+
+      await axios.post("http://localhost:2000/api/payment", paymentData, {
+        withCredentials: true,
+      });
+      navigate(`/InvoicePage/${captureResponse.id}`);
+    } catch (error) {
+      setPaymentError("حدث خطأ أثناء معالجة الدفع");
+      console.error("Payment Error:", error);
+    }
+  };
 
   return (
     <>
@@ -133,32 +151,56 @@ const PaymentPage = () => {
 
                 {paymentMethod === "paypal" && (
                   <div className="bg-[#2A4BB4] rounded-lg p-6 shadow-lg">
-                    <div className="flex items-center justify-center mb-4">
-                      <img
-                        src={Paypal_logo}
-                        alt="PayPal Logo"
-                        className="h-12"
-                      />
-                    </div>
-                    <p className="text-center mb-4 text-blue-100">
-                      قم بالدفع بسرعة وأمان باستخدام حساب PayPal الخاص بك
-                    </p>
-                    <ul className="list-disc list-inside mb-6 space-y-2 text-blue-100">
+                    <div className="text-center mb-4">
+                      <h3 className="text-xl font-bold text-blue-100 mb-2">
+                        الدفع عبر PayPal
+                      </h3>
+                      <p className="text-blue-100 mb-4">
+                        اضغط على الزر أدناه لإكمال عملية الدفع بواسطة PayPal
+                      </p>
+                      <ul className="list-disc text-right list-inside mb-6 space-y-2 text-blue-100">
                       <li>حماية المشتري على مشترياتك المؤهلة</li>
                       <li>إتمام عملية الدفع بنقرات قليلة</li>
                       <li>لا حاجة لإدخال تفاصيل بطاقتك في كل مرة</li>
                     </ul>
-                    <button
-                      onClick={handlePayPalClick}
-                      className="w-full bg-[#0070BA] hover:bg-[#003087] text-white font-bold py-3 px-4 rounded transition duration-300 text-sm shadow-md flex items-center justify-center"
-                    >
-                      <span>الانتقال إلى PayPal</span>
-                      <ExternalLink className="mr-2 h-4 w-4" />
-                    </button>
-                    <p className="text-xs text-center mt-4 text-blue-200">
-                      بالنقر على "الانتقال إلى PayPal"، ستتم إعادة توجيهك إلى
-                      موقع PayPal لإكمال عملية الدفع
-                    </p>
+                    </div>
+
+                    {paymentError && (
+                      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                        {paymentError}
+                      </div>
+                    )}
+                     
+                     <PayPalScriptProvider
+                    
+                    options={{
+                      "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
+                    }}
+                  >
+                <PayPalButtons
+  className="paypal-button w-full"
+  style={{
+    layout: "horizontal",
+    shape: "rect",
+    color: "blue",
+    tagline: false,
+  }}
+  createOrder={(data, actions) => {
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            value: totalPrice,
+          },
+        },
+      ],
+    });
+  }}
+  onApprove={onPayPalApprove} // تأكد من أن هنا تمرر الدالة المعدلة
+  onError={(err) => setPaymentError("فشل الدفع: " + err.message)}
+/>
+
+                  </PayPalScriptProvider>
                   </div>
                 )}
               </form>
@@ -174,6 +216,12 @@ const PaymentPage = () => {
                   <span>{planName}</span>
                   <span className="font-bold">${Price}</span>
                 </div>
+                {discountAmount !== (0).toFixed(2) ? (
+                  <div className="flex justify-between text-blue-100">
+                    <span>الخصم المطبق</span>
+                    <span className="font-bold">-${discountAmount}</span>
+                  </div>
+                ) : null}
                 <div className="flex justify-between text-blue-100">
                   <span>رسوم الإعداد</span>
                   <span className="font-bold">${setupFee}</span>

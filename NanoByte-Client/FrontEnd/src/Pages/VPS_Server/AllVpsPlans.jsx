@@ -52,7 +52,6 @@ const VpsGroupsAndPlans = () => {
     }));
   };
   const goToDetails = (productLink) => {
-    console.log(productLink);
     navigate(`/VPSDetails/${productLink}`)
   };
 

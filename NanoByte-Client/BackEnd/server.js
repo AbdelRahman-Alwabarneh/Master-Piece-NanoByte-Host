@@ -78,6 +78,18 @@ const dedicatedServerDetailsRoutes = require("./Routes/dedicatedServerDetailsRou
 
 app.use("/api/dedicatedServerDetails", dedicatedServerDetailsRoutes);
 
+const discountCodeRoutes = require("./Routes/discountCodeRoutes");
+
+app.use("/api/discountCode", discountCodeRoutes);
+
+const paymentRoutes = require("./Routes/paymentRoutes");
+
+app.use("/api/payment", paymentRoutes);
+
+const invoicesRoutes = require("./Routes/invoicesRoutes");
+
+app.use("/api/invoices", invoicesRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
