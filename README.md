@@ -50,7 +50,7 @@ At Nanobyte Host, our goal is to provide **high-performance hosting solutions** 
 
 - **[Figma Design](https://www.figma.com/design/jWXDrfvlRLehAzu415CqHm/Nanobyte-Host?node-id=0-1&node-type=canvas&t=9mCIzmvNifd3RBaM-0)**  
 - **[Trello Board](https://trello.com/b/kkYTj37e/nanobyte-host)**  
-- **[Documentation](#)**  
+- **[Documentation](https://drive.google.com/file/d/1icdqleCpzUiaQDciGweBkprkvRpVzVde/view?usp=sharing)**  
 - **[Presentation](#)**  
 - **[Project Brief](#)**  
 
