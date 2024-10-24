@@ -60,6 +60,10 @@ const discountCodeSchema = new mongoose.Schema(
       {
         userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         usageCount: { type: Number, default: 0 }, // عدد مرات استخدام كل مستخدم
+        lastUsed: {
+            type: Date,
+            default: Date.now
+          }
       },
     ],
   },

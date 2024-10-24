@@ -122,7 +122,7 @@ exports.DiscountCodeData = async (req, res) => {
 
   exports.DiscountCodeDetails= async (req, res) => {
     try {
-      const DiscountCodeDetails = await DiscountCode.findById(req.params.id);
+      const DiscountCodeDetails = await DiscountCode.findById(req.params.id).populate('usedBy.userId', 'firstName email');;
   
       res.status(200).json({ DiscountCodeDetails });
     } catch (error) {

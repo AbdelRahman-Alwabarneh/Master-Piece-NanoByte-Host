@@ -243,22 +243,22 @@ const ControlPanel = () => {
                     <table className="min-w-full divide-y divide-gray-200 max-w-full">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                             حالة الدفع
                           </th>
-                          <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                             تاريخ الإنشاء
                           </th>
-                          <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                             طريقة الدفع
                           </th>
-                          <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                             السعر
                           </th>
-                          <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                             اسم الخطة
                           </th>
-                          <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                             رقم الطلب
                           </th>
                         </tr>
@@ -269,7 +269,7 @@ const ControlPanel = () => {
                             key={invoice._id}
                             className="hover:bg-gray-100 transition duration-150"
                           >
-                            <td className="px-4 py-2 text-right whitespace-nowrap">
+                            <td className="px-4 py-2 text-center whitespace-nowrap">
                               <span
                                 className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                                   invoice.paymentStatus === "Completed"
@@ -282,7 +282,7 @@ const ControlPanel = () => {
                                   : "معلق"}
                               </span>
                             </td>
-                            <td className="px-4 py-2 text-right whitespace-nowrap">
+                            <td className="px-4 py-2 text-center whitespace-nowrap">
                               {new Date(invoice.createdAt).toLocaleDateString(
                                 "en-GB",
                                 {
@@ -292,16 +292,16 @@ const ControlPanel = () => {
                                 }
                               )}
                             </td>
-                            <td className="px-4 py-2 text-right whitespace-nowrap">
+                            <td className="px-4 py-2 text-center whitespace-nowrap">
                               {invoice.paymentMethod}
                             </td>
-                            <td className="px-4 py-2 text-right whitespace-nowrap">
+                            <td className="px-4 py-2 text-center whitespace-nowrap">
                               ${invoice.amount}
                             </td>
-                            <td className="px-4 py-2 text-right whitespace-nowrap">
+                            <td className="px-4 py-2 text-center whitespace-nowrap">
                               {invoice.planName}
                             </td>
-                            <td onClick={() => orderDetails(invoice.orderNumber)} className="px-4 py-2 text-right whitespace-nowrap hover:text-[#2d26b8] cursor-pointer">
+                            <td onClick={() => orderDetails(invoice.orderNumber)} className="px-4 py-2 text-center whitespace-nowrap hover:text-[#2d26b8] cursor-pointer">
                               <span onClick={() => orderDetails(invoice.orderNumber)}>{invoice.orderNumber}</span>
                             </td>
                           </tr>

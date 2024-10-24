@@ -17,11 +17,11 @@ exports.DiscountCodeData = async (req, res) => {
 
     // التحقق من حالة الكود وتواريخ الصلاحية
     if (!discountCode.isActive) {
-      return res.status(400).json({ message: "Discount code is not active" });
+      return res.status(400).json({ message: "كود الخصم غير نشط" });
     }
 
     if (isNotStartedYet(discountCode.startTime)) {
-      return res.status(403).json({ message: "This discount code is not active yet" });
+      return res.status(403).json({ message: "لم يحل موعد الخصم بعد" });
     }
 
     if (isExpired(discountCode.expiresAt)) {
@@ -29,12 +29,12 @@ exports.DiscountCodeData = async (req, res) => {
         { _id: discountCode._id },
         { $set: { isActive: false } }
       );
-      return res.status(403).json({ message: "This discount code has expired" });
+      return res.status(403).json({ message: "انتهت صلاحية كود الخصم" });
     }
 
     // التحقق من الحد الأقصى للاستخدام
     if (discountCode.maxUsage === 0) {
-      return res.status(403).json({ message: "This discount code is no longer available" });
+      return res.status(403).json({ message: "كود الخصم لم يعد متاح" });
     }
 
     const userUsage = discountCode.usedBy.find(
@@ -43,7 +43,7 @@ exports.DiscountCodeData = async (req, res) => {
 
     if (userUsage && userUsage.usageCount >= discountCode.maxUsagePerUser) {
       return res.status(403).json({
-        message: "You have reached the maximum usage limit for this discount code",
+        message: "لقد بلغت الحد الأقصى المسموح به لاستخدام كود الخصم",
       });
     }
 
@@ -52,7 +52,7 @@ exports.DiscountCodeData = async (req, res) => {
       discountCode.authorizedUserId.length > 0 &&
       !discountCode.authorizedUserId.some((id) => id.toString() === userId)
     ) {
-      return res.status(403).json({ message: "User is not authorized to use this discount code" });
+      return res.status(403).json({ message: "كود الخصم غير متاح" });
     }
 
     // التحقق من الخدمات المطبقة على الكود
@@ -61,7 +61,7 @@ exports.DiscountCodeData = async (req, res) => {
       !discountCode.applicableServiceIds.includes(serviceId)
     ) {
       return res.status(400).json({
-        message: "Discount code is not applicable for this service",
+        message: "كود الخصم غير متاح للتطبيق على هذه الخطة",
       });
     }
 
@@ -72,3 +72,39 @@ exports.DiscountCodeData = async (req, res) => {
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
+
+exports.useDiscountCode = async (req, res) => {
+    const { codeName } = req.body; // استلام اسم كود الخصم ومعرف المستخدم من الجسم
+    const userId = req.user?.id;
+    try {
+      // العثور على كود الخصم بناءً على الاسم
+      const discountCode = await DiscountCode.findOne({ codeName });
+  
+      if (!discountCode) {
+        return res.status(404).json({ message: "Discount code not found" });
+      }
+  
+      // التحقق مما إذا كان الكود نشطًا
+      if (!discountCode.isActive) {
+        return res.status(400).json({ message: "Discount code is not active" });
+      }
+ 
+      // البحث عن المستخدم في قائمة المستخدمين الذين استخدموا الكود
+      const userUsage = discountCode.usedBy.find(user => user.userId.toString() === userId);
+  
+      if (userUsage) {
+        userUsage.usageCount += 1; // زيادة عدد الاستخدامات لهذا المستخدم
+        userUsage.lastUsed = new Date();
+      } else {
+        discountCode.usedBy.push({ userId, usageCount: 1 }); // إضافة المستخدم مع عدد استخدام 1
+      }
+  
+      discountCode.usageCount += 1; // زيادة عدد الاستخدامات العامة
+      await discountCode.save(); // حفظ التحديثات
+  
+      return res.status(200).json({ message: "Discount code used successfully", discountCode });
+    } catch (err) {
+      console.error("Error in using discount code:", err.message);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  };

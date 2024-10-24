@@ -12,6 +12,7 @@ const VPSOrderDetails = () => {
   const [selectedDuration, setSelectedDuration] = useState("oneMonth");
   const [promoCode, setPromoCode] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+  const [discountCode, setdiscountCode] = useState(null);
   const [discountAmount, setDiscountAmount] = useState(0);
   const [discountMessage, setDiscountMessage] = useState("");
   const [isDiscountApplied, setIsDiscountApplied] = useState(false);
@@ -57,8 +58,8 @@ const VPSOrderDetails = () => {
         },
         { withCredentials: true }
       );
-      
       const { discountCode } = response.data;
+      setdiscountCode(discountCode.codeName)
 
       if (discountCode.discountType === "percentage") {
         const discountValue = (price * discountCode.discountValue) / 100;
@@ -88,12 +89,18 @@ const VPSOrderDetails = () => {
   };
 
   const handlePayment = () => {
+    const Subscriptionduration = getDurationText(selectedDuration);
+    
     Cookies.set("planName", `استضافة خوادم مشتركة - ${vpsDetails.planName}`, {
       expires: 1,
     });
     Cookies.set("Price", totalPrice - discountAmount, { expires: 1 });
+    Cookies.set("productLink", vpsDetails.productLink, { expires: 1 });
+    Cookies.set("Subscriptionduration", Subscriptionduration, { expires: 1 });
+    Cookies.set("discountCode", discountCode, { expires: 1 });
     Cookies.set("discountAmount", discountAmount || 0, { expires: 1 });
     Cookies.set("setupFee", vpsDetails.setupFee || 0, { expires: 1 });
+    Cookies.set("Servicetype", "VPS", { expires: 1 });
     navigate("/Payment");
   };
 

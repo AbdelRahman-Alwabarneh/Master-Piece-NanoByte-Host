@@ -15,6 +15,9 @@ import {
   HardDrive,
   PackageSearch,
   BadgePercent,
+  BaggageClaim,
+  TicketPercent,
+  Clock  
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -47,6 +50,18 @@ const Sidebar = () => {
     { icon: Home, text: "الرئيسية", path: "/" },
     { icon: Users, text: "العملاء", path: "/AllUsers" },
     {
+      icon: BaggageClaim,
+      text: "إِدارة الطلبات",
+      path: "#",
+      menuName: "orders", // تعريف اسم القائمة
+      subMenu: [
+        { icon: Clock, text: "الطلبات المعلقة", path: "/PendingOrderManagement" },
+        { icon: Server, text: "الطلبات النشطة", path: "/VPSManagement" },
+        { icon: Boxes, text: "الطلبات الملغية", path: "/Dashboard/users/reports" },
+        { icon: Globe, text: "احتيال", path: "/Dashboard/users/reports" },
+      ],
+    },
+    {
       icon: PackageSearch,
       text: "الخدمات / المنتجات",
       path: "#",
@@ -59,7 +74,7 @@ const Sidebar = () => {
       ],
     },
     {
-      icon: PackageSearch,
+      icon: TicketPercent,
       text: "إِدارة الترويج",
       path: "#",
       menuName: "promotion", // تعريف اسم القائمة

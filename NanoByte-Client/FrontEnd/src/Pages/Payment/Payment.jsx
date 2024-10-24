@@ -18,11 +18,20 @@ const PaymentPage = () => {
   };
 
   const planName = Cookies.get("planName");
+  const Subscriptionduration = Cookies.get("Subscriptionduration");
+  const productLink = Cookies.get("productLink");
+  const Servicetype = Cookies.get("Servicetype");
+  const discountCode = Cookies.get("discountCode");
   const Price = parseFloat(Cookies.get("Price")).toFixed(2);
   const discountAmount = parseFloat(Cookies.get("discountAmount")).toFixed(2);
   const setupFee = parseFloat(Cookies.get("setupFee")).toFixed(2);
 
-  if (!planName || isNaN(Price) || isNaN(setupFee)) {
+  if (
+    !Subscriptionduration ||
+    isNaN(Price) ||
+    isNaN(setupFee) ||
+    !productLink
+  ) {
     navigate("/");
   }
 
@@ -34,6 +43,8 @@ const PaymentPage = () => {
       const paymentData = {
         planName,
         orderNumber: captureResponse.id,
+        Subscriptionduration,
+        discountCode,
         amount: parseFloat(totalPrice),
         paymentMethod: "PayPal",
       };
@@ -41,6 +52,28 @@ const PaymentPage = () => {
       await axios.post("http://localhost:2000/api/payment", paymentData, {
         withCredentials: true,
       });
+      if (Servicetype == "VPS") {
+        await axios.post(
+          "http://localhost:2000/api/vpsDetails",
+          { productLink },
+          { withCredentials: true }
+        );
+      }
+      if (Servicetype == "DedicatedServer") {
+        await axios.post(
+          "http://localhost:2000/api/dedicatedServerDetails",
+          { productLink },
+          { withCredentials: true }
+        );
+      }
+      if (discountCode) {
+        await axios.post(
+          "http://localhost:2000/api/discountCode/useDiscountCode",
+          { codeName: discountCode },
+          { withCredentials: true }
+        );
+      }
+
       navigate(`/InvoicePage/${captureResponse.id}`);
     } catch (error) {
       setPaymentError("حدث خطأ أثناء معالجة الدفع");
@@ -159,10 +192,10 @@ const PaymentPage = () => {
                         اضغط على الزر أدناه لإكمال عملية الدفع بواسطة PayPal
                       </p>
                       <ul className="list-disc text-right list-inside mb-6 space-y-2 text-blue-100">
-                      <li>حماية المشتري على مشترياتك المؤهلة</li>
-                      <li>إتمام عملية الدفع بنقرات قليلة</li>
-                      <li>لا حاجة لإدخال تفاصيل بطاقتك في كل مرة</li>
-                    </ul>
+                        <li>حماية المشتري على مشترياتك المؤهلة</li>
+                        <li>إتمام عملية الدفع بنقرات قليلة</li>
+                        <li>لا حاجة لإدخال تفاصيل بطاقتك في كل مرة</li>
+                      </ul>
                     </div>
 
                     {paymentError && (
@@ -170,37 +203,37 @@ const PaymentPage = () => {
                         {paymentError}
                       </div>
                     )}
-                     
-                     <PayPalScriptProvider
-                    
-                    options={{
-                      "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
-                    }}
-                  >
-                <PayPalButtons
-  className="paypal-button w-full"
-  style={{
-    layout: "horizontal",
-    shape: "rect",
-    color: "blue",
-    tagline: false,
-  }}
-  createOrder={(data, actions) => {
-    return actions.order.create({
-      purchase_units: [
-        {
-          amount: {
-            value: totalPrice,
-          },
-        },
-      ],
-    });
-  }}
-  onApprove={onPayPalApprove} // تأكد من أن هنا تمرر الدالة المعدلة
-  onError={(err) => setPaymentError("فشل الدفع: " + err.message)}
-/>
 
-                  </PayPalScriptProvider>
+                    <PayPalScriptProvider
+                      options={{
+                        "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
+                      }}
+                    >
+                      <PayPalButtons
+                        className="paypal-button w-full"
+                        style={{
+                          layout: "horizontal",
+                          shape: "rect",
+                          color: "blue",
+                          tagline: false,
+                        }}
+                        createOrder={(data, actions) => {
+                          return actions.order.create({
+                            purchase_units: [
+                              {
+                                amount: {
+                                  value: totalPrice,
+                                },
+                              },
+                            ],
+                          });
+                        }}
+                        onApprove={onPayPalApprove} // تأكد من أن هنا تمرر الدالة المعدلة
+                        onError={(err) =>
+                          setPaymentError("فشل الدفع: " + err.message)
+                        }
+                      />
+                    </PayPalScriptProvider>
                   </div>
                 )}
               </form>
@@ -225,6 +258,10 @@ const PaymentPage = () => {
                 <div className="flex justify-between text-blue-100">
                   <span>رسوم الإعداد</span>
                   <span className="font-bold">${setupFee}</span>
+                </div>
+                <div className="flex justify-between text-blue-100">
+                  <span>مدة الأشتراك</span>
+                  <span>{Subscriptionduration}</span>
                 </div>
               </div>
               <div className="border-t border-blue-400 pt-3">

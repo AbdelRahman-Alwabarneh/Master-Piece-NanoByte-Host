@@ -3,7 +3,7 @@ const paypalClient = require("../Config/paypalClient"); // استيراد عمي
 const paypal = require("@paypal/checkout-server-sdk");
 
 exports.createPayment = async (req, res) => {
-  const { planName, orderNumber, amount, paymentMethod } = req.body;
+  const { planName, orderNumber, amount, paymentMethod ,Subscriptionduration ,discountCode} = req.body;
 
   if (!req.user.id) {
     return res.status(400).json({ error: "Invalid userId format" });
@@ -37,6 +37,8 @@ exports.createPayment = async (req, res) => {
       userId: req.user.id,
       planName,
       orderNumber,
+      Subscriptionduration,
+      discountCode,
       amount,
       paymentMethod,
       paymentStatus: "Completed",

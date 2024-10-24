@@ -12,6 +12,7 @@ const DedicatedOrderDetails = () => {
   const [selectedDuration, setSelectedDuration] = useState("oneMonth");
   const [promoCode, setPromoCode] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+  const [discountCode, setdiscountCode] = useState(null);
   const [discountAmount, setDiscountAmount] = useState(0);
   const [discountMessage, setDiscountMessage] = useState("");
   const [isDiscountApplied, setIsDiscountApplied] = useState(false);
@@ -57,6 +58,7 @@ const DedicatedOrderDetails = () => {
       );
       
       const { discountCode } = response.data;
+      setdiscountCode(discountCode.codeName)
 
       if (discountCode.discountType === "percentage") {
         const discountValue = (price * discountCode.discountValue) / 100;
@@ -86,12 +88,18 @@ const DedicatedOrderDetails = () => {
   };
 
   const handlePayment = () => {
+    const Subscriptionduration = getDurationText(selectedDuration);
+
     Cookies.set("planName", serverDetails.planTitle, {
       expires: 1,
     });
     Cookies.set("Price", totalPrice - discountAmount, { expires: 1 });
+    Cookies.set("productLink", serverDetails.productLink, { expires: 1 });
+    Cookies.set("Subscriptionduration", Subscriptionduration, { expires: 1 });
     Cookies.set("discountAmount", discountAmount || 0, { expires: 1 });
+    Cookies.set("discountCode", discountCode, { expires: 1 });
     Cookies.set("setupFee", serverDetails.setupFee, { expires: 1 });
+    Cookies.set("Servicetype", "DedicatedServer", { expires: 1 });
     navigate("/Payment");
   };
 

@@ -41,6 +41,10 @@ const discountCodeRoutes = require("./Routes/discountCodeRoutes");
 
 app.use("/api/discountCode", discountCodeRoutes);
 
+const orderRoutes = require("./Routes/orderRoutes");
+
+app.use("/api/order", orderRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

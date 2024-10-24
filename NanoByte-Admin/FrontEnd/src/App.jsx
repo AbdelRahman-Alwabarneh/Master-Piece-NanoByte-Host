@@ -16,6 +16,8 @@ import DedicatedServerDetails from "./Pages/DedicatedServerManagement/DetailsDed
 import DiscountCodeManagement from "./Pages/DiscountCode/DiscountCodeManagement";
 import AddDiscountCode from "./Pages/DiscountCode/addDiscountCode";
 import DetailsDiscountCode from "./Pages/DiscountCode/DetailsDiscountCode";
+import PendingOrderManagement from "./Pages/OrderManagement/PendingOrder";
+import OrderDetails from "./Pages/OrderManagement/OrderDetails";
 function App() {
   return (
     <>
@@ -37,10 +39,11 @@ function App() {
           <Route path="/AddDedicatedServer" element={<AddDedicatedServer />} />
           <Route path="/DedicatedServerManagement" element={<DedicatedServerManagement />} />
           <Route path="/DedicatedServerDetails/:id" element={<DedicatedServerDetails />} />
-
-          <Route path="DiscountCodeManagement" element={<DiscountCodeManagement />} />
-          <Route path="AddDiscountCode" element={<AddDiscountCode />} />
-          <Route path="DetailsDiscountCode/:id" element={<DetailsDiscountCode />} />
+          <Route path="/DiscountCodeManagement" element={<DiscountCodeManagement />} />
+          <Route path="/AddDiscountCode" element={<AddDiscountCode />} />
+          <Route path="/DetailsDiscountCode/:id" element={<DetailsDiscountCode />} />
+          <Route path="/PendingOrderManagement" element={<PendingOrderManagement />} />
+          <Route path="/OrderDetails/:orderNumber" element={<OrderDetails />} />
 
         </Routes>
       </BrowserRouter>

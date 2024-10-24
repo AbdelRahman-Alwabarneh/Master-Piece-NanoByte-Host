@@ -4,7 +4,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from "../../Components/Sidebar/Sidebar";
-
+import DiscountCodeUsers from './Components/DiscountCodeUsers';
 const DetailsDiscountCode = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -224,7 +224,6 @@ const DetailsDiscountCode = () => {
           <div className="px-6 py-4 border-b border-white/20">
             <h2 className="text-2xl font-bold">تفاصيل كود الخصم</h2>
           </div>
-          
           <div className="p-6 space-y-8">
             {/* Basic Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -234,7 +233,7 @@ const DetailsDiscountCode = () => {
                   <input
                     type="text"
                     name="codeName"
-                    value={discountCode.codeName}
+                    value={discountCode.codeName  || ''}
                     onChange={handleChange}
                     className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white px-4 py-2 pr-10"
                     required
@@ -255,7 +254,7 @@ const DetailsDiscountCode = () => {
                   <input
                     type="number"
                     name="discountValue"
-                    value={discountCode.discountValue}
+                    value={discountCode.discountValue  || ''}
                     onChange={handleChange}
                     className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white px-4 py-2 pr-10"
                     required
@@ -272,7 +271,7 @@ const DetailsDiscountCode = () => {
               <label className="block text-sm font-medium">نوع الخصم</label>
               <select
                 name="discountType"
-                value={discountCode.discountType}
+                value={discountCode.discountType  || ''}
                 onChange={handleChange}
                 className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white px-4 py-2"
               >
@@ -327,7 +326,7 @@ const DetailsDiscountCode = () => {
                   <input
                     type="number"
                     name="maxUsage"
-                    value={discountCode.maxUsage}
+                    value={discountCode.maxUsage  || ''}
                     onChange={handleChange}
                     className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white px-4 py-2 pr-10"
                   />
@@ -340,7 +339,7 @@ const DetailsDiscountCode = () => {
                   <input
                     type="number"
                     name="maxUsagePerUser"
-                    value={discountCode.maxUsagePerUser}
+                    value={discountCode.maxUsagePerUser || ''}
                     onChange={handleChange}
                     className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white px-4 py-2 pr-10"
                   />
@@ -570,7 +569,7 @@ const DetailsDiscountCode = () => {
               <div className="relative">
                 <textarea
                   name="adminNotes"
-                  value={discountCode.adminNotes}
+                  value={discountCode.adminNotes  || ''}
                   onChange={handleChange}
                   className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white px-4 py-2 pr-10 h-24 max-h-64 min-h-28"
                 />
@@ -579,7 +578,8 @@ const DetailsDiscountCode = () => {
             </div>
           </div>
 
-          <div className="px-6 py-4 sm:px-8 sm:py-6 bg-white/5 border-t border-white/10 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0">
+         
+         <div className="px-6 py-4 sm:px-8 sm:py-6 bg-white/5 border-t border-white/10 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0">
             <button
               type="button"
               className="w-full ml-2 sm:w-auto px-6 py-2 border border-white/30 rounded-lg shadow-sm text-sm font-medium text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 transition-all duration-200 flex items-center justify-center"
@@ -596,6 +596,7 @@ const DetailsDiscountCode = () => {
             </button>
           </div>
         </form>
+      <DiscountCodeUsers/>
       </div>
     </div>
   );
