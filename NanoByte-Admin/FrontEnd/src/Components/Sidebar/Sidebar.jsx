@@ -17,6 +17,9 @@ import {
   BadgePercent,
   BaggageClaim,
   TicketPercent,
+  PackageCheck,
+  PackageX,
+  PackageOpen,
   Clock  
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
@@ -55,10 +58,11 @@ const Sidebar = () => {
       path: "#",
       menuName: "orders", // تعريف اسم القائمة
       subMenu: [
-        { icon: Clock, text: "الطلبات المعلقة", path: "/PendingOrderManagement" },
-        { icon: Server, text: "الطلبات النشطة", path: "/VPSManagement" },
-        { icon: Boxes, text: "الطلبات الملغية", path: "/Dashboard/users/reports" },
-        { icon: Globe, text: "احتيال", path: "/Dashboard/users/reports" },
+        { icon: Boxes, text: "جميع الطلبات", path: "/OrderManagement/AllOrders" },
+        { icon: PackageCheck, text: "الطلبات النشطة", path: "/OrderManagement/Active" },
+        { icon: PackageSearch, text: "الطلبات المعلقة", path: "/OrderManagement/Pending" },
+        { icon: PackageX, text: "الطلبات الملغية", path: "/OrderManagement/Cancelled" },
+        { icon: PackageOpen, text: "احتيال", path: "/OrderManagement/Fraud" },
       ],
     },
     {

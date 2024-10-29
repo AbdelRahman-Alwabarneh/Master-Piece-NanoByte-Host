@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Search } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Loading from "../../Components/Loading/Loading";
@@ -9,11 +9,11 @@ const PendingOrderManagement = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
-
+  const { orderStatus } = useParams();
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const response = await axios.post("http://localhost:2100/api/order");
+        const response = await axios.post(`http://localhost:2100/api/order/Status/${orderStatus}`);
         // Access the orders array from the response
         setInvoices(response.data.orders || []);
       } catch (error) {
@@ -25,7 +25,7 @@ const PendingOrderManagement = () => {
     };
 
     fetchInvoices();
-  }, []);
+  }, [orderStatus]);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -39,8 +39,26 @@ const PendingOrderManagement = () => {
         return "text-gray-400";
     }
   };
+  
+  const getOrderStatusColor = (status) => {
+    switch (status) {
+      case "Active":
+        return "text-green-400";
+      case "Pending":
+        return "text-yellow-400";
+      case "Cancelled":
+        return "text-red-400";
+      case "Fraud":
+        return "text-red-600";
+      default:
+        return "text-gray-400";
+    }
+  };
   const handleOrderClick = (OrderNumber) => {
     navigate(`/OrderDetails/${OrderNumber}`);
+  };
+  const handleUserClick = (userid) => {
+    navigate(`/userDetails/${userid}`);
   };
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-GB", {
@@ -96,7 +114,7 @@ const PendingOrderManagement = () => {
                   className="border-b border-[#3B82F6] hover:bg-[#2f64bb] transition-colors duration-200 text-center"
                 >
                   <td className="p-3 text-sm cursor-pointer hover:text-[#9de3ff]" onClick={() => handleOrderClick(invoice.orderNumber)}>{invoice.orderNumber}</td>
-                  <td className="p-3 text-sm">{invoice.userId.firstName}</td>
+                  <td className="p-3 text-sm cursor-pointer hover:text-[#9de3ff]" onClick={() => handleUserClick(invoice.userId._id)}>{invoice.userId.firstName}</td>
                   <td className="p-3 text-sm">
                     {invoice.Subscriptionduration}
                   </td>
@@ -110,7 +128,7 @@ const PendingOrderManagement = () => {
                     {invoice.paymentStatus}
                   </td>
                   <td
-                    className={`p-3 text-sm ${getStatusColor(
+                    className={`p-3 text-sm ${getOrderStatusColor(
                       invoice.orderStatus
                     )}`}
                   >
@@ -159,7 +177,7 @@ const PendingOrderManagement = () => {
               </p>
               <p className="mb-2 text-sm">
                 <span className="font-bold">حالة الطلب: </span>
-                <span className={getStatusColor(invoice.orderStatus)}>
+                <span className={getOrderStatusColor(invoice.orderStatus)}>
                   {invoice.orderStatus}
                 </span>
               </p>

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // تعريف سكيما الدفع
-const paymentSchema = new mongoose.Schema(
+const OrdersSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -14,6 +14,7 @@ const paymentSchema = new mongoose.Schema(
     },
     Subscriptionduration: {
       type: String,
+      enum: ["شهر واحد", "شهرين", "ثلاثة أشهر", "أربعة أشهر", "خمسة أشهر", "ستة أشهر"],
       required: true,
     },
     orderNumber: {
@@ -46,8 +47,21 @@ const paymentSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
+    renewalFee: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    nextPaymentDate: {
+      type: Date,
+      required: true,
+    },
+    expirationDate: {
+      type: Date,
+      required: true,
+    }
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Payment", paymentSchema, "Payments");
+module.exports = mongoose.model("Order", OrdersSchema, "Orders");

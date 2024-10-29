@@ -82,9 +82,9 @@ const discountCodeRoutes = require("./Routes/discountCodeRoutes");
 
 app.use("/api/discountCode", discountCodeRoutes);
 
-const paymentRoutes = require("./Routes/paymentRoutes");
+const ordersRoutes = require("./Routes/ordersRoutes");
 
-app.use("/api/payment", paymentRoutes);
+app.use("/api/orders", ordersRoutes);
 
 const invoicesRoutes = require("./Routes/invoicesRoutes");
 

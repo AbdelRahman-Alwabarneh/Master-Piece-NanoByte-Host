@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Calendar, DollarSign, User, CreditCard, Package, AlertCircle } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Calendar, DollarSign, User, CreditCard, Package, AlertCircle, CheckCircle } from 'lucide-react';
 import axios from 'axios';
+import Swal from "sweetalert2";
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import Loading from '../../Components/Loading/Loading';
 import NoDataFound from '../../Components/NoDataFound/NoDataFound';
@@ -11,7 +12,11 @@ const OrderDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [orderStatus, setOrderStatus] = useState('Pending');
+  const [showCheckmark, setShowCheckmark] = useState(false);
+  const [updatingStatus, setUpdatingStatus] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
   const { orderNumber } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -31,18 +36,38 @@ const OrderDetails = () => {
     fetchOrderDetails();
   }, [orderNumber]);
 
+  const handleOrderClick = (OrderNumber, id) => {
+    navigate(`/ServiceManagement/${id}/${OrderNumber}`);
+  };
+
   const getStatusColor = (status) => {
     switch (status) {
       case 'Completed':
-        return 'bg-green-500/10 text-green-400 border-green-500/20';
+        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
       case 'Pending':
-        return 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20';
+        return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
       case 'Active':
-        return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+        return 'bg-sky-500/10 text-sky-400 border-sky-500/20';
       case 'Cancelled':
-        return 'bg-red-500/10 text-red-400 border-red-500/20';
+        return 'bg-rose-500/10 text-rose-400 border-rose-500/20';
       case 'Fraud':
-        return 'bg-purple-500/10 text-purple-400 border-purple-500/20';
+        return 'bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20';
+      default:
+        return 'bg-gray-500/10 text-gray-400 border-gray-500/20';
+    }
+  };
+  const getOrderStatusColor = (status) => {
+    switch (status) {
+      case 'Active':
+        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+      case 'Pending':
+        return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+      case 'Active':
+        return 'bg-sky-500/10 text-sky-400 border-sky-500/20';
+      case 'Cancelled':
+        return 'bg-rose-500/10 text-rose-400 border-rose-500/20';
+      case 'Fraud':
+        return 'bg-rose-600/10 text-rose-500 border-rose-500/20';
       default:
         return 'bg-gray-500/10 text-gray-400 border-gray-500/20';
     }
@@ -69,12 +94,97 @@ const OrderDetails = () => {
     return statusMap[status] || status;
   };
 
+  const updateOrderStatus = async (newStatus, message) => {
+    Swal.fire({
+      title: "هل أنت متأكد؟",
+      text: message,
+      icon: "warning",
+      iconColor: "#ffcc00",
+      background: "#18296C",
+      color: "#ffffff",
+      showCancelButton: true,
+      confirmButtonColor: "#1E38A3",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "نعم",
+      cancelButtonText: "إلغاء",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.patch(`http://localhost:2100/api/order/${orderNumber}`, {
+            orderStatus: newStatus
+          });
+          
+          setOrderStatus(newStatus);
+          Swal.fire({
+            title: "تم التحديث!",
+            text: "تم تحديث حالة الطلب بنجاح",
+            icon: "success",
+            iconColor: "#28a745",
+            background: "#18296C",
+            color: "#ffffff",
+            confirmButtonColor: "#1E38A3",
+            confirmButtonText: "موافق",
+          });
+        } catch (error) {
+          Swal.fire({
+            title: "خطأ!",
+            text: "حدث خطأ أثناء تحديث الحالة",
+            icon: "error",
+            iconColor: "#ff0000",
+            background: "#18296C",
+            color: "#ffffff",
+            confirmButtonColor: "#1E38A3",
+            confirmButtonText: "موافق",
+          });
+        }
+      }
+    });
+  };
+
   const handleStatusChange = async (newStatus) => {
+    setUpdatingStatus(true);
+    setLoadingProgress(0);
+    
+    // إنشاء interval لتحديث نسبة التحميل
+    const loadingInterval = setInterval(() => {
+      setLoadingProgress(prev => {
+        if (prev >= 90) {
+          clearInterval(loadingInterval);
+          return 90;
+        }
+        return prev + 10;
+      });
+    }, 100); // جعلناها أسرع لتتناسب مع 3 ثواني
+  
     try {
-      setOrderStatus(newStatus);
+      // تأخير 3 ثواني
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
+      await axios.patch(`http://localhost:2100/api/order/${orderNumber}`, {
+        orderStatus: newStatus
+      });
+      
+    setOrderStatus(newStatus);
+    setUpdatingStatus(false);
+    clearInterval(loadingInterval);
+    setLoadingProgress(100);
+    
+    // إظهار علامة الصح لمدة 3 ثواني
+    setShowCheckmark(true);
+    setTimeout(() => {
+      setShowCheckmark(false);
+    }, 3000);
+      
     } catch (error) {
       console.error('Error updating status:', error);
+      setUpdatingStatus(false);
     }
+  
+    clearInterval(loadingInterval);
+  };
+
+  const handleUserClick = (userid) => {
+    navigate(`/userDetails/${userid}`);
   };
 
   if (loading) return <Loading />;
@@ -87,7 +197,7 @@ const OrderDetails = () => {
         <div className="max-w-7xl mx-auto">
           <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <h1 className="text-2xl font-semibold text-white">تفاصيل الطلب #{order.orderNumber}</h1>
-            <span className={`inline-flex px-3 py-1.5 rounded-full text-sm font-medium border ${getStatusColor(orderStatus)}`}>
+            <span className={`inline-flex px-3 py-1.5 rounded-full text-sm font-medium border ${getOrderStatusColor(orderStatus)}`}>
               {getStatusInArabic(orderStatus)}
             </span>
           </div>
@@ -101,7 +211,7 @@ const OrderDetails = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xs text-gray-400 mb-1">العميل</h3>
-                  <p className="text-base font-medium text-white">{order.userId.firstName}</p>
+                  <p className="text-base font-medium text-white cursor-pointer hover:text-[#9de3ff]" onClick={() => handleUserClick(order.userId._id)} >{order.userId.firstName}</p>
                   <p className="text-xs text-gray-400 mt-0.5">Email: {order.userId.email.split('@')[0]}</p>
                 </div>
               </div>
@@ -152,12 +262,12 @@ const OrderDetails = () => {
                 </thead>
                 <tbody>
                   <tr className="border-b border-white/10">
-                    <td className="py-3 px-4 text-sm text-white">{order.planName}</td>
+                    <td className="py-3 px-4 text-sm text-white cursor-pointer hover:text-[#9de3ff]" onClick={() => handleOrderClick(order.orderNumber,order.userId._id)}>{order.planName}</td>
                     <td className="py-3 px-4 text-sm text-white">{order.discountCode? order.discountCode : "لايوجد كود خصم"}</td>
                     <td className="py-3 px-4 text-sm text-white">{order.Subscriptionduration}</td>
                     <td className="py-3 px-4 text-sm text-white">${order.amount} USD</td>
                     <td className="py-3 px-4">
-                      <span className={`inline-flex px-2.5 py-1 rounded-full text-xs ${getStatusColor(orderStatus)}`}>
+                      <span className={`inline-flex px-2.5 py-1 rounded-full text-xs ${getOrderStatusColor(orderStatus)}`}>
                         {getStatusInArabic(orderStatus)}
                       </span>
                     </td>
@@ -175,25 +285,53 @@ const OrderDetails = () => {
           {/* Actions */}
           <div className="bg-white/5 backdrop-blur-sm rounded-lg p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
-              <select
-                value={orderStatus}
-                onChange={(e) => handleStatusChange(e.target.value)}
-                className="px-1 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-              >
-                <option value="Pending">في انتظار التفعيل</option>
-                <option value="Active">مفعل</option>
-                <option value="Cancelled">ملغي</option>
-                <option value="Fraud">احتيال</option>
-              </select>
+              <div className="relative flex items-center">
+                <select
+                  value={orderStatus}
+                  onChange={(e) => handleStatusChange(e.target.value)}
+                  className="px-1 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                  disabled={updatingStatus}
+                >
+                  <option value="Pending">في انتظار التفعيل</option>
+                  <option value="Active">مفعل</option>
+                  <option value="Cancelled">ملغي</option>
+                  <option value="Fraud">احتيال</option>
+                </select>
+                
+                <div className="mr-2 flex items-center">
+ {updatingStatus && (
+   <div className="w-5 h-5 relative">
+     <div className="absolute inset-0 border-2 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
+     <div 
+       className="absolute inset-0 flex items-center justify-center text-xs text-blue-500"
+       style={{ transform: `scale(${loadingProgress / 100})` }}
+     >
+       {loadingProgress}%
+     </div>
+   </div>
+ )}
+ {showCheckmark && (
+   <CheckCircle className="w-5 h-5 text-green-500" />
+ )}
+</div>
+              </div>
               <div className="flex flex-wrap gap-3">
-              <button className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-all duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
+                <button 
+                  onClick={() => updateOrderStatus('Fraud', 'هل تريد تحديد هذا الطلب كاحتيال؟')}
+                  className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-all duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+                >
                   اجعله في مجال الغش
                 </button>
-                <button className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
+                <button 
+                  onClick={() => updateOrderStatus('Cancelled', 'هل تريد رفض هذا الطلب؟')}
+                  className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                >
                   رفض الطلب
                 </button>
-               
-                <button className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+                <button 
+                  onClick={() => updateOrderStatus('Active', 'هل تريد قبول هذا الطلب؟')}
+                  className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+                >
                   قبول الطلب
                 </button>
               </div>

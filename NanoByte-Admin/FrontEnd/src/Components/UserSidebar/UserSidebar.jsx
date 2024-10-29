@@ -19,13 +19,13 @@ function UserSidebar() {
   const [activeTab, setActiveTab] = useState('home');
   const navigate = useNavigate();
   const location = useLocation();
-  const { id } = useParams();
+  const { id,OrderNumber } = useParams();
 
   const tabs = [
     { id: 'home', name: 'الملخص', path: `/userDetails/${id}`, icon: Home },
     { id: 'settings', name: 'الملف الشخصي', path: `/UserProfile/${id}`, icon: User },
     { id: 'invoices', name: 'الفواتير', path: '/invoices', icon: FileText },
-    { id: 'products', name: 'المنتجات', path: '/products', icon: ShoppingCart },
+    { id: 'products', name: 'المنتجات', path: `/ServiceManagement/${id}/${OrderNumber}`, icon: ShoppingCart },
     { id: 'support', name: 'الدعم الفني', path: '/support', icon: Headphones },
   ];
 

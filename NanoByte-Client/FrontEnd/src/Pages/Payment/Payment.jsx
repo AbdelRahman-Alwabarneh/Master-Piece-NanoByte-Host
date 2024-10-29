@@ -49,7 +49,7 @@ const PaymentPage = () => {
         paymentMethod: "PayPal",
       };
 
-      await axios.post("http://localhost:2000/api/payment", paymentData, {
+      await axios.post("http://localhost:2000/api/orders", paymentData, {
         withCredentials: true,
       });
       if (Servicetype == "VPS") {
@@ -66,7 +66,7 @@ const PaymentPage = () => {
           { withCredentials: true }
         );
       }
-      if (discountCode) {
+      if (discountCode == !null) {
         await axios.post(
           "http://localhost:2000/api/discountCode/useDiscountCode",
           { codeName: discountCode },
