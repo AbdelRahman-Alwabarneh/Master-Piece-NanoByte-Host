@@ -94,6 +94,7 @@ const VPSOrderDetails = () => {
     Cookies.set("planName", `استضافة خوادم مشتركة - ${vpsDetails.planName}`, {
       expires: 1,
     });
+    Cookies.set("planId", vpsDetails._id, { expires: 1 });
     Cookies.set("Price", totalPrice - discountAmount, { expires: 1 });
     Cookies.set("productLink", vpsDetails.productLink, { expires: 1 });
     Cookies.set("Subscriptionduration", Subscriptionduration, { expires: 1 });

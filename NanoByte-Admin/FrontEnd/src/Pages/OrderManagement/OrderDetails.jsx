@@ -263,7 +263,7 @@ const OrderDetails = () => {
                 <tbody>
                   <tr className="border-b border-white/10">
                     <td className="py-3 px-4 text-sm text-white cursor-pointer hover:text-[#9de3ff]" onClick={() => handleOrderClick(order.orderNumber,order.userId._id)}>{order.planName}</td>
-                    <td className="py-3 px-4 text-sm text-white">{order.discountCode? order.discountCode : "لايوجد كود خصم"}</td>
+                    <td className="py-3 px-4 text-sm text-white">{order.discountCode == !null? order.discountCode : "لايوجد كود خصم"}</td>
                     <td className="py-3 px-4 text-sm text-white">{order.Subscriptionduration}</td>
                     <td className="py-3 px-4 text-sm text-white">${order.amount} USD</td>
                     <td className="py-3 px-4">

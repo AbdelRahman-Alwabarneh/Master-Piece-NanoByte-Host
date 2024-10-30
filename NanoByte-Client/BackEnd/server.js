@@ -90,6 +90,10 @@ const invoicesRoutes = require("./Routes/invoicesRoutes");
 
 app.use("/api/invoices", invoicesRoutes);
 
+const ServiceRoutes = require("./Routes/ServiceRoutes");
+
+app.use("/api/service", ServiceRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

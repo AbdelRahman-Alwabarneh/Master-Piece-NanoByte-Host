@@ -18,6 +18,7 @@ const PaymentPage = () => {
   };
 
   const planName = Cookies.get("planName");
+  const planId = Cookies.get("planId");
   const Subscriptionduration = Cookies.get("Subscriptionduration");
   const productLink = Cookies.get("productLink");
   const Servicetype = Cookies.get("Servicetype");
@@ -42,20 +43,29 @@ const PaymentPage = () => {
       const captureResponse = await actions.order.capture();
       const paymentData = {
         planName,
+        planId,
         orderNumber: captureResponse.id,
         Subscriptionduration,
         discountCode,
+        Servicetype,
         amount: parseFloat(totalPrice),
         paymentMethod: "PayPal",
       };
 
-      await axios.post("http://localhost:2000/api/orders", paymentData, {
+     const response = await axios.post("http://localhost:2000/api/orders", paymentData, {
         withCredentials: true,
       });
+      const receivedOrderID = response.data._id;
+    
       if (Servicetype == "VPS") {
         await axios.post(
           "http://localhost:2000/api/vpsDetails",
           { productLink },
+          { withCredentials: true }
+        );
+        await axios.post(
+          "http://localhost:2000/api/service",
+          { orderNumber: captureResponse.id , receivedOrderID},
           { withCredentials: true }
         );
       }
@@ -65,6 +75,11 @@ const PaymentPage = () => {
           { productLink },
           { withCredentials: true }
         );
+        await axios.post(
+            "http://localhost:2000/api/service",
+            { orderNumber: captureResponse.id , receivedOrderID},
+            { withCredentials: true }
+          );
       }
       if (discountCode == !null) {
         await axios.post(

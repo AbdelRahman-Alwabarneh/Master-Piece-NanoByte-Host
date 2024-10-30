@@ -5,11 +5,13 @@ const paypal = require("@paypal/checkout-server-sdk");
 exports.createOrder = async (req, res) => {
   const {
     planName,
+    planId,
     orderNumber,
     amount,
     paymentMethod,
     Subscriptionduration,
     discountCode,
+    Servicetype,
   } = req.body;
 
   if (!req.user.id) {
@@ -62,6 +64,7 @@ exports.createOrder = async (req, res) => {
     const payment = new Payment({
       userId: req.user.id,
       planName,
+      Servicetype,
       orderNumber,
       Subscriptionduration,
       discountCode,
@@ -72,12 +75,13 @@ exports.createOrder = async (req, res) => {
       orderID: order.result.id,
       nextPaymentDate,
       expirationDate,
+      [Servicetype === 'VPS' ? 'vpsId' : 'dedicatedServerId']: planId,
     });
-    await payment.save();
+    const savedPayment = await payment.save();
 
     res.status(200).json({
       message: "Payment completed successfully",
-      orderID: order.result.id,
+      _id: savedPayment._id
     });
   } catch (error) {
     console.error(error);

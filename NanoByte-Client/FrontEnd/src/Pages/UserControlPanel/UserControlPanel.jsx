@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { User } from "lucide-react";
+import { User, Settings } from "lucide-react";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import Loading from "../../Components/Loading/Loading";
@@ -15,6 +15,9 @@ const ControlPanel = () => {
   const dispatch = useDispatch();
   const { user, status } = useSelector((state) => state.profile);
   const [invoices, setInvoices] = useState([]);
+  const [services, setServices] = useState([]);
+  const [servicesLoading, setServicesLoading] = useState(true);
+  const [servicesError, setServicesError] = useState(null);
   const [invoicesLoading, setInvoicesLoading] = useState(true);
   const [invoicesError, setInvoicesError] = useState(null);
 
@@ -25,6 +28,28 @@ const ControlPanel = () => {
       navigate("/Signup");
     }
   }, [dispatch, status, navigate]);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:2000/api/service/AllServiceUser",
+          {},
+          {
+            withCredentials: true,
+          }
+        );
+        setServices(response.data.service);
+        setServicesLoading(false);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+        setServicesError(error.message);
+        setServicesLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
 
   useEffect(() => {
     const fetchInvoices = async () => {
@@ -49,32 +74,76 @@ const ControlPanel = () => {
   const handleShowAllStats = () => {
     setShowAllStats(!showAllStats);
   };
+
   const orderDetails = (orderNumber) => {
     navigate(`/InvoicePage/${orderNumber}`);
   };
+
+  const calculateTimeRemaining = (nextPaymentDate) => {
+    const now = new Date();
+    const paymentDate = new Date(nextPaymentDate);
+    const diffTime = Math.abs(paymentDate - now);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor(
+      (diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    return `${diffDays}.${diffHours}`;
+  };
+
+  const formatStatus = (status) => {
+    switch (status.toLowerCase()) {
+      case "active":
+        return "نشط";
+      case "expired":
+        return "معلق";
+      case "cancelled":
+        return "ملغي";
+      case "pending":
+        return "قيد الأنشاء";
+      default:
+        return status;
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status.toLowerCase()) {
+      case "active":
+        return "text-green-600";
+        case "expired":
+        return "text-blue-600";
+        case "cancelled":
+        return "text-red-600";
+      case "pending":
+        return "text-yellow-600";
+      default:
+        return "text-gray-600";
+    }
+  };
+
+  // Rest of the existing code remains the same...
   const statistics = [
     {
-      title: "عدد الخوادم النشطة",
-      description: "عدد الخوادم النشطة",
+      title: "الطلبات المنفذة",
+      description: "إجمالي الطلبات المنفذة",
       value: "0",
     },
     {
-      title: "إجمالي المستخدمين",
-      description: "إجمالي عدد المستخدمين",
+      title: "الخوادم المعلقة",
+      description: "إجمالي الخوادم المعلقة",
       value: "0",
     },
     {
-      title: "التخزين المستخدم",
-      description: "حجم التخزين المستخدم",
-      value: "0 GB",
-    },
-    { title: "عرض النطاق", description: "استهلاك عرض النطاق", value: "0 MB" },
-    {
-      title: "المهام المكتملة",
-      description: "عدد المهام المكتملة",
+      title: "الخوادم النشطة",
+      description: "إجمالي عدد الخوادم النشطة",
       value: "0",
     },
-    { title: "وقت التشغيل", description: "متوسط وقت التشغيل", value: "100%" },
+    { title: "خوادم الألعاب النشطة", description: "إجمالي خوادم الألعاب النشطة", value: "0" },
+    {
+      title: "النطاقات النشطة",
+      description: "إجمالي النطاقات النشطة",
+      value: "0",
+    },
+    { title: "الطلبات الملغية", description: "إجمالي الطلبات الملغية", value: "0" },
   ];
 
   const formatEmail = (email) => {
@@ -83,15 +152,6 @@ const ControlPanel = () => {
     const lastPart = localPart.slice(-2);
     const stars = "***";
     return `${firstPart}${stars}${lastPart}@${domainPart}`;
-  };
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("ar-EG", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
   };
 
   const handleLogout = async () => {
@@ -111,7 +171,9 @@ const ControlPanel = () => {
       console.error("خطأ في تسجيل الخروج", error);
     }
   };
-
+  const handleUserClick = (serviceid,OrderNumber) => {
+    navigate(`/ServiceControlPanel/${serviceid}/${OrderNumber}`);
+  };
   return (
     <>
       <title>منطقة العمل - NanoByte</title>
@@ -197,23 +259,88 @@ const ControlPanel = () => {
                 </div>
               )}
 
-              <div className="bg-white text-black p-4 rounded-lg shadow mb-4 mt-4">
-                <h2 className="text-xl mb-2 font-bold text-right pb-2 border-b-[2px] border-b-[solid] border-b-[black]">
-                  المنتجات / الخدمات الفعالة
-                </h2>
-                <div className="flex justify-center py-24 flex-col items-center h-24 font-bold">
-                  <img src={services_svg} alt="Placeholder" className="mr-2" />
-                  <p className="text-gray-500 mt-2">
-                    لا توجد منتجات أو خدمات فعالة
-                  </p>
-                  <Link
-                    to="/VpsServer"
-                    className="text-gray-500 hover:text-blue-500 mt-1"
-                  >
-                    طلب خدمات جديدة
-                  </Link>
-                </div>
-              </div>
+<div className="bg-white text-black p-4 rounded-lg shadow mb-4 mt-4">
+  <h2 className="text-xl mb-2 font-bold text-right pb-2 border-b-[2px] border-b-[solid] border-b-[black]">
+    المنتجات / الخدمات الفعالة
+  </h2>
+  {servicesLoading ? (
+    <Loading />
+  ) : servicesError || !services || services.length === 0 ? (
+    <div className="flex justify-center py-24 flex-col items-center h-24 font-bold">
+      <img src={services_svg} alt="Placeholder" className="mr-2" />
+      <p className="text-gray-500 mt-2">
+        لا توجد منتجات أو خدمات فعالة
+      </p>
+      <Link
+        to="/VpsServer"
+        className="text-gray-500 hover:text-blue-500 mt-1"
+      >
+        طلب خدمات جديدة
+      </Link>
+    </div>
+  ) : (
+    <div className="overflow-x-auto">
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              لوحة التحكم
+            </th>
+            <th className="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              حالة الخادم
+            </th>
+            <th className="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              باقي للخادم
+            </th>
+            <th className="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              الرام
+            </th>
+            <th className="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              IP الخاص
+            </th>
+            <th className="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              IP العام
+            </th>
+            <th className="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              اسم الخادم
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {services.map((service) => (
+            <tr key={service._id} className="hover:bg-gray-50">
+              <td onClick={() => handleUserClick(service._id, service.OrderNumber)} className="px-3 py-4 whitespace-nowrap text-center">
+                <button className="text-blue-600 hover:text-blue-800">
+                  <Settings size={20} />
+                </button>
+              </td>
+              <td className="px-3 py-4 whitespace-nowrap text-center">
+                <span className={getStatusColor(service.status)}>
+                  {formatStatus(service.status)}
+                </span>
+              </td>
+              <td className="px-3 py-4 whitespace-nowrap text-center">
+                {calculateTimeRemaining(service.OrderdId.nextPaymentDate)}
+              </td>
+              <td className="px-3 py-4 whitespace-nowrap text-center">
+                {service.OrderdId.vpsId.ram}
+              </td>
+              <td className="px-3 py-4 whitespace-nowrap text-center">
+                {service.privateIP}
+              </td>
+              <td className="px-3 py-4 whitespace-nowrap text-center">
+                {service.domain}
+              </td>
+              <td className="px-3 py-4 whitespace-nowrap text-center font-medium">
+                {service.OrderdId.vpsId.planName}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+</div>
 
               <div className="bg-white text-black p-4 rounded-lg shadow font-bold">
                 <h2 className="text-xl mb-2 text-right font-bold pb-2 border-b-[2px] border-b-[solid] border-b-[black]">

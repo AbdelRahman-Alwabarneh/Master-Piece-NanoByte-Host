@@ -11,6 +11,7 @@ import {
     User,
     FileText,
     ShoppingCart,
+    Mail,
     Headphones
 } from "lucide-react";
 
@@ -26,7 +27,7 @@ function UserSidebar() {
     { id: 'settings', name: 'الملف الشخصي', path: `/UserProfile/${id}`, icon: User },
     { id: 'invoices', name: 'الفواتير', path: '/invoices', icon: FileText },
     { id: 'products', name: 'المنتجات', path: `/ServiceManagement/${id}/${OrderNumber}`, icon: ShoppingCart },
-    { id: 'support', name: 'الدعم الفني', path: '/support', icon: Headphones },
+    { id: 'email', name: 'البريد', path: '/email', icon: Mail },
   ];
 
   useEffect(() => {

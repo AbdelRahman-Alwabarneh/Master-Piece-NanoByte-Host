@@ -10,6 +10,7 @@ import WindowsWebsiteHosting from "./Pages/WindowsWebsiteHosting/WindowsWebsiteH
 import DomainsPage from "./Pages/Domains/Domains";
 import ControlPanel from "./Pages/UserControlPanel/UserControlPanel";
 import UserProfile from "./Pages/UserControlPanel/UserProfile/UserProfile";
+import ServiceControlPanel from "./Pages/UserControlPanel/ServiceControlPanel/ServiceControlPanel";
 import VPSDetails from "./Pages/VPS_Details/VPS_Details";
 import DedicatedOrderDetails from "./Pages/DedicatedServerDetails/DedicatedServerDetails";
 import PaymentPage from "./Pages/Payment/Payment";
@@ -46,6 +47,7 @@ function App() {
           <Route path="/DedicatedDetails/:productLink" element={<DedicatedOrderDetails />} />
           <Route path="/Payment" element={<PaymentPage />} />
           <Route path="/InvoicePage/:orderNumber" element={<InvoicePage />} />
+          <Route path="/ServiceControlPanel/:serviceId/:orderNumber" element={<ServiceControlPanel />} />
 
         </Routes>
       </BrowserRouter>

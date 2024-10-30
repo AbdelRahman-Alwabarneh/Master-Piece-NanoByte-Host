@@ -6,30 +6,32 @@ const ServiceSchema = new mongoose.Schema({
         ref: "User",
         required: true,
       },
+      OrderdId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order",
+        required: true,
+      },
       OrderNumber: {
         type: String,
         required: true
     },
     domain: {
         type: String,
-        required: true
     },
     privateIP: {
         type: String,
-        required: true
     },
     username: {
         type: String,
-        required: true
     },
     password: {
         type: String,
-        required: true
     },
     status: {
         type: String,
         enum: ['active', 'pending', 'expired', 'cancelled', 'refunded'],
-        required: true
+        required: true,
+        default: "pending",
     },
     operatingSystem: {
         type: String,

@@ -93,6 +93,7 @@ const DedicatedOrderDetails = () => {
     Cookies.set("planName", serverDetails.planTitle, {
       expires: 1,
     });
+    Cookies.set("planId", serverDetails._id, { expires: 1 });
     Cookies.set("Price", totalPrice - discountAmount, { expires: 1 });
     Cookies.set("productLink", serverDetails.productLink, { expires: 1 });
     Cookies.set("Subscriptionduration", Subscriptionduration, { expires: 1 });

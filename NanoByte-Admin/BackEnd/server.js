@@ -45,6 +45,10 @@ const orderRoutes = require("./Routes/orderRoutes");
 
 app.use("/api/order", orderRoutes);
 
+const ServiceRoutes = require("./Routes/ServiceRoutes");
+
+app.use("/api/service", ServiceRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
