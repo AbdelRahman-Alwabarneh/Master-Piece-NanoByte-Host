@@ -139,3 +139,15 @@ exports.DedicatedServerData = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
+
+  exports.DedicatedServerDataNotHidden = async (req, res) => {
+    try {
+      const DedicatedServerData = await DedicatedServer.find({isHidden: false});
+  
+      res.status(200).json({ DedicatedServerData });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Internal server error", error: error.message });
+    }
+  };

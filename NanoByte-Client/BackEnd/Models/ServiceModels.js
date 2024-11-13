@@ -15,6 +15,11 @@ const ServiceSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    Servicetype: {
+        type: String,
+        enum: ['VPS', 'DedicatedServer'],
+        required: true,
+      },
     domain: {
         type: String,
     },

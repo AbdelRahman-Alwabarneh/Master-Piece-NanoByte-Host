@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Website1 from "../../Assets/Photo/svgexport-10 1.svg";
 import Website2 from "../../Assets/Photo/svgexport-9 1.svg";
 import Website3 from "../../Assets/Photo/svgexport-8 1.svg";
@@ -8,10 +8,15 @@ import Website4 from "../../Assets/Photo/svgexport-7 2.svg";
 import Loading from "../Loading/Loading";
 import LogoNanoByte from "../../Assets/Photo/logolit-removebg-preview.png";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserProfile } from "../../Redux/Slice/profileSlice";
-import { User, ShoppingBag, LogOut } from "lucide-react";
+import {
+  fetchUserProfile,
+  clearUserProfile,
+} from "../../Redux/Slice/profileSlice";
+import { User, ShoppingBag, LogOut, Boxes, MailSearch } from "lucide-react";
+
 function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [BorgarMenu, setBorgarMenu] = useState(false);
   const [servicesDropdown, setServicesDropdown] = useState(false);
   const [ProfileDropdown, setProfileDropdown] = useState(false);
@@ -38,7 +43,7 @@ function Header() {
     if (status === "idle") {
       dispatch(fetchUserProfile());
     }
-  }, [dispatch, status]);
+  }, [dispatch, status, location]);
 
   useEffect(() => {
     if (status === "loading") {
@@ -47,14 +52,19 @@ function Header() {
       setIsLoading(false);
     }
   }, [status]);
-  
+
   const handleLogout = async () => {
     try {
-      const response = await axios.post(import.meta.env.VITE_USER_LOG_OUT, {},{
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        import.meta.env.VITE_USER_LOG_OUT,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
 
       if (response.status === 200) {
+        dispatch(clearUserProfile());
         navigate("/login");
       }
     } catch (error) {
@@ -127,7 +137,19 @@ function Header() {
                               <span className="font-cairo ml-3">
                                 الملف الشخصي
                               </span>
-                              <User className="w-5 h-5 text-blue-600" />
+                              <User className="w-5 h-5 ml-1 text-blue-600" />
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to="/Services/VPS"
+                              className="flex items-center justify-end px-4 py-3 text-blue-800 hover:bg-blue-50 transition duration-300"
+                              onClick={() => setServicesDropdown(false)}
+                            >
+                              <span className="font-cairo ml-3">
+                                إدارة المنتجات
+                              </span>
+                              <Boxes className="w-5 h-5 ml-1 text-blue-600" />
                             </Link>
                           </li>
                           <li>
@@ -137,7 +159,19 @@ function Header() {
                               onClick={() => setServicesDropdown(false)}
                             >
                               <span className="font-cairo ml-3">الطلبات</span>
-                              <ShoppingBag className="w-5 h-5 text-blue-600" />
+                              <ShoppingBag className="w-5 h-5 ml-1 text-blue-600" />
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to="/EmailPage"
+                              className="flex items-center justify-end px-4 py-3 text-blue-800 hover:bg-blue-50 transition duration-300"
+                              onClick={() => setServicesDropdown(false)}
+                            >
+                              <span className="font-cairo ml-3">
+                                سجل البريد
+                              </span>
+                              <MailSearch className="w-5 h-5 ml-1 text-blue-600" />
                             </Link>
                           </li>
                           <li>

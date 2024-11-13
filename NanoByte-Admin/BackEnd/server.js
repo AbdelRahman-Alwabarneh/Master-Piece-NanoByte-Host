@@ -49,6 +49,22 @@ const ServiceRoutes = require("./Routes/ServiceRoutes");
 
 app.use("/api/service", ServiceRoutes);
 
+const emailTemplateRoutes = require("./Routes/emailTemplateRoutes");
+
+app.use("/api/emailTemplate", emailTemplateRoutes);
+
+const SendEmailRoutes = require("./Routes/SendEmailRoutes");
+
+app.use("/api/SendEmail", SendEmailRoutes);
+
+const emailLogRoutes = require("./Routes/emailLogRoutes");
+
+app.use("/api/emailLog", emailLogRoutes);
+
+const websiteHostingRoutes = require("./Routes/websiteHostingRoutes");
+
+app.use("/api/websiteHosting", websiteHostingRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

@@ -20,7 +20,7 @@ import {
   PackageCheck,
   PackageX,
   PackageOpen,
-  Clock  
+  MailPlus  
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -74,7 +74,7 @@ const Sidebar = () => {
         { icon: HardDrive, text: "الخودام المركزية", path: "/DedicatedServerManagement" },
         { icon: Server, text: "الخوادم المشتركة", path: "/VPSManagement" },
         { icon: Boxes, text: "إستضافة خوادم ألعاب", path: "/Dashboard/users/reports" },
-        { icon: Globe, text: "إستضافة مواقع", path: "/Dashboard/users/reports" },
+        { icon: Globe, text: "إستضافة مواقع", path: "/DedicatedServerManagement" },
       ],
     },
     {
@@ -87,7 +87,7 @@ const Sidebar = () => {
 
       ],
     },
-    { icon: CalendarCog, text: "المواعيد", path: "/Dashboard/Appointments" },
+    { icon: MailPlus, text: "إِدارة البريد", path: "/EmailTemplateManagement" },
     { icon: Contact, text: "اتصل بنا", path: "/Dashboard/ContactUS" },
   ];
 

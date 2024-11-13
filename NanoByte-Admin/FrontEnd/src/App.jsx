@@ -18,7 +18,15 @@ import AddDiscountCode from "./Pages/DiscountCode/addDiscountCode";
 import DetailsDiscountCode from "./Pages/DiscountCode/DetailsDiscountCode";
 import OrderManagement from "./Pages/OrderManagement/OrderManagement";
 import OrderDetails from "./Pages/OrderManagement/OrderDetails";
+import OrdersPage from "./Pages/Users/OrdersPage/OrdersPage";
 import ServiceManagement from "./Pages/Users/ServiceManagement/ServiceManagement";
+import AddEmailTemplate from "./Pages/MailTemplates/addMailTemplates";
+import EmailTemplateManagement from "./Pages/MailTemplates/MailTemplatesManagement";
+import EmailTemplateDetails from "./Pages/MailTemplates/MailTemplateDetails";
+import EmailLogsPage from "./Pages/Users/Emailpage/Emailpage";
+import AddWebsiteHosting from "./Pages/WebsiteHosting/AddWebsiteHosting";
+import WebsiteHostingDetails from "./Pages/WebsiteHosting/DetailsWebsiteHosting";
+import WebsiteHostingManagement from "./Pages/WebsiteHosting/WebsiteHostingManagement";
 function App() {
   return (
     <>
@@ -45,7 +53,15 @@ function App() {
           <Route path="/DetailsDiscountCode/:id" element={<DetailsDiscountCode />} />
           <Route path="/OrderManagement/:orderStatus" element={<OrderManagement />} />
           <Route path="/OrderDetails/:orderNumber" element={<OrderDetails />} />
+          <Route path="/Orders/:id" element={<OrdersPage />} />
           <Route path="/ServiceManagement/:id/:OrderNumber" element={<ServiceManagement />} />
+          <Route path="/AddEmailTemplate" element={<AddEmailTemplate />} />
+          <Route path="/EmailTemplateManagement" element={<EmailTemplateManagement />} />
+          <Route path="/EmailTemplateDetails/:id" element={<EmailTemplateDetails />} />
+          <Route path="/EmailLogsPage/:id" element={<EmailLogsPage />} />
+          <Route path="/AddWebsiteHosting" element={<AddWebsiteHosting />} />
+          <Route path="/WebsiteHostingDetails/:id" element={<WebsiteHostingDetails />} />
+          <Route path="/WebsiteHostingManagement" element={<WebsiteHostingManagement />} />
 
         </Routes>
       </BrowserRouter>

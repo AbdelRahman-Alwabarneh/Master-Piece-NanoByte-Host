@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Loading from "../../Components/Loading/Loading";
 import NoDataFound from "../../Components/NoDataFound/NoDataFound";
-import { Search, Plus, Eye, EyeOff } from "lucide-react";
+import { Search, Plus, Eye, EyeOff ,ToggleLeft,ToggleRight} from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -210,25 +210,23 @@ const DiscountCodeManagement = () => {
                   </td>
                   <td className="p-3 text-xs sm:text-sm flex items-center justify-center">
                     <button
-                      onClick={() => handleIsActive(code._id, code.isActive)}
-                      className={`flex items-center justify-center space-x-1 p-2 text-white rounded-md transition duration-300 ${
-                        code.isActive
-                          ? "bg-red-500 hover:bg-red-600"
-                          : "bg-green-500 hover:bg-green-600"
-                      }`}
-                    >
-                      {code.isActive ? (
-                        <>
-                          <EyeOff className="w-3 h-3 sm:w-4 sm:h-4" />
-                          <span className="text-[10px] sm:text-xs">تعطيل</span>
-                        </>
-                      ) : (
-                        <>
-                          <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
-                          <span className="text-[10px] sm:text-xs">تفعيل</span>
-                        </>
-                      )}
-                    </button>
+                 onClick={() => handleIsActive(code._id, code.isActive)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-colors ${
+                  code.isActive ? 'bg-green-600/90 hover:bg-green-600' : 'bg-gray-600/90 hover:bg-gray-600'
+                }`}
+              >
+                {code.isActive ? (
+                  <>
+                    <ToggleRight className="w-4 h-4" />
+                    <span>فعال</span>
+                  </>
+                ) : (
+                  <>
+                    <ToggleLeft className="w-4 h-4" />
+                    <span>معطل</span>
+                  </>
+                )}
+              </button>
                   </td>
                 </tr>
               ))}
@@ -280,25 +278,23 @@ const DiscountCodeManagement = () => {
         {code.isActive ? "نشط" : "غير نشط"}
       </p>
       <button
-        onClick={() => handleIsActive(code._id, code.isActive)}
-        className={`flex items-center justify-center space-x-1 p-2 text-white rounded-md transition duration-300 ${
-          code.isActive
-            ? "bg-red-500 hover:bg-red-600"
-            : "bg-green-500 hover:bg-green-600"
-        }`}
-      >
-        {code.isActive ? (
-          <>
-            <EyeOff className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span className="text-[10px] sm:text-xs">تعطيل</span>
-          </>
-        ) : (
-          <>
-            <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span className="text-[10px] sm:text-xs">تفعيل</span>
-          </>
-        )}
-      </button>
+                 onClick={() => handleIsActive(code._id, code.isActive)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-colors ${
+                  code.isActive ? 'bg-green-600/90 hover:bg-green-600' : 'bg-gray-600/90 hover:bg-gray-600'
+                }`}
+              >
+                {code.isActive ? (
+                  <>
+                    <ToggleRight className="w-4 h-4" />
+                    <span>فعال</span>
+                  </>
+                ) : (
+                  <>
+                    <ToggleLeft className="w-4 h-4" />
+                    <span>معطل</span>
+                  </>
+                )}
+              </button>
     </div>
   ))}
 </div>

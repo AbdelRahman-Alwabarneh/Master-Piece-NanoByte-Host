@@ -6,7 +6,7 @@ const auth = (req, res, next) => {
   const token = req.cookies.authToken; // تأكد من أن اسم الكوكيز يتوافق مع الاسم الذي تستخدمه
 
   if (!token) {
-    return res.status(401).json({ message: 'Access denied. No token provided.' });
+    return res.status(401).json({authenticated: false, message: 'Access denied. No token provided.' });
   }
 
   try {
@@ -15,12 +15,11 @@ const auth = (req, res, next) => {
     
     // إضافة المستخدم الذي تم فك تشفيره إلى الطلب
     req.user = decoded;
-
     // متابعة التنفيذ
     next();
   } catch (err) {
     // في حال وجود مشكلة في التوكن
-    res.status(400).json({ message: 'Invalid token.' });
+    res.status(400).json({authenticated: false, message: 'Invalid token.' });
   }
 };
 

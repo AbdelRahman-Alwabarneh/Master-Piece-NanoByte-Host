@@ -7,5 +7,6 @@ const authMiddleware = require('../Middlewares/authMiddleware');
 router.post('/', authMiddleware,ServiceControllers.createService);
 router.post('/AllServiceUser', authMiddleware,ServiceControllers.getServiceByUserId);
 router.post('/Controlpanel/:id/:OrderNumber',authMiddleware,ServiceControllers.getServiceByUserIdAndOrder);
+router.post('/ServiceUser/:serviceType', authMiddleware,ServiceControllers.getServiceByUserIdAndType);
 
 module.exports = router;

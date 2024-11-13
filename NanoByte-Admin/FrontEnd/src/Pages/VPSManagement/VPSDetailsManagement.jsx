@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Save, X } from "lucide-react";
+import { Save, X , ToggleRight,ToggleLeft} from "lucide-react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { VPSDetails, updateVPS } from "../../Redux/Slice/VPSManagementSlice";
@@ -427,18 +427,29 @@ const VPSDetailsManagement = () => {
                     readOnly={plan.isUnlimited}
                   />
                 </div>
+            
                 <div
                   onClick={handleToggle}
-                  className={`flex items-center space-x-2 cursor-pointer px-4 py-3 rounded-lg ${
-                    plan.isUnlimited ? "bg-green-500" : "bg-white/5"
+                  className={`flex items-center space-x-2 text-sm cursor-pointer rounded-lg ${
+                    plan.isUnlimited ? 'bg-green-600/90 hover:bg-green-600' : 'bg-gray-600/90 hover:bg-gray-600'
                   }`}
                 >
                   <span
-                    className={`text-sm font-medium ${
+                    className={`flex items-center gap-2 px-3 py-2.5 rounded transition-colors ${
                         plan.isUnlimited ? "text-white/100" : "text-white/80"
                     } whitespace-nowrap`}
                   >
-                    {plan.isUnlimited ? "لا نهائي" : "محدود"}
+                    {plan.isUnlimited ? (
+                  <>
+                   <ToggleRight className="w-4 h-4" />
+                   <span>لانهائي</span>
+                  </>
+                ) : (
+                  <>
+                  <ToggleLeft className="w-4 h-4" />
+                    <span>لانهائي</span>
+                  </>
+                )}
                   </span>
                 </div>
               </div>

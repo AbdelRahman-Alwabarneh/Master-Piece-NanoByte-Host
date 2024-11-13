@@ -136,3 +136,15 @@ exports.HiddenVPSPlan = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.VPSPlansDataNotHidden = async (req, res) => {
+  try {
+    const VPSPlansDataNotHidden = await VPSPlan.find({isHidden: false});
+
+    res.status(200).json({ VPSPlansDataNotHidden });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+};

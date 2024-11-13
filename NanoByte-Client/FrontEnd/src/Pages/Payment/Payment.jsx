@@ -65,7 +65,7 @@ const PaymentPage = () => {
         );
         await axios.post(
           "http://localhost:2000/api/service",
-          { orderNumber: captureResponse.id , receivedOrderID},
+          { orderNumber: captureResponse.id , receivedOrderID , Servicetype},
           { withCredentials: true }
         );
       }
@@ -77,7 +77,7 @@ const PaymentPage = () => {
         );
         await axios.post(
             "http://localhost:2000/api/service",
-            { orderNumber: captureResponse.id , receivedOrderID},
+            { orderNumber: captureResponse.id , receivedOrderID , Servicetype},
             { withCredentials: true }
           );
       }

@@ -12,6 +12,11 @@ const OrdersSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    Servicetype: {
+      type: String,
+      enum: ['VPS', 'DedicatedServer'],
+      required: true,
+    },
     Subscriptionduration: {
       type: String,
       enum: ["شهر واحد", "شهرين", "ثلاثة أشهر", "أربعة أشهر", "خمسة أشهر", "ستة أشهر"],
@@ -24,7 +29,7 @@ const OrdersSchema = new mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ["Visa", "PayPal"],
+      enum: ["Visa / MasterCard", "PayPal"],
       required: true,
     },
     paymentStatus: {
@@ -59,7 +64,22 @@ const OrdersSchema = new mongoose.Schema(
     expirationDate: {
       type: Date,
       required: true,
+    },
+    vpsId: { 
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "VPS", 
+      required: function() {
+        return this.serviceType === 'VPS';
+      },
+    },
+    dedicatedServerId: { 
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "DedicatedServer", 
+      required: function() {
+        return this.serviceType === 'DedicatedServer'; 
+      },
     }
+
   },
   { timestamps: true }
 );

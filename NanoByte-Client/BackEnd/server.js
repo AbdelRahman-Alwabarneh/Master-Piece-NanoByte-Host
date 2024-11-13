@@ -94,6 +94,14 @@ const ServiceRoutes = require("./Routes/ServiceRoutes");
 
 app.use("/api/service", ServiceRoutes);
 
+const checkAuthRoutes = require("./Routes/checkAuthRoutes");
+
+app.use("/api/checkAuth", checkAuthRoutes);
+
+const emailLogRoutes = require("./Routes/emailLogRoutes");
+
+app.use("/api/emailLog", emailLogRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

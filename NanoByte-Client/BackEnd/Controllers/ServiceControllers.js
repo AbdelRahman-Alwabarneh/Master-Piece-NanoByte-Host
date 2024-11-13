@@ -5,6 +5,7 @@ exports.createService = async (req, res) => {
     const {
         orderNumber,
         receivedOrderID,
+        Servicetype,
     } = req.body;
     console.log(receivedOrderID);
     
@@ -21,6 +22,7 @@ exports.createService = async (req, res) => {
         userId: req.user.id,
         OrderdId: receivedOrderID,
         OrderNumber: orderNumber,
+        Servicetype,
     });
 
     res.status(201).json({
@@ -58,7 +60,7 @@ exports.getServiceByUserId = async (req, res) => {
           {
             path: "dedicatedServerId", // ربط الـ DedicatedServer إذا كان موجودًا
             model: "DedicatedServer", // تأكد من وجود هذا الموديل
-            select: "planName cpu ram storage",
+            select: "planTitle planDescription",
           },
         ],
       });
@@ -110,7 +112,7 @@ exports.getServiceByUserId = async (req, res) => {
             {
               path: "dedicatedServerId", // جلب بيانات الخادم المخصص إن وجد
               model: "DedicatedServer",
-              select: "planName cpu ram storage",
+              select: "planTitle secondaryTitle planDescription",
             },
           ],
         });
@@ -135,4 +137,81 @@ exports.getServiceByUserId = async (req, res) => {
     }
   };
 
-  
+ exports.getServiceByUserIdAndType = async (req, res) => {
+    try {
+        const { serviceType } = req.params;
+
+        // التحقق من وجود userId
+        if (!req.user.id) {
+            return res.status(400).json({
+                message: "userId is required",
+            });
+        }
+
+        // التحقق من وجود نوع الخدمة
+        if (!serviceType) {
+            return res.status(400).json({
+                message: "Service type is required.",
+            });
+        }
+
+        // الحصول على الصفحة والحد الافتراضي للباجينيشن
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit);  // تحديد الحد الافتراضي 10 إذا لم يتم تحديده
+
+        // حساب عدد السجلات التي يجب تخطيها
+        const skip = (page - 1) * limit;
+
+        // جلب البيانات مع الباجينيشن
+        const totalCount = await Service.countDocuments({
+          userId: req.user.id,
+          Servicetype: serviceType
+      });
+      
+        const service = await Service.find({ userId: req.user.id })
+            .populate({
+                path: "OrderdId",
+                match: { Servicetype: serviceType }, // تصفية نوع الخدمة داخل Order
+                select: "Servicetype orderStatus subscriptionDuration nextPaymentDate renewalFee paymentStatus vpsId dedicatedServerId",
+                populate: serviceType === "VPS"
+                    ? {
+                        path: "vpsId",
+                        model: "VPS",
+                        select: "planName cpu ram storage",
+                    }
+                    : serviceType === "DedicatedServer"
+                    ? {
+                        path: "dedicatedServerId",
+                        model: "DedicatedServer",
+                        select: "planTitle planDescription",
+                    }
+                    : null,
+            })
+            .skip(skip)
+            .limit(limit);
+
+        // تصفية النتائج الفارغة
+        const filteredService = service.filter(s => s.OrderdId);
+
+        // التحقق من وجود خدمة بناءً على الفلاتر
+        if (filteredService.length === 0) {
+            return res.status(404).json({
+                message: `${serviceType} Service not found`,
+            });
+        }
+
+        // إرجاع البيانات مع تفاصيل الباجينيشن
+        res.status(200).json({
+            services: filteredService,
+            currentPage: page,
+            totalPages: Math.ceil(totalCount / limit),
+            totalItems: totalCount,
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Error retrieving service",
+            error: error.message,
+        });
+    }
+};
+

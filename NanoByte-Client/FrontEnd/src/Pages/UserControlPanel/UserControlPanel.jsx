@@ -50,11 +50,13 @@ const ControlPanel = () => {
 
     fetchServices();
   }, []);
+  const activeCount = services.filter(service => service.status === 'active').length;
+  const expiredCount = services.filter(service => service.status === 'expired').length;
 
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const response = await axios.get("http://localhost:2000/api/invoices", {
+        const response = await axios.get("http://localhost:2000/api/invoices/getPayments", {
           withCredentials: true,
         });
         setInvoices(response.data);
@@ -68,7 +70,7 @@ const ControlPanel = () => {
 
     fetchInvoices();
   }, []);
-
+  const orderCancelled = invoices.filter(invoice => invoice.orderStatus === 'Cancelled').length;
   const [showAllStats, setShowAllStats] = useState(false);
 
   const handleShowAllStats = () => {
@@ -125,25 +127,39 @@ const ControlPanel = () => {
     {
       title: "الطلبات المنفذة",
       description: "إجمالي الطلبات المنفذة",
-      value: "0",
+      value: invoices.length,
+      link: "/Orders"
     },
     {
       title: "الخوادم المعلقة",
       description: "إجمالي الخوادم المعلقة",
-      value: "0",
+      value: expiredCount,
+      link: "/ExpiredServers"
     },
     {
       title: "الخوادم النشطة",
       description: "إجمالي عدد الخوادم النشطة",
-      value: "0",
+      value: activeCount,
+      link: "/Services/VPS"
     },
-    { title: "خوادم الألعاب النشطة", description: "إجمالي خوادم الألعاب النشطة", value: "0" },
+    { 
+      title: "خوادم الألعاب النشطة", 
+      description: "إجمالي خوادم الألعاب النشطة", 
+      value: "0",
+      link: "/GameServers"
+    },
     {
       title: "النطاقات النشطة",
       description: "إجمالي النطاقات النشطة",
       value: "0",
+      link: "/Domains"
     },
-    { title: "الطلبات الملغية", description: "إجمالي الطلبات الملغية", value: "0" },
+    { 
+      title: "الطلبات الملغية", 
+      description: "إجمالي الطلبات الملغية", 
+      value: orderCancelled,
+      link: "/CancelledOrders"
+    },
   ];
 
   const formatEmail = (email) => {
@@ -188,43 +204,45 @@ const ControlPanel = () => {
             {/* Left Section */}
             <div className="flex-grow order-2 lg-1074:order-1">
               {/* Statistics Section */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg-1074:grid-cols-3 gap-4 mb-4">
                 {/* For small screens */}
                 <div className="lg-1074:hidden">
-                  {statistics.slice(0, 1).map((stat, index) => (
-                    <div
-                      key={index}
-                      className="bg-white text-black p-4 rounded-lg shadow"
-                    >
-                      <p className="text-xl mb-2 text-right font-bold">
-                        {stat.title}
-                      </p>
-                      <p className="text-sm mb-2 text-right">
-                        {stat.description}
-                      </p>
-                      <p className="text-3xl font-bold text-right">
-                        {stat.value}
-                      </p>
-                    </div>
-                  ))}
+                    {statistics.slice(0, 1).map((stat, index) => (
+                <Link to={stat.link} key={index} >
+                <div
+                  className="bg-white text-black p-4 rounded-lg shadow"
+                >
+                  <p className="text-xl mb-2 text-right font-bold">
+                    {stat.title}
+                  </p>
+                  <p className="text-sm mb-2 text-right">
+                    {stat.description}
+                  </p>
+                  <p className="text-3xl font-bold text-right">
+                    {stat.value}
+                  </p>
+                </div>
+              </Link>
+                    ))}
                 </div>
                 {/* For large screens */}
                 <div className="hidden lg-1074:contents">
                   {statistics.map((stat, index) => (
-                    <div
-                      key={index}
-                      className="bg-white text-black p-4 rounded-lg shadow"
-                    >
-                      <p className="text-xl mb-2 text-right font-bold">
-                        {stat.title}
-                      </p>
-                      <p className="text-sm mb-2 text-right">
-                        {stat.description}
-                      </p>
-                      <p className="text-3xl font-bold text-right">
-                        {stat.value}
-                      </p>
-                    </div>
+                 <Link to={stat.link} key={index} >
+                 <div
+                   className="bg-white text-black p-4 rounded-lg shadow"
+                 >
+                   <p className="text-xl mb-2 text-right font-bold">
+                     {stat.title}
+                   </p>
+                   <p className="text-sm mb-2 text-right">
+                     {stat.description}
+                   </p>
+                   <p className="text-3xl font-bold text-right">
+                     {stat.value}
+                   </p>
+                 </div>
+               </Link>
                   ))}
                 </div>
               </div>
@@ -241,8 +259,8 @@ const ControlPanel = () => {
               {showAllStats && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 lg-1074:hidden">
                   {statistics.slice(1).map((stat, index) => (
+                    <Link to={stat.link} key={index} >
                     <div
-                      key={index}
                       className="bg-white text-black p-4 rounded-lg shadow"
                     >
                       <p className="text-xl mb-2 text-right font-bold">
@@ -255,13 +273,14 @@ const ControlPanel = () => {
                         {stat.value}
                       </p>
                     </div>
+                  </Link>
                   ))}
                 </div>
               )}
 
 <div className="bg-white text-black p-4 rounded-lg shadow mb-4 mt-4">
   <h2 className="text-xl mb-2 font-bold text-right pb-2 border-b-[2px] border-b-[solid] border-b-[black]">
-    المنتجات / الخدمات الفعالة
+  احصائيات اخر 5 منتجات / خدمات فعالة 
   </h2>
   {servicesLoading ? (
     <Loading />
@@ -299,42 +318,55 @@ const ControlPanel = () => {
               IP الخاص
             </th>
             <th className="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-              IP العام
+              اسم الخادم
             </th>
             <th className="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-              اسم الخادم
+              اسم الخطة
             </th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {services.map((service) => (
-            <tr key={service._id} className="hover:bg-gray-50">
-              <td onClick={() => handleUserClick(service._id, service.OrderNumber)} className="px-3 py-4 whitespace-nowrap text-center">
-                <button className="text-blue-600 hover:text-blue-800">
-                  <Settings size={20} />
-                </button>
-              </td>
-              <td className="px-3 py-4 whitespace-nowrap text-center">
-                <span className={getStatusColor(service.status)}>
-                  {formatStatus(service.status)}
-                </span>
-              </td>
-              <td className="px-3 py-4 whitespace-nowrap text-center">
-                {calculateTimeRemaining(service.OrderdId.nextPaymentDate)}
-              </td>
-              <td className="px-3 py-4 whitespace-nowrap text-center">
-                {service.OrderdId.vpsId.ram}
-              </td>
-              <td className="px-3 py-4 whitespace-nowrap text-center">
-                {service.privateIP}
-              </td>
-              <td className="px-3 py-4 whitespace-nowrap text-center">
-                {service.domain}
-              </td>
-              <td className="px-3 py-4 whitespace-nowrap text-center font-medium">
-                {service.OrderdId.vpsId.planName}
-              </td>
-            </tr>
+          {services.slice(-5).reverse().map((service) => (
+          (service.status === "expired" || service.status === "pending" || service.status === "active")
+           ? <tr key={service._id} className="hover:bg-gray-50">
+           <td onClick={() => handleUserClick(service._id, service.OrderNumber)} className="px-3 py-4 whitespace-nowrap text-center">
+             <button className="text-blue-600 hover:text-blue-800">
+               <Settings size={20} />
+             </button>
+           </td>
+           <td className="px-3 py-4 whitespace-nowrap text-center">
+             <span className={getStatusColor(service.status)}>
+               {formatStatus(service.status)}
+             </span>
+           </td>
+           <td className="px-3 py-4 whitespace-nowrap text-center">
+             {calculateTimeRemaining(service.OrderdId.nextPaymentDate)}
+           </td>
+           {service.OrderdId.Servicetype === "VPS" ? 
+            <td className="px-3 py-4 whitespace-nowrap text-center">
+             {service.OrderdId.vpsId.ram }
+           </td>  
+           : <td className="px-3 py-4 text-center">
+           <div className="max-h-[100px] max-w-[200px] whitespace-pre-wrap overflow-y-auto overflow-x-hidden mx-auto [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100">
+             {service.OrderdId.dedicatedServerId.planDescription}
+           </div>
+         </td>}
+        
+           <td className="px-3 py-4 whitespace-nowrap text-center">
+             {service.privateIP || "قيد الأنشاء"}
+           </td>
+           <td className="px-3 py-4 whitespace-nowrap text-center">
+             {service.domain || "قيد الأنشاء"}
+           </td>
+           {service.OrderdId.Servicetype === "VPS" ? 
+             <td className="px-3 py-4 whitespace-nowrap text-center font-medium">
+             {service.OrderdId.vpsId.planName}
+           </td> 
+           : <td className="px-3 py-4 whitespace-nowrap text-center">
+             {service.OrderdId.dedicatedServerId.planTitle}
+           </td>}
+           
+         </tr>:null
           ))}
         </tbody>
       </table>
@@ -500,7 +532,7 @@ const ControlPanel = () => {
               </div>
               <div className="bg-white text-black p-4 rounded-lg shadow mb-4 font-bold">
                 <h2 className="text-xl mb-2 text-right pb-2 border-b-[2px] border-b-[solid] border-b-[black]">
-                  جديد التذاكر
+                      الأخبار
                 </h2>
                 <div className="flex justify-center py-24 flex-col items-center h-24">
                   <img src={services_svg} alt="Placeholder" className="mr-2" />

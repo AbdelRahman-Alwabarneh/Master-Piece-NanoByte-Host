@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userDetails } from "../../Redux/Slice/usersData";
 import Loading from "../../Components/Loading/Loading";
 import NoDataFound from "../../Components/NoDataFound/NoDataFound";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import {
     Menu,
@@ -12,7 +13,7 @@ import {
     FileText,
     ShoppingCart,
     Mail,
-    Headphones
+    Boxes
 } from "lucide-react";
 
 function UserSidebar() {
@@ -21,13 +22,14 @@ function UserSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { id,OrderNumber } = useParams();
+  const [serviceId, setServiceId] = useState(id);
 
   const tabs = [
     { id: 'home', name: 'الملخص', path: `/userDetails/${id}`, icon: Home },
     { id: 'settings', name: 'الملف الشخصي', path: `/UserProfile/${id}`, icon: User },
-    { id: 'invoices', name: 'الفواتير', path: '/invoices', icon: FileText },
-    { id: 'products', name: 'المنتجات', path: `/ServiceManagement/${id}/${OrderNumber}`, icon: ShoppingCart },
-    { id: 'email', name: 'البريد', path: '/email', icon: Mail },
+    { id: 'invoices', name: 'الطلبات', path: `/Orders/${id}`, icon: Boxes },
+    { id: 'products', name: 'المنتجات', path: `/ServiceManagement/${id}/${OrderNumber || serviceId}`, icon: ShoppingCart },
+    { id: 'email', name: 'البريد', path: `/EmailLogsPage/${id}`, icon: Mail },
   ];
 
   useEffect(() => {
@@ -51,6 +53,23 @@ function UserSidebar() {
       dispatch(userDetails(id));
     }
   }, [dispatch, id, status]);
+
+
+  
+  useEffect(() => {
+    const fetchServiceData = async () => {
+        if (id) {
+            try {
+                const response = await axios.post(`http://localhost:2100/api/service/${id}`);
+                setServiceId(response.data.OrderNumber);
+            } catch (error) {
+                console.error('Error fetching the service data:', error);
+            }
+        }
+    };
+
+    fetchServiceData();
+}, [location.pathname.startsWith('/ServiceManagement')]); // إضافة id هنا
 
   if (status === "loading") {
     return <Loading />;

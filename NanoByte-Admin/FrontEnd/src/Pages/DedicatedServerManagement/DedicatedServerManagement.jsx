@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Loading from "../../Components/Loading/Loading";
 import NoDataFound from "../../Components/NoDataFound/NoDataFound";
-import { Search, Plus } from "lucide-react";
+import { Search, Plus,ToggleLeft,ToggleRight } from "lucide-react";
 import { Link,useNavigate } from "react-router-dom";
 import { Eye, Trash } from "lucide-react"; // تأكد من استيراد الأيقونات المطلوبة
 import Swal from "sweetalert2";
@@ -151,25 +151,23 @@ const DedicatedServerManagement = () => {
                   <td className="p-2 sm:p-3 text-xs sm:text-sm">{server.isUnlimited ? "غير محدود" : server.quantity}</td>
                   <td className="p-2 sm:p-3 text-xs sm:text-sm flex items-center justify-center">
                     <button
-                      onClick={() => handleIsHiddenPlan(server._id, server.isHidden)}
-                      className={`flex items-center justify-center space-x-1 p-2 text-white rounded-md transition duration-300 ${
-                        server.isHidden
-                          ? "bg-green-500 hover:bg-green-600"
-                          : "bg-red-500 hover:bg-red-600"
-                      }`}
-                    >
-                      {server.isHidden ? (
-                        <>
-                          <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
-                          <span className="text-[10px] sm:text-xs">استرجاع</span>
-                        </>
-                      ) : (
-                        <>
-                          <Trash className="w-3 h-3 sm:w-4 sm:h-4" />
-                          <span className="text-[10px] sm:text-xs">حذف</span>
-                        </>
-                      )}
-                    </button>
+                 onClick={() => handleIsHiddenPlan(server._id, server.isHidden)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-colors ${
+                  server.isHidden ? 'bg-gray-600/90 hover:bg-gray-600' : 'bg-green-600/90 hover:bg-green-600'
+                }`}
+              >
+                {server.isHidden ? (
+                  <>
+                   <ToggleLeft className="w-4 h-4" />
+                   <span>معطل</span>
+                  </>
+                ) : (
+                  <>
+                     <ToggleRight className="w-4 h-4" />
+                    <span>فعال</span>
+                  </>
+                )}
+              </button>
                   </td>
                 </tr>
               ))}
@@ -187,22 +185,20 @@ const DedicatedServerManagement = () => {
               <p className="mb-2 text-sm"><span className="font-bold">الكمية: </span>{server.isUnlimited ? "غير محدود" : server.quantity}</p>
               <p className="mb-2 text-sm"><span className="font-bold">تاريخ الإنشاء: </span>{new Date(server.createdAt).toLocaleDateString("en-GB", { year: "numeric", month: "2-digit", day: "2-digit" })}</p>
               <button
-                onClick={() => handleIsHiddenPlan(server._id, server.isHidden)}
-                className={`flex items-center justify-center space-x-1 p-2 text-white rounded-md transition duration-300 ${
-                  server.isHidden
-                    ? "bg-green-500 hover:bg-green-600"
-                    : "bg-red-500 hover:bg-red-600"
+                 onClick={() => handleIsHiddenPlan(server._id, server.isHidden)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-colors ${
+                  server.isHidden ? 'bg-gray-600/90 hover:bg-gray-600' : 'bg-green-600/90 hover:bg-green-600'
                 }`}
               >
                 {server.isHidden ? (
                   <>
-                    <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span className="text-[10px] sm:text-xs">استرجاع</span>
+                   <ToggleLeft className="w-4 h-4" />
+                   <span>معطل</span>
                   </>
                 ) : (
                   <>
-                    <Trash className="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span className="text-[10px] sm:text-xs">حذف</span>
+                     <ToggleRight className="w-4 h-4" />
+                    <span>فعال</span>
                   </>
                 )}
               </button>

@@ -3,7 +3,7 @@ import Sidebar from "../../Components/Sidebar/Sidebar";
 import Loading from "../../Components/Loading/Loading";
 import NoDataFound from "../../Components/NoDataFound/NoDataFound";
 import { Link,useNavigate } from "react-router-dom";
-import { OctagonX,CircleCheckBig, Eye, Trash, ChevronDown, ChevronUp ,Settings2 } from "lucide-react";
+import { OctagonX,CircleCheckBig, Eye, Trash, ChevronDown, ChevronUp ,Settings2 ,ToggleRight ,ToggleLeft} from "lucide-react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { HiddenVPSPlan} from "../../Redux/Slice/VPSManagementSlice";
@@ -201,28 +201,24 @@ const VPSManagement = () => {
                                   <td className="px-4 py-3">{plan.storage}</td>
                                   <td className="px-4 py-3">{plan.connectionSpeed}</td>
                                   <td className="px-4 py-3 flex items-center justify-center">
-                                    <button
-                                      onClick={() =>
-                                        handleIsHiddenPlan(plan._id, plan.isHidden)
-                                      }
-                                      className={`flex items-center justify-center space-x-1 p-2 text-white rounded-md transition duration-300 ${
-                                        plan.isHidden
-                                          ? "bg-green-500 hover:bg-green-600"
-                                          : "bg-red-500 hover:bg-red-600"
-                                      }`}
-                                    >
-                                      {plan.isHidden ? (
-                                        <>
-                                          <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
-                                          <span className="text-[10px] sm:text-xs">استرجاع</span>
-                                        </>
-                                      ) : (
-                                        <>
-                                          <Trash className="w-3 h-3 sm:w-4 sm:h-4" />
-                                          <span className="text-[10px] sm:text-xs">حذف</span>
-                                        </>
-                                      )}
-                                    </button>
+                                  <button
+                 onClick={() => handleIsHiddenPlan(plan._id, plan.isHidden)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-colors ${
+                  plan.isHidden ? 'bg-gray-600/90 hover:bg-gray-600' : 'bg-green-600/90 hover:bg-green-600'
+                }`}
+              >
+                {plan.isHidden ? (
+                  <>
+                   <ToggleLeft className="w-4 h-4" />
+                   <span>معطل</span>
+                  </>
+                ) : (
+                  <>
+                     <ToggleRight className="w-4 h-4" />
+                    <span>فعال</span>
+                  </>
+                )}
+              </button>
                                   </td>
                                 </tr>
                               ))}
@@ -251,28 +247,24 @@ const VPSManagement = () => {
                                 <p>التخزين: {plan.storage}</p>
                                 <p>سرعة الاتصال: {plan.connectionSpeed}</p>
                               </div>
-                              <button
-                                onClick={() =>
-                                  handleIsHiddenPlan(plan._id, plan.isHidden)
-                                }
-                                className={`mt-3 w-full flex items-center justify-center space-x-1 p-2 text-white rounded-md transition duration-300 ${
-                                  plan.isHidden
-                                    ? "bg-green-500 hover:bg-green-600"
-                                    : "bg-red-500 hover:bg-red-600"
-                                }`}
-                              >
-                                {plan.isHidden ? (
-                                  <>
-                                    <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
-                                    <span className="text-[10px] sm:text-xs">استرجاع</span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <Trash className="w-3 h-3 sm:w-4 sm:h-4" />
-                                    <span className="text-[10px] sm:text-xs">حذف</span>
-                                  </>
-                                )}
-                              </button>
+      <button
+                 onClick={() => handleIsHiddenPlan(plan._id, plan.isHidden)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-colors mt-2 ${
+                  plan.isHidden ? 'bg-gray-600/90 hover:bg-gray-600' : 'bg-green-600/90 hover:bg-green-600'
+                }`}
+              >
+                {plan.isHidden ? (
+                  <>
+                   <ToggleLeft className="w-4 h-4" />
+                   <span>معطل</span>
+                  </>
+                ) : (
+                  <>
+                     <ToggleRight className="w-4 h-4" />
+                    <span>فعال</span>
+                  </>
+                )}
+              </button>
                             </div>
                           ))}
                       </div>

@@ -4,8 +4,8 @@ import ReactECharts from "echarts-for-react";
 
 const HomeDashboard = () => {
   const statistics = [
-    { title: "عدد الطلبات", value: "20", color: "bg-[#3B82F6]" }, // الأزرق الفاتح
-    { title: "عدد الرسائل", value: "20", color: "bg-[#60A5FA]" }, // الأزرق الفاتح جداً
+    { title: "طلبات في الأنتظار", value: "20", color: "bg-[#3B82F6]" }, // الأزرق الفاتح
+    { title: "الرسائل غير المقروءة", value: "20", color: "bg-[#60A5FA]" }, // الأزرق الفاتح جداً
     { title: "عدد المستحدمين", value: "20", color: "bg-[#3B82F6]" }, // الأزرق الفاتح
     { title: "الأرباح", value: "20", color: "bg-[#60A5FA]" }, // الأزرق الفاتح جداً
   ];

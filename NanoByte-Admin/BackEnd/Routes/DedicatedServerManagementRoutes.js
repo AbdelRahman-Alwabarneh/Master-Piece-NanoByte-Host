@@ -5,6 +5,7 @@ const DedicatedServerManagementControllers = require('../Controllers/DedicatedSe
 
 router.post('/', DedicatedServerManagementControllers.createDedicatedServer);
 router.get('/', DedicatedServerManagementControllers.DedicatedServerData);
+router.get('/NotHidden', DedicatedServerManagementControllers.DedicatedServerDataNotHidden);
 router.get('/:id', DedicatedServerManagementControllers.DedicatedServerDetails);
 router.put('/:id', DedicatedServerManagementControllers.updateDedicatedServer);
 router.patch('/:id', DedicatedServerManagementControllers.HiddenDedicatedServer);
