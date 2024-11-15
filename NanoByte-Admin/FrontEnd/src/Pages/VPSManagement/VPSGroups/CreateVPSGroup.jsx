@@ -117,7 +117,7 @@ const CreateGroup = () => {
     <div className="p-2 sm:p-4 md:p-8">
       <form
         onSubmit={handleSubmit}
-        className="bg-white/5 backdrop-blur-md rounded-xl shadow-2xl overflow-hidden transition-all duration-300 hover:shadow-blue-500/10"
+        className="bg-blue-950 bg-opacity-30 rounded-xl shadow-2xl overflow-hidden transition-all duration-300 hover:shadow-blue-500/10"
       >
         <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/20">
           <h2 className="text-xl sm:text-2xl font-bold text-white">إنشاء مجموعة جديدة</h2>
@@ -131,7 +131,7 @@ const CreateGroup = () => {
               type="text"
               value={groupName}
               onChange={(e) => setGroupName(e.target.value)}
-              className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white placeholder-white/50 px-3 sm:px-4 py-1.5 sm:py-2 transition-all duration-200 text-xs sm:text-sm"
+              className="w-full bg-gray-500/10 bg-opacity-50 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white placeholder-white/50 px-3 sm:px-4 py-1.5 sm:py-2 transition-all duration-200 text-xs sm:text-sm"
               placeholder="أدخل اسم المجموعة"
               required
             />
@@ -143,7 +143,7 @@ const CreateGroup = () => {
             <textarea
               value={groupDescription}
               onChange={(e) => setGroupDescription(e.target.value)}
-              className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white placeholder-white/50 px-3 sm:px-4 py-1.5 sm:py-2 transition-all duration-200 text-xs sm:text-sm max-h-40 h-40"
+              className="w-full bg-gray-500/10 bg-opacity-50 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white placeholder-white/50 px-3 sm:px-4 py-1.5 sm:py-2 transition-all duration-200 text-xs sm:text-sm max-h-40 h-40"
               placeholder="أدخل وصف المجموعة"
               required
 
@@ -170,7 +170,7 @@ const CreateGroup = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onFocus={() => setDropdownOpen(true)}
-                className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white placeholder-white/50 px-3 sm:px-4 py-1.5 sm:py-2 pr-8 sm:pr-10 transition-all duration-200 text-xs sm:text-sm"
+                className="w-full bg-gray-500/10 bg-opacity-50 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white placeholder-white/50 px-3 sm:px-4 py-1.5 sm:py-2 pr-8 sm:pr-10 transition-all duration-200 text-xs sm:text-sm"
                 placeholder="ابحث عن المستخدمين..."
               />   
               <div
@@ -235,7 +235,7 @@ const CreateGroup = () => {
           )}
         </div>
 
-        <div className="px-4 sm:px-6 py-3 sm:py-4 bg-white/5 border-t border-white/10 flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 sm:space-x-reverse">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 bg-gray-500/10 bg-opacity-50 border-t border-white/10 flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 sm:space-x-reverse">
           <button
             type="button"
             className="w-full sm:w-auto px-4 sm:px-6 py-1.5 sm:py-2 border border-white/30 rounded-lg shadow-sm text-xs sm:text-sm font-medium text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 transition-all duration-200 flex items-center justify-center"

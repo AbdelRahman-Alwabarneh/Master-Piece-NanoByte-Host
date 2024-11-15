@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import Sidebar from "../../../Components/Sidebar/Sidebar";
 import { useParams } from "react-router-dom";
 
-const DetailsVPSGroup = () => {
+const DetailsGroupGameHosting = () => {
   const { id } = useParams();
   const [group, setGroup] = useState(null);
   const [users, setUsers] = useState([]);
@@ -19,8 +19,8 @@ const DetailsVPSGroup = () => {
   useEffect(() => {
     const fetchGroupData = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_VPS_GROUP}/${id}`);
-        const groupData = response.data.DetailsvpsGroup;
+        const response = await axios.get(`http://localhost:2100/api/GroupGameHosting/${id}`);
+        const groupData = response.data.DetailsGamesHostingGroup;
         setGroup(groupData);
         setGroupName(groupData.groupName);
         setGroupDescription(groupData.description);
@@ -45,44 +45,44 @@ const DetailsVPSGroup = () => {
     fetchGroupData();
     fetchUserData();
   }, [id]);
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const groupData = {
       groupName,
       description: groupDescription,
       isVisible,
       users: selectedUsers,
     };
-  
+
     Swal.fire({
       title: "تأكيد تحديث المجموعة",
       text: "هل أنت متأكد من تحديث هذه المجموعة؟",
       icon: "question",
-      iconColor: "#ffcc00", // اللون المخصص للأيقونة
-      background: "#18296C", // اللون الخلفي
-      color: "#ffffff", // لون النص
+      iconColor: "#ffcc00",
+      background: "#18296C",
+      color: "#ffffff",
       showCancelButton: true,
       confirmButtonText: "نعم، قم بالتحديث",
       cancelButtonText: "إلغاء",
-      confirmButtonColor: "#1E38A3", // لون زر التأكيد
-      cancelButtonColor: "#d33", // لون زر الإلغاء
+      confirmButtonColor: "#1E38A3",
+      cancelButtonColor: "#d33",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           const response = await axios.put(
-            `${import.meta.env.VITE_VPS_GROUP}/${id}`,
+            `http://localhost:2100/api/GroupGameHosting/${id}`,
             { groupData }
           );
           Swal.fire({
             title: "تم بنجاح!",
             text: response.data.message,
             icon: "success",
-            iconColor: "#28a745", // اللون المخصص لأيقونة النجاح
-            background: "#18296C", // اللون الخلفي
-            color: "#ffffff", // لون النص
-            confirmButtonColor: "#1E38A3", // لون زر التأكيد
+            iconColor: "#28a745",
+            background: "#18296C",
+            color: "#ffffff",
+            confirmButtonColor: "#1E38A3",
             confirmButtonText: "حسناً",
           });
         } catch (error) {
@@ -90,10 +90,10 @@ const DetailsVPSGroup = () => {
             title: "خطأ!",
             text: "فشل في تحديث المجموعة.",
             icon: "error",
-            iconColor: "#ff0000", // اللون المخصص لأيقونة الخطأ
-            background: "#18296C", // اللون الخلفي
-            color: "#ffffff", // لون النص
-            confirmButtonColor: "#1E38A3", // لون زر التأكيد
+            iconColor: "#ff0000",
+            background: "#18296C",
+            color: "#ffffff",
+            confirmButtonColor: "#1E38A3",
             confirmButtonText: "موافق",
           });
           console.error("Error updating group:", error);
@@ -101,7 +101,6 @@ const DetailsVPSGroup = () => {
       }
     });
   };
-  
 
   const filteredUsers = users.filter(
     (user) =>
@@ -266,4 +265,4 @@ const DetailsVPSGroup = () => {
   );
 };
 
-export default DetailsVPSGroup;
+export default DetailsGroupGameHosting;

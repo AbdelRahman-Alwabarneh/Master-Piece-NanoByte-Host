@@ -20,7 +20,8 @@ import {
   PackageCheck,
   PackageX,
   PackageOpen,
-  MailPlus  
+  MailPlus,
+  Waypoints,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -73,8 +74,9 @@ const Sidebar = () => {
       subMenu: [
         { icon: HardDrive, text: "الخودام المركزية", path: "/DedicatedServerManagement" },
         { icon: Server, text: "الخوادم المشتركة", path: "/VPSManagement" },
-        { icon: Boxes, text: "إستضافة خوادم ألعاب", path: "/Dashboard/users/reports" },
-        { icon: Globe, text: "إستضافة مواقع", path: "/DedicatedServerManagement" },
+        { icon: Boxes, text: "إستضافة خوادم ألعاب", path: "/GameHostingManagement" },
+        { icon: Globe, text: "إستضافة مواقع", path: "/WebsiteHostingManagement" },
+        { icon: Waypoints, text: "النطاقات", path: "/DomainServiceManagement" },
       ],
     },
     {

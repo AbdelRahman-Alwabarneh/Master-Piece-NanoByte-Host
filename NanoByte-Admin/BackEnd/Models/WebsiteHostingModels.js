@@ -60,11 +60,6 @@ const WebsiteHostingSchema = new mongoose.Schema({
     required: true, 
     unique: true 
   },
-  operatingSystem: { 
-    type: String, 
-    enum: ['Linux', 'Windows'], 
-    required: true 
-  },
 }, { timestamps: true });
 
 module.exports = mongoose.model('WebsiteHosting', WebsiteHostingSchema, 'WebsiteHostingPlans');

@@ -1,20 +1,54 @@
 const Order = require('../Models/ordersModels');
 
-exports.OrdersData = async (req, res) => {
+exports.OrdersData = async (req, res) => { 
   const { orderStatus } = req.params;
-  try {
-    
-    const orders = await Order.find(orderStatus == "AllOrders" ? { } : {orderStatus: orderStatus} )
-      .populate('userId', 'firstName email')
-      .sort({ createdAt: -1 }); // ترتيب تنازلي حسب 'createdAt'
+  const { search } = req.query; // جلب قيمة البحث من الاستعلام
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit); // الحد الافتراضي إذا لم يتم تحديده
 
-    res.status(200).json({ orders });
+  try {
+    const skip = (page - 1) * limit;
+
+    const filter = {};
+
+    if (search) {
+      const regexSearch = { $regex: search, $options: 'i' };
+      filter.$or = [
+        { orderId: regexSearch },
+        { orderStatus: regexSearch },
+        { orderNumber: regexSearch }
+      ];
+    }
+
+    // تحديد حالة الطلب إذا كانت غير "AllOrders"
+    if (orderStatus !== "AllOrders") {
+      filter.orderStatus = orderStatus;
+    }
+
+    // جلب إجمالي عدد الطلبات بناءً على الفلتر
+    const totalCount = await Order.countDocuments(filter);
+
+    // جلب الطلبات مع تطبيق الباجينيشن والفلترة
+    const orders = await Order.find(filter)
+      .populate('userId', 'firstName email')
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    // إرسال الاستجابة
+    res.status(200).json({
+      orders,
+      currentPage: page,
+      totalPages: Math.ceil(totalCount / limit),
+      totalItems: totalCount,
+      totalCount
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Internal server error", error: error.message });
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
+  
+
 
 
 // البحث عن الدفع بواسطة orderNumber

@@ -9,8 +9,7 @@ exports.createWebsiteHostingPlan = async (req, res) => {
         !hostingData.planName ||
         !hostingData.subtitle ||
         !hostingData.description ||
-        !hostingData.link ||
-        !hostingData.operatingSystem
+        !hostingData.link 
       ) {
         return res.status(400).json({ message: "All fields are required" });
       }
@@ -24,7 +23,6 @@ exports.createWebsiteHostingPlan = async (req, res) => {
         availableQuantity: hostingData.availableQuantity || 0,
         unlimited: hostingData.unlimited ?? true,
         hidden: hostingData.hidden ?? false,
-        operatingSystem: hostingData.operatingSystem,
         subscriptionOptions: {
           oneMonth: { 
             price: hostingData.subscriptionOptions.oneMonth.price || null,
@@ -114,8 +112,7 @@ exports.createWebsiteHostingPlan = async (req, res) => {
         !serverData.planName ||
         !serverData.subtitle ||
         !serverData.description ||
-        !serverData.link ||
-        !serverData.operatingSystem
+        !serverData.link 
       ) {
         return res.status(400).json({ message: "All required fields must be filled" });
       }
@@ -131,7 +128,6 @@ exports.createWebsiteHostingPlan = async (req, res) => {
           availableQuantity: serverData.availableQuantity || null,
           unlimited: serverData.unlimited ?? true,
           hidden: serverData.hidden ?? false,
-          operatingSystem: serverData.operatingSystem,
           subscriptionOptions: {
             oneMonth: { price: serverData.subscriptionOptions.oneMonth.price || null },
             twoMonths: { price: serverData.subscriptionOptions.twoMonths.price || null },

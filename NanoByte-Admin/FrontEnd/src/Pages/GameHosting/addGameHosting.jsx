@@ -1,12 +1,12 @@
-import React, { useState,useEffect } from "react";
-import { Save, X, ToggleLeft, ToggleRight, Minus, Infinity } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Save, X, ToggleLeft , ToggleRight , Minus, Infinity } from "lucide-react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
-import { useDispatch, useSelector } from "react-redux";
-import { addVPS } from "../../Redux/Slice/VPSManagementSlice";
+import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
 import axios from "axios";
-const AddVPSPlan = () => {
+
+const AddGameServerPlan = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isUnlimited, setIsUnlimited] = useState(false);
@@ -14,12 +14,13 @@ const AddVPSPlan = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [plan, setPlan] = useState({
-    name: "",
+    planName: "",
     ram: "",
-    processor: "",
+    cpu: "",
     storage: "",
     connectionSpeed: "",
-    protection: "",
+    security: "",
+    databases: "",
     prices: Array.from({ length: 6 }, (_, i) => ({
       duration: i + 1,
       price: "",
@@ -30,20 +31,22 @@ const AddVPSPlan = () => {
     productLink: "",
     groupId: "",
     groupName: "",
+    isHidden: false
   });
-  
+
   useEffect(() => {
     fetchGroups();
   }, []);
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_VPS_GROUP);
-      setGroups(response.data.AllvpsGroup);
+      const response = await axios.get('http://localhost:2100/api/GroupGameHosting');
+      setGroups(response.data.GamesHostingGroup);
     } catch (error) {
       console.error('Error fetching groups:', error);
     }
   };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setPlan((prev) => ({
@@ -78,7 +81,7 @@ const AddVPSPlan = () => {
 
     Swal.fire({
       title: "هل أنت متأكد؟",
-      text: "هل تريد إضافة خطة الـ VPS الجديدة؟",
+      text: "هل تريد إضافة خطة الـ Game Server الجديدة؟",
       icon: "warning",
       iconColor: "#ffcc00",
       background: "#18296C",
@@ -88,43 +91,40 @@ const AddVPSPlan = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "نعم",
       cancelButtonText: "إلغاء",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        dispatch(addVPS({ plan }))
-          .unwrap()
-          .then((response) => {
-            const addedVPSId = response.VPS._id;
-            Swal.fire({
-              title: "تمت الإضافة!",
-              text: "تم إضافة خطة الـ VPS بنجاح.",
-              icon: "success",
-              iconColor: "#28a745",
-              background: "#18296C",
-              color: "#ffffff",
-              confirmButtonColor: "#1E38A3",
-              confirmButtonText: "موافق",
-            }).then( async () => {
-              await axios.patch(`${import.meta.env.VITE_VPS_GROUP}/${addedVPSId}`, {plan});
-              navigate(`/VPSDetailsManagement/${addedVPSId}`);
-            });
-          })
-          .catch((error) => {
-            Swal.fire({
-              title: "خطأ!",
-              text: "حدث خطأ أثناء إضافة الخطة.",
-              icon: "error",
-              iconColor: "#ff0000",
-              background: "#18296C",
-              color: "#ffffff",
-              confirmButtonColor: "#1E38A3",
-              confirmButtonText: "موافق",
-            });
+        try {
+          const response = await axios.post('http://localhost:2100/api/GameHosting', { gameData: plan });
+          const addedGameServerPlanId = response.data.GameServer._id;
+          Swal.fire({
+            title: "تمت الإضافة!",
+            text: "تم إضافة خطة الـ Game Server بنجاح.",
+            icon: "success",
+            iconColor: "#28a745",
+            background: "#18296C",
+            color: "#ffffff",
+            confirmButtonColor: "#1E38A3",
+            confirmButtonText: "موافق",
+          }).then(async () => {
+            await axios.patch(`http://localhost:2100/api/GroupGameHosting/${addedGameServerPlanId}`, {plan});
+
+            navigate(`/GameHostingPlanDetails/${addedGameServerPlanId}`);
           });
+        } catch (error) {
+          Swal.fire({
+            title: "خطأ!",
+            text: "حدث خطأ أثناء إضافة الخطة.",
+            icon: "error",
+            iconColor: "#ff0000",
+            background: "#18296C",
+            color: "#ffffff",
+            confirmButtonColor: "#1E38A3",
+            confirmButtonText: "موافق",
+          });
+        }
       }
     });
   };
-  
-  
 
   const handleToggle = () => {
     setPlan((prev) => ({
@@ -169,7 +169,7 @@ const AddVPSPlan = () => {
       <div className="max-w-full mx-auto">
         <div className="bg-blue-950 bg-opacity-30 hover:shadow-blue-800/10 rounded-lg p-4 shadow-lg transition-shadow duration-300 hover:shadow-xl">
           <div className="flex justify-between border-b border-blue-700 pb-2 mb-4">
-            <h2 className="text-lg font-semibold">إضافة خطة VPS جديدة</h2>
+            <h2 className="text-lg font-semibold">إضافة خطة Game Server جديدة</h2>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4" dir="rtl">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -177,8 +177,8 @@ const AddVPSPlan = () => {
                 <label className="block text-xs text-gray-300 mb-1">اسم الخطة</label>
                 <input
                   type="text"
-                  name="name"
-                  value={plan.name}
+                  name="planName"
+                  value={plan.planName}
                   onChange={handleChange}
                   className="w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200"
                   placeholder="أدخل اسم الخطة"
@@ -201,8 +201,8 @@ const AddVPSPlan = () => {
                 <label className="block text-xs text-gray-300 mb-1">المعالج</label>
                 <input
                   type="text"
-                  name="processor"
-                  value={plan.processor}
+                  name="cpu"
+                  value={plan.cpu}
                   onChange={handleChange}
                   className="w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200"
                   placeholder="مثال: Intel Core i7"
@@ -237,11 +237,23 @@ const AddVPSPlan = () => {
                 <label className="block text-xs text-gray-300 mb-1">الحماية</label>
                 <input
                   type="text"
-                  name="protection"
-                  value={plan.protection}
+                  name="security"
+                  value={plan.security}
                   onChange={handleChange}
                   className="w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200"
                   placeholder="مثال: فايروول متقدم"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-300 mb-1">قواعد البيانات</label>
+                <input
+                  type="text"
+                  name="databases"
+                  value={plan.databases}
+                  onChange={handleChange}
+                  className="w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200"
+                  placeholder="مثال: MySQL, PostgreSQL"
                   required
                 />
               </div>
@@ -259,11 +271,11 @@ const AddVPSPlan = () => {
                   required
                 />
                 {showDropdown && (
-                  <div className="absolute z-10 w-full mt-1 bg-[#6c7ab8] rounded-md shadow-lg max-h-60 overflow-auto">
+                  <div className="absolute z-10 w-full mt-1 bg-blue-800 bg-opacity-95 rounded-md shadow-lg max-h-60 overflow-auto">
                     {filteredGroups.map((group) => (
                       <div
                         key={group._id}
-                        className="px-4 py-2 hover:bg-white/20 cursor-pointer text-white"
+                        className="px-4 py-2 hover:bg-blue-700/50 cursor-pointer text-white"
                         onClick={() => handleGroupSelect(group)}
                       >
                         {group.groupName}
@@ -286,7 +298,7 @@ const AddVPSPlan = () => {
                         onChange={(e) => handlePriceChange(index, e.target.value)}
                         className="w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200"
                         placeholder="السعر"
-                        required={priceObj.duration === 1 ? true : false}
+                        required={priceObj.duration === 1}
                       />
                     </div>
                   ))}
@@ -312,37 +324,33 @@ const AddVPSPlan = () => {
                     name="quantity"
                     value={plan.quantity}
                     onChange={handleChange}
-                    className={`${
-                      plan.isUnlimited ? "cursor-not-allowed" : ""
-                    } w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200`}
+                    className={`${plan.isUnlimited ? "cursor-not-allowed" : ""} w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200`}
                     placeholder="أدخل الكمية"
                     disabled={plan.isUnlimited}
                     readOnly={plan.isUnlimited}
                   />
-                <div
-                  onClick={handleToggle}
-                  className={`flex items-center space-x-2 text-sm cursor-pointer rounded mr-1 ${
-                    plan.isUnlimited ? 'bg-green-600/90 hover:bg-green-600' : 'bg-gray-600/90 hover:bg-gray-600'
-                  }`}
-                >
-                  <span
-                    className={`flex items-center gap-2 px-2 py-2 rounded transition-colors ${
-                        plan.isUnlimited ? "text-white/100" : "text-white/80"
-                    } whitespace-nowrap`}
+                  <div
+                    onClick={handleToggle}
+                    className={`flex items-center space-x-2 text-sm cursor-pointer rounded mr-1 ${
+                      plan.isUnlimited ? 'bg-green-600/90 hover:bg-green-600' : 'bg-gray-600/90 hover:bg-gray-600'
+                    }`}
                   >
-                    {plan.isUnlimited ? (
-                  <>
-                   <ToggleRight className="w-4 h-4" />
-                   <span>لانهائي</span>
-                  </>
-                ) : (
-                  <>
-                  <ToggleLeft className="w-4 h-4" />
-                    <span>لانهائي</span>
-                  </>
-                )}
-                  </span>
-                </div>
+                    <span className={`flex items-center gap-2 px-2 py-2 rounded transition-colors ${
+                      plan.isUnlimited ? "text-white/100" : "text-white/80"
+                    } whitespace-nowrap`}>
+                      {plan.isUnlimited ? (
+                        <>
+                          <ToggleRight className="w-4 h-4" />
+                          <span>لانهائي</span>
+                        </>
+                      ) : (
+                        <>
+                          <ToggleLeft className="w-4 h-4" />
+                          <span>لانهائي</span>
+                        </>
+                      )}
+                    </span>
+                  </div>
                 </div>
               </div>
               <div className="col-span-1 sm:col-span-2">
@@ -353,36 +361,33 @@ const AddVPSPlan = () => {
                   value={plan.productLink}
                   onChange={handleChange}
                   className="w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200"
-                  placeholder="أدخل رابط المنتج"
+                  placeholder="https://example.com/(product)"
                   required
                 />
               </div>
             </div>
-         <div className="flex justify-end">
-         <div className="flex justify-end gap-2 mt-6">
-                <button
-                  type="button"
-                  className="px-4 py-2 bg-gray-600/90 hover:bg-gray-600 rounded flex items-center gap-2 transition-colors"
-                >
-                  <X className="w-4 h-4" />
-                  إلغاء
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-green-600 hover:bg-green-500 rounded flex items-center gap-2 transition-colors"
-                >
-                  <Save className="w-4 h-4" />
-                  حفظ الخطة
-                </button>
-              </div>
-         </div>
+            <div className="flex justify-end gap-2 mt-6">
+              <button
+                type="button"
+                className="px-4 py-2 bg-gray-600/90 hover:bg-gray-600 rounded flex items-center gap-2 transition-colors"
+              >
+                <X className="w-4 h-4" />
+                إلغاء
+              </button>
+              <button
+                type="submit"
+                className="px-4 py-2 bg-green-600 hover:bg-green-500 rounded flex items-center gap-2 transition-colors"
+              >
+                <Save className="w-4 h-4" />
+                حفظ الخطة
+              </button>
+            </div>
           </form>
         </div>
       </div>
     </div>
   </div>
-  
   );
 };
 
-export default AddVPSPlan;
+export default AddGameServerPlan;

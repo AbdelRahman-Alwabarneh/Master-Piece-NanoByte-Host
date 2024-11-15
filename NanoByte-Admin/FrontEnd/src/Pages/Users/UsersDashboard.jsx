@@ -1,22 +1,55 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUserData } from "../../Redux/Slice/usersData";
+import axios from "axios";
 import Loading from "../../Components/Loading/Loading";
 import NoDataFound from "../../Components/NoDataFound/NoDataFound";
 import { useNavigate } from "react-router-dom";
-import { Search, Plus } from "lucide-react";
+import { Search, Plus, ToggleRight, ToggleLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import Pagination from "../../Components/Pagination/Pagination";
+import ItemsPerPageSelect from "../../Components/Pagination/ItemsPerPageSelect";
+import Swal from "sweetalert2";
+
 const AllUsers = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { user, status } = useSelector((state) => state.UserData);
+  const [users, setUsers] = useState([]);
+  const [status, setStatus] = useState("loading");
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
-    if (!user || !Array.isArray(user.UsersData)) {
-      dispatch(fetchUserData());
+    fetchUserData(currentPage, itemsPerPage);
+  }, [currentPage, itemsPerPage, searchTerm]);
+
+  const fetchUserData = async (page, limit) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:2100/api/usersData?page=${page}&limit=${limit}&search=${searchTerm}`
+      );
+      console.log(response.data);
+
+      setUsers(response.data.usersData);
+      setTotalPages(response.data.totalPages);
+      setTotalCount(response.data.totalCount);
+      setStatus("success");
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      setStatus("error");
     }
-  }, [dispatch, user]);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+  const handleItemsPerPageChange = (value) => {
+    setItemsPerPage(value);
+    setCurrentPage(1);
+    fetchInvoices(1, value);
+  };
 
   const handleUserClick = (userId) => {
     navigate(`/userDetails/${userId}`);
@@ -26,9 +59,80 @@ const AllUsers = () => {
     return <Loading />;
   }
 
-  if (!user || !Array.isArray(user.UsersData) || user.UsersData.length === 0) {
+  if (status === "error") {
     return <NoDataFound />;
   }
+  const handleisBanned = async (userId, isBanned) => {
+    const actionText = isBanned ? "إلغاء الحظر" : "حظر";
+    const successText = isBanned ? "تم إلغاء الحظر" : "تم الحظر";
+    const confirmText = isBanned ? "هل تريد إلغاء حظر" : "هل تريد حظر";
+
+    const result = await Swal.fire({
+      title: "هل أنت متأكد؟",
+      text: `${confirmText} المستخدم؟`,
+      icon: "warning",
+      iconColor: "#ffcc00",
+      background: "#18296C",
+      color: "#ffffff",
+      showCancelButton: true,
+      confirmButtonColor: "#1E38A3",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "نعم",
+      cancelButtonText: "إلغاء",
+      padding: "2em",
+      backdrop: "rgba(22, 30, 65, 0.8)",
+      position: "center",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const response = await axios.patch(
+          `http://localhost:2100/api/usersData/${userId}`,
+          {
+            isBanned: !isBanned,
+          }
+        );
+
+        if (response.status !== 200) {
+          throw new Error("فشل في تحديث حالة المستخدم");
+        }
+
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user._id === userId ? { ...user, isBanned: !isBanned } : user
+          )
+        );
+
+        Swal.fire({
+          title: `${successText}!`,
+          text: `تم ${successText} المستخدم بنجاح.`,
+          icon: "success",
+          iconColor: "#28a745",
+          background: "#18296C",
+          color: "#ffffff",
+          confirmButtonColor: "#1E38A3",
+          confirmButtonText: "حسناً",
+          padding: "2em",
+          backdrop: "rgba(22, 30, 65, 0.8)",
+          position: "center",
+        });
+      } catch (error) {
+        Swal.fire({
+          title: "خطأ!",
+          text: `حدث خطأ أثناء محاولة ${actionText} المستخدم.`,
+          icon: "error",
+          iconColor: "#ff0000",
+          background: "#18296C",
+          color: "#ffffff",
+          confirmButtonColor: "#1E38A3",
+          confirmButtonText: "حسناً",
+          padding: "2em",
+          backdrop: "rgba(22, 30, 65, 0.8)",
+          position: "center",
+        });
+      }
+    }
+  };
 
   return (
     <div className="flex min-h-screen text-white font-cairo">
@@ -39,23 +143,26 @@ const AllUsers = () => {
           جدول المستخدمين
         </h1>
         {/* حقل البحث الاحترافي */}
-        <div className="mb-5 flex justify-between items-center flex-wrap">
+        <div className="mb-5 flex flex-col sm:flex-row justify-between gap-4">
           <div className="relative w-full sm:w-1/2">
             <input
               type="text"
-              placeholder="ابحث عن خطة..."
-              className="bg-[#1E38A3] border border-[#2f64bb] text-white py-2 px-4 pl-10 rounded-full shadow-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#2f64bb] w-full"
+              placeholder="ابحث عن فاتورة..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="bg-[#1E38A3] border border-[#2f64bb] text-white py-2 px-4 pl-10 
+                   rounded-full shadow-lg transition duration-200 
+                   focus:outline-none focus:ring-2 focus:ring-[#2f64bb] w-full"
             />
-            <Search className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
+            <Search className="h-5 w-5 absolute left-3 top-[1.4rem] transform -translate-y-1/2 text-white" />
           </div>
-
-          {/* زر إضافة خطة جديدة */}
-          <Link
-            to="/addVPSPlan"
-            className="bg-gradient-to-r mt-3 sm:mt-0 from-[#1E38A3] to-[#2f64bb] hover:to-[#1E90FF] text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition duration-200"
-          >
-            + إضافة مستخدم جديد
-          </Link>
+          <ItemsPerPageSelect
+            itemsPerPage={itemsPerPage}
+            setItemsPerPage={handleItemsPerPageChange}
+            totalPages={totalPages}
+            currentPage={currentPage}
+            totalCount={totalCount}
+          />
         </div>
         <div className="overflow-x-auto w-full">
           <table className="hidden md:table min-w-full bg-[#1E38A3] rounded-lg shadow-lg ">
@@ -77,45 +184,70 @@ const AllUsers = () => {
                   اسم الشركة
                 </th>
                 <th className="p-2 sm:p-3 text-center text-xs sm:text-sm">
-                  الخدمات
+                  الهاتف
                 </th>
                 <th className="p-2 sm:p-3 text-center text-xs sm:text-sm">
                   تاريخ الإنشاء
                 </th>
+                <th className="p-2 sm:p-3 text-center text-xs sm:text-sm">
+                  الأجرائات
+                </th>
               </tr>
             </thead>
             <tbody>
-              {user.UsersData.map((AllUsers, index) => (
+              {users.map((user, index) => (
                 <tr
-                  key={AllUsers._id}
+                  key={user._id}
                   className="border-b border-[#3B82F6] hover:bg-[#2f64bb] transition-colors duration-200 text-center"
                 >
                   <td className="p-2 sm:p-3 text-xs sm:text-sm">{index + 1}</td>
                   <td className="p-2 sm:p-3 text-xs sm:text-sm hover:text-[#2fceff] cursor-pointer">
-                    <div onClick={() => handleUserClick(AllUsers._id)}>
-                      {AllUsers.firstName}
+                    <div onClick={() => handleUserClick(user._id)}>
+                      {user.firstName}
                     </div>
                   </td>
                   <td className="p-2 sm:p-3 text-xs sm:text-sm hover:text-[#2fceff] cursor-pointer">
-                    <div onClick={() => handleUserClick(AllUsers._id)}>
-                      {AllUsers.lastName || "لا يوجد اسم أخير"}
+                    <div onClick={() => handleUserClick(user._id)}>
+                      {user.lastName || "لا يوجد اسم أخير"}
                     </div>
                   </td>
                   <td className="p-2 sm:p-3 text-xs sm:text-sm">
-                    {AllUsers.email}
+                    {user.email}
                   </td>
                   <td className="p-2 sm:p-3 text-xs sm:text-sm">
-                    {AllUsers.companyName || "لايوجد اسم شركة"}
+                    {user.companyName || "لايوجد اسم شركة"}
                   </td>
                   <td className="p-2 sm:p-3 text-xs sm:text-sm">
-                    لاتوجد خدمات
+                    {user.phoneNumber || "لايوجد اسم رقم مسجل"}
                   </td>
                   <td className="p-2 sm:p-3 text-xs sm:text-sm">
-                    {new Date(AllUsers.createdAt).toLocaleDateString("en-GB", {
+                    {new Date(user.createdAt).toLocaleDateString("en-GB", {
                       year: "numeric",
                       month: "2-digit",
                       day: "2-digit",
                     })}
+                  </td>
+                  <td className="p-2 sm:p-3 text-xs sm:text-sm flex items-center justify-center">
+                    <button
+                      onClick={() => handleisBanned(user._id, user.isBanned)}
+                      className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-colors ${
+                        user.isBanned
+                          ? "bg-gray-600/90 hover:bg-gray-600"
+                          : "bg-green-600/90 hover:bg-green-600"
+                      }`}
+                    >
+                      {user.isBanned ? (
+                        <>
+                          <ToggleLeft className="w-4 h-4" />
+                          <span>محظور</span>
+                        </>
+                      ) : (
+                        <>
+                          <ToggleRight className="w-4 h-4" />
+                          <span>غير محظور</span>
+                        </>
+                      )}
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -125,9 +257,9 @@ const AllUsers = () => {
 
         {/* عرض البطاقات على الشاشات الصغيرة */}
         <div className="md:hidden grid grid-cols-1 gap-4">
-          {user.UsersData.map((AllUsers, index) => (
+          {users.map((user, index) => (
             <div
-              key={AllUsers._id}
+              key={user._id}
               className="bg-[#1E38A3] rounded-lg shadow-lg p-3 sm:p-4"
             >
               <p className="mb-2 text-sm">
@@ -136,23 +268,23 @@ const AllUsers = () => {
               </p>
               <p className="mb-2 text-sm">
                 <span className="font-bold">الاسم الأول: </span>
-                <span onClick={() => handleUserClick(AllUsers._id)}>
-                  {AllUsers.firstName}
+                <span onClick={() => handleUserClick(user._id)}>
+                  {user.firstName}
                 </span>
               </p>
               <p className="mb-2 text-sm">
                 <span className="font-bold">الاسم الأخير: </span>
-                <span onClick={() => handleUserClick(AllUsers._id)}>
-                  {AllUsers.lastName || "لا يوجد اسم أخير"}
+                <span onClick={() => handleUserClick(user._id)}>
+                  {user.lastName || "لا يوجد اسم أخير"}
                 </span>
               </p>
               <p className="mb-2 text-sm">
                 <span className="font-bold">البريد الإلكتروني: </span>
-                {AllUsers.email}
+                {user.email}
               </p>
               <p className="mb-2 text-sm">
                 <span className="font-bold">اسم الشركة: </span>
-                {AllUsers.companyName || "لايوجد اسم شركة"}
+                {user.companyName || "لايوجد اسم شركة"}
               </p>
               <p className="mb-2 text-sm">
                 <span className="font-bold">الخدمات: </span>
@@ -160,35 +292,58 @@ const AllUsers = () => {
               </p>
               <p className="mb-2 text-sm">
                 <span className="font-bold">تاريخ الإنشاء: </span>
-                {new Date(AllUsers.createdAt).toLocaleDateString("en-GB", {
+                {new Date(user.createdAt).toLocaleDateString("en-GB", {
                   year: "numeric",
                   month: "2-digit",
                   day: "2-digit",
                 })}
               </p>
+              <button
+                      onClick={() => handleisBanned(user._id, user.isBanned)}
+                      className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-colors ${
+                        user.isBanned
+                          ? "bg-gray-600/90 hover:bg-gray-600"
+                          : "bg-green-600/90 hover:bg-green-600"
+                      }`}
+                    >
+                      {user.isBanned ? (
+                        <>
+                          <ToggleLeft className="w-4 h-4" />
+                          <span>محظور</span>
+                        </>
+                      ) : (
+                        <>
+                          <ToggleRight className="w-4 h-4" />
+                          <span>غير محظور</span>
+                        </>
+                      )}
+                    </button>
             </div>
           ))}
         </div>
         {/* Pagination الاحترافي */}
-        <div className="flex justify-center mt-6">
-          <nav className="flex items-center space-x-1">
-            <button className="bg-[#1E38A3] hover:bg-[#2f64bb] text-white py-1 px-3 rounded-md shadow-md transition duration-200 ml-1">
-              السابقة
-            </button>
-            <button className="bg-[#1E38A3] text-white py-1 px-3 rounded-md shadow-md">
-              1
-            </button>
-            <button className="bg-[#1E38A3] text-white py-1 px-3 rounded-md shadow-md">
-              2
-            </button>
-            <button className="bg-[#1E38A3] text-white py-1 px-3 rounded-md shadow-md">
-              3
-            </button>
-            <button className="bg-[#1E38A3] hover:bg-[#2f64bb] text-white py-1 px-3 rounded-md shadow-md transition duration-200">
-              التالية
-            </button>
-          </nav>
-        </div>  
+        {!users || users.length === 0 ? (
+          <>
+            <div className="max-w-7xl mx-auto">
+              <div className="mt-6 text-center">
+                <h2 className="text-lg font-bold mb-2">لا يوجد مستخدمين</h2>
+                <p className="text-md">
+                  للبحث عن المستخدمين ابحث عن اسم المستخدم الأول او الأخير او
+                  البريد الألكتروني او رقم الهاتف
+                </p>
+              </div>
+            </div>
+            {/* أزرار التنقل بين الصفحات */}
+          </>
+        ) : (
+          <div className="flex justify-center items-center mt-4 space-x-3 mx-4 pb-2">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

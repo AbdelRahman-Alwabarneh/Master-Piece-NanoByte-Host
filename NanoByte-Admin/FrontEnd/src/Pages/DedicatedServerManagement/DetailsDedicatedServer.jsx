@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Save, X } from "lucide-react";
+import { X, Save, ToggleLeft, ToggleRight } from 'lucide-react';
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import { useParams } from "react-router-dom";
 import NoDataFound from "../../Components/NoDataFound/NoDataFound";
@@ -142,178 +142,161 @@ const DedicatedServerDetails = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br text-white font-cairo">
-      <Sidebar />
-      <div className="p-4 sm:p-6 md:p-8 lg:p-10 md:mr-64 mr-[75px]">
-        <form
-          onSubmit={handleSubmit}
-          className="mx-auto bg-white/5 backdrop-blur-md rounded-xl shadow-2xl overflow-hidden"
-        >
-          <div className="px-6 py-4 sm:px-8 sm:py-6 border-b border-white/20">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">
-              تفاصيل الخادم المخصص
-            </h2>
+    <div className="min-h-screen bg-[linear-gradient(180deg,_#1A318C_0%,_#161E41_100%)] text-white font-cairo">
+    <Sidebar />
+    <div className="p-2 sm:p-4 md:mr-64 mr-[75px] text-sm mt-2">
+      <div className="max-w-full mx-auto">
+        <div className="bg-blue-950 bg-opacity-30 hover:shadow-blue-800/10 rounded-lg p-4 shadow-lg transition-shadow duration-300 hover:shadow-xl">
+          <div className="flex justify-between border-b border-blue-700 pb-2 mb-4">
+            <h2 className="text-lg font-semibold">تفاصيل الخادم المخصص</h2>
           </div>
-          <div className="p-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="col-span-1 sm:col-span-2">
-              <label className="block text-sm font-medium text-white/80 mb-2">
-                عنوان الخطة
-              </label>
-              <input
-                type="text"
-                name="planTitle"
-                value={plan.planTitle}
-                onChange={handleChange}
-                className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50 text-white placeholder-white/50 px-4 py-2 transition-all duration-200"
-                placeholder="أدخل عنوان الخطة"
-                required
-              />
-            </div>
-            <div className="col-span-1 sm:col-span-2">
-              <label className="block text-sm font-medium text-white/80 mb-2">
-                العنوان الثانوي
-              </label>
-              <input
-                type="text"
-                name="secondaryTitle"
-                value={plan.secondaryTitle}
-                onChange={handleChange}
-                className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50 text-white placeholder-white/50 px-4 py-2 transition-all duration-200"
-                placeholder="أدخل العنوان الثانوي"
-                required
-              />
-            </div>
-            <div className="col-span-1 sm:col-span-2">
-              <label className="block text-sm font-medium text-white/80 mb-2">
-                الأسعار حسب المدة
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-  {Object.entries(plan.subscriptionDurations).map(
-    ([duration, { price, enabled }], index) => (
-      <div key={duration} className="flex flex-col">
-        <div className="flex justify-between items-center mb-1">
-          <label className="text-xs text-white/60">
-            {index === 0 ? "الشهر الأول" : 
-             index === 1 ? "الشهر الثاني" : 
-             index === 2 ? "الشهر الثالث" : 
-             index === 3 ? "الشهر الرابع" : 
-             index === 4 ? "الشهر الخامس" : 
-             index === 5 ? "الشهر السادس" : ""}
-          </label>
-        </div>
-        <input
-          type="number"
-          value={price}
-          onChange={(e) => handlePriceChange(duration, e.target.value)}
-          className={`w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50 text-white placeholder-white/50 px-4 py-2 transition-all duration-200 ${
-            !enabled ? "opacity-50" : ""
-          }`}
-          placeholder="السعر"
-          disabled={!enabled}
-          required={index === 0}
-        />
-      </div>
-    )
-  )}
-</div>
-
-            </div>
-            <div className="col-span-1 sm:col-span-2">
-              <label className="block text-sm font-medium text-white/80 mb-2">
-              رسوم الإعداد
-              </label>
-              <input
-                type="number"
-                name="setupFee"
-                value={plan.setupFee}
-                onChange={handleChange}
-                className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50 text-white placeholder-white/50 px-4 py-2 transition-all duration-200"
-                placeholder="أدخل رسوم الأعداد"
-                required
-              />
-            </div>
-            <div className="col-span-1 sm:col-span-2">
-              <label className="block text-sm font-medium text-white/80 mb-2">
-                الكمية
-              </label>
-              <div className="flex items-center">
-                <div className="flex-grow ml-2">
+          <form onSubmit={handleSubmit} className="space-y-4" dir="rtl">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="col-span-1 sm:col-span-2">
+                <label className="block text-xs text-gray-300 mb-1">عنوان الخطة</label>
+                <input
+                  type="text"
+                  name="planTitle"
+                  value={plan.planTitle ?? ""}
+                  onChange={handleChange}
+                  className="w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200"
+                  placeholder="أدخل عنوان الخطة"
+                  required
+                />
+              </div>
+              <div className="col-span-1 sm:col-span-2">
+                <label className="block text-xs text-gray-300 mb-1">العنوان الثانوي</label>
+                <input
+                  type="text"
+                  name="secondaryTitle"
+                  value={plan.secondaryTitle ?? ""}
+                  onChange={handleChange}
+                  className="w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200"
+                  placeholder="أدخل العنوان الثانوي"
+                  required
+                />
+              </div>
+              <div className="col-span-1 sm:col-span-2">
+                <label className="block text-xs text-gray-300 mb-1">الأسعار حسب المدة</label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                  {Object.entries(plan.subscriptionDurations).map(([duration, { price, enabled }], index) => (
+                    <div key={duration} className="flex flex-col">
+                      <label className="text-xs text-white/60 mb-1">
+                        {index === 0 ? "الشهر الأول" : 
+                         index === 1 ? "الشهر الثاني" : 
+                         index === 2 ? "الشهر الثالث" : 
+                         index === 3 ? "الشهر الرابع" : 
+                         index === 4 ? "الشهر الخامس" : 
+                         "الشهر السادس"}
+                      </label>
+                      <input
+                        type="number"
+                        value={price ?? ""}
+                        onChange={(e) => handlePriceChange(duration, e.target.value)}
+                        className="w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200"
+                        placeholder="السعر"
+                        disabled={!enabled}
+                        required={enabled}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="col-span-1 sm:col-span-2">
+                <label className="block text-xs text-gray-300 mb-1">رسوم الإعداد</label>
+                <input
+                  type="number"
+                  name="setupFee"
+                  value={plan.setupFee ?? ""}
+                  onChange={handleChange}
+                  className="w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200"
+                  placeholder="أدخل رسوم الأعداد"
+                  required
+                />
+              </div>
+              <div className="col-span-1 sm:col-span-2">
+                <label className="block text-xs text-gray-300 mb-1">الكمية</label>
+                <div className="flex items-center">
                   <input
                     type="number"
                     name="quantity"
-                    value={plan.quantity || ""}
+                    value={plan.quantity ?? ""}
                     onChange={handleChange}
-                    className={`w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50 text-white placeholder-white/50 px-4 py-2 transition-all duration-200 ${
-                      isUnlimited ? "cursor-not-allowed" : ""
-                    }`}
+                    className={`${isUnlimited ? "cursor-not-allowed" : ""} w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200`}
                     placeholder="أدخل الكمية"
                     disabled={isUnlimited}
+                    readOnly={isUnlimited}
                   />
-                </div>
-                <div
-                  onClick={handleToggleUnlimited}
-                  className={`flex items-center space-x-2 cursor-pointer px-4 py-3 rounded-lg ${
-                    isUnlimited ? "bg-green-500" : "bg-white/5"
-                  }`}
-                >
-                  <span
-                    className={`text-sm font-medium ${
-                      isUnlimited ? "text-white" : "text-white/80"
-                    } whitespace-nowrap`}
+                  <div
+                    onClick={handleToggleUnlimited}
+                    className={`flex items-center space-x-2 text-sm cursor-pointer rounded mr-1 ${
+                      isUnlimited ? 'bg-green-600/90 hover:bg-green-600' : 'bg-gray-600/90 hover:bg-gray-600'
+                    }`}
                   >
-                    {isUnlimited ? "لا نهائي" : "محدود"}
-                  </span>
+                    <span className={`flex items-center gap-2 px-2 py-2 rounded transition-colors ${
+                      isUnlimited ? "text-white/100" : "text-white/80"
+                    } whitespace-nowrap`}>
+                      {isUnlimited ? (
+                        <>
+                          <ToggleRight className="w-4 h-4" />
+                          <span>لانهائي</span>
+                        </>
+                      ) : (
+                        <>
+                          <ToggleLeft className="w-4 h-4" />
+                          <span>لانهائي</span>
+                        </>
+                      )}
+                    </span>
+                  </div>
                 </div>
               </div>
+              <div className="col-span-1 sm:col-span-2">
+                <label className="block text-xs text-gray-300 mb-1">وصف الخطة</label>
+                <textarea
+                  name="planDescription"
+                  value={plan.planDescription ?? ""}
+                  onChange={handleChange}
+                  className="w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200"
+                  placeholder="أدخل وصف الخطة"
+                  rows="4"
+                  required
+                ></textarea>
+              </div>
+              <div className="col-span-1 sm:col-span-2">
+                <label className="block text-xs text-gray-300 mb-1">رابط المنتج</label>
+                <input
+                  type="text"
+                  name="productLink"
+                  value={plan.productLink ?? ""}
+                  onChange={handleChange}
+                  className="w-full bg-gray-400/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white placeholder-gray-300 px-4 py-2 transition-all duration-200"
+                  placeholder="https://example.com/(product)"
+                  required
+                />
+              </div>
             </div>
-            <div className="col-span-1 sm:col-span-2">
-              <label className="block text-sm font-medium text-white/80 mb-2">
-                وصف الخطة
-              </label>
-              <textarea
-                name="planDescription"
-                value={plan.planDescription}
-                onChange={handleChange}
-                className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50 text-white placeholder-white/50 px-4 py-2 transition-all duration-200"
-                placeholder="أدخل وصف الخطة"
-                rows="4"
-                required
-              ></textarea>
+            <div className="flex justify-end gap-2 mt-6">
+              <button
+                type="button"
+                className="px-4 py-2 bg-gray-600/90 hover:bg-gray-600 rounded flex items-center gap-2 transition-colors"
+              >
+                <X className="w-4 h-4" />
+                إلغاء
+              </button>
+              <button
+                type="submit"
+                className="px-4 py-2 bg-green-600 hover:bg-green-500 rounded flex items-center gap-2 transition-colors"
+              >
+                <Save className="w-4 h-4" />
+                حفظ التغييرات
+              </button>
             </div>
-            <div className="col-span-1 sm:col-span-2">
-              <label className="block text-sm font-medium text-white/80 mb-2">
-                رابط المنتج
-              </label>
-              <input
-                type="text"
-                name="productLink"
-                value={plan.productLink}
-                onChange={handleChange}
-                className="w-full bg-white/5 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50 text-white placeholder-white/50 px-4 py-2 transition-all duration-200"
-                placeholder="https://example.com/(product)"
-                required
-              />
-            </div>
-          </div>
-          <div className="px-6 py-4 sm:px-8 sm:py-6 bg-white/5 border-t border-white/10 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0">
-            <button
-              type="button"
-              className="w-full ml-2 sm:w-auto px-6 py-2 border border-white/30 rounded-lg shadow-sm text-sm font-medium text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 transition-all duration-200 flex items-center justify-center"
-            >
-              <X className="w-5 h-5 ml-2" />
-              إلغاء
-            </button>
-            <button
-              type="submit"
-              className="w-full sm:w-auto px-6 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 flex items-center justify-center"
-            >
-              <Save className="w-5 h-5 ml-2" />
-              حفظ التغييرات
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
+  </div>
   );
 };
 

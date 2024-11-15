@@ -26,7 +26,7 @@ function UserSidebar() {
 
   const tabs = [
     { id: 'home', name: 'الملخص', path: `/userDetails/${id}`, icon: Home },
-    { id: 'settings', name: 'الملف الشخصي', path: `/UserProfile/${id}`, icon: User },
+    { id: 'settings', name: 'ملف العميل', path: `/UserProfile/${id}`, icon: User },
     { id: 'invoices', name: 'الطلبات', path: `/Orders/${id}`, icon: Boxes },
     { id: 'products', name: 'المنتجات', path: `/ServiceManagement/${id}/${OrderNumber || serviceId}`, icon: ShoppingCart },
     { id: 'email', name: 'البريد', path: `/EmailLogsPage/${id}`, icon: Mail },

@@ -328,7 +328,7 @@ const OrderDetails = () => {
                 </button>
                 <button 
                   onClick={() => updateOrderStatus('Active', 'هل تريد قبول هذا الطلب؟')}
-                  className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+                  className="px-4 py-2 bg-green-600/90 hover:bg-green-600 text-white rounded-lg transition-all duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
                 >
                   قبول الطلب
                 </button>

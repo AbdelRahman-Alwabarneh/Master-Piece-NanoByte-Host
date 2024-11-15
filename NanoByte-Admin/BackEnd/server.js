@@ -65,6 +65,18 @@ const websiteHostingRoutes = require("./Routes/websiteHostingRoutes");
 
 app.use("/api/websiteHosting", websiteHostingRoutes);
 
+const GroupGameHostingRoutes = require("./Routes/GroupGameHostingRoutes");
+
+app.use("/api/GroupGameHosting", GroupGameHostingRoutes);
+
+const GameHostingRoutes = require("./Routes/GameHostingRoutes");
+
+app.use("/api/GameHosting", GameHostingRoutes);
+
+const DomainServiceRoutes = require("./Routes/DomainServiceRoutes");
+
+app.use("/api/DomainService", DomainServiceRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

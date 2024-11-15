@@ -4,18 +4,32 @@ import { useNavigate,useParams } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Loading from "../../Components/Loading/Loading";
+import Pagination from "../../Components/Pagination/Pagination";
+import ItemsPerPageSelect from "../../Components/Pagination/ItemsPerPageSelect";
 const PendingOrderManagement = () => {
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const { orderStatus } = useParams();
+
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
   useEffect(() => {
-    const fetchInvoices = async () => {
+    fetchInvoices(currentPage, itemsPerPage);
+  }, [currentPage, itemsPerPage , orderStatus ,searchTerm]);
+
+    const fetchInvoices = async (page, limit) => {
       try {
-        const response = await axios.post(`http://localhost:2100/api/order/Status/${orderStatus}`);
+        const response = await axios.post(`http://localhost:2100/api/order/Status/${orderStatus}?page=${page}&limit=${limit}&search=${searchTerm}`);
         // Access the orders array from the response
         setInvoices(response.data.orders || []);
+        setTotalPages(response.data.totalPages);
+        setTotalCount(response.data.totalCount);
       } catch (error) {
         console.error("Error fetching invoices:", error);
         setInvoices([]); // Set empty array in case of error
@@ -24,8 +38,15 @@ const PendingOrderManagement = () => {
       }
     };
 
-    fetchInvoices();
-  }, [orderStatus]);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+  const handleItemsPerPageChange = (value) => {
+    setItemsPerPage(value);
+    setCurrentPage(1);
+    fetchInvoices(1, value); 
+  };
+
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -80,21 +101,30 @@ const PendingOrderManagement = () => {
           إدارة الفواتير
         </h1>
 
-        <div className="mb-5">
-          <div className="relative w-full sm:w-1/2">
-            <input
-              type="text"
-              placeholder="ابحث عن فاتورة..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="bg-[#1E38A3] border border-[#2f64bb] text-white py-2 px-4 pl-10 rounded-full shadow-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#2f64bb] w-full"
-            />
-            <Search className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
-          </div>
-        </div>
+        <div className="mb-5 flex flex-col sm:flex-row justify-between gap-4">
+      <div className="relative w-full sm:w-1/2">
+        <input
+          type="text"
+          placeholder="ابحث عن فاتورة..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="bg-[#1E38A3] border border-[#2f64bb] text-white py-2 px-4 pl-10 
+                   rounded-full shadow-lg transition duration-200 
+                   focus:outline-none focus:ring-2 focus:ring-[#2f64bb] w-full"
+        />
+        <Search className="h-5 w-5 absolute left-3 top-[1.4rem] transform -translate-y-1/2 text-white" />
+      </div>
+      <ItemsPerPageSelect
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={handleItemsPerPageChange}
+        totalPages={totalPages}
+        currentPage={currentPage}
+        totalCount={totalCount}
+      />
+    </div>
 
         <div className="overflow-x-auto w-full">
-          <table className="hidden md:table min-w-full bg-[#1E38A3] rounded-lg shadow-lg">
+          <table className="hidden md:table min-w-full bg-[#1E38A3] rounded-lg shadow-lg mb-3">
             <thead>
               <tr className="bg-[#2f64bb] text-white">
                 <th className="p-3 text-center text-sm">رقم الطلب</th>
@@ -141,6 +171,7 @@ const PendingOrderManagement = () => {
               ))}
             </tbody>
           </table>
+
         </div>
 
         {/* Mobile View */}
@@ -150,11 +181,11 @@ const PendingOrderManagement = () => {
               key={invoice._id}
               className="bg-[#1E38A3] rounded-lg shadow-lg p-4"
             >
-              <p className="mb-2 text-sm">
+              <p className="mb-2 text-sm cursor-pointer hover:text-[#9de3ff]" onClick={() => handleOrderClick(invoice.orderNumber)}>
                 <span className="font-bold">رقم الطلب: </span>
                 {invoice.orderNumber}
               </p>
-              <p className="mb-2 text-sm">
+              <p className="mb-2 text-sm cursor-pointer hover:text-[#9de3ff]" onClick={() => handleUserClick(invoice.userId._id)}>
                 <span className="font-bold">اسم العميل: </span>
                 {invoice.userId.firstName}
               </p>
@@ -188,6 +219,28 @@ const PendingOrderManagement = () => {
             </div>
           ))}
         </div>
+          {!invoices || invoices.length === 0 ? <>
+            <div className="max-w-7xl mx-auto">
+            <div className="mt-6 text-center">
+              <h2 className="text-lg font-bold mb-2">
+                لا توجد طلبات أو خدمات هنا 
+              </h2>
+              <p className="text-md">
+                يرجى مراجعة صفحة جميع الطلبات للحصول على التفاصيل 
+              </p>
+          
+            </div>
+        </div>
+                                                 {/* أزرار التنقل بين الصفحات */}
+             
+          </> :    <div className="flex justify-center items-center mt-4 space-x-3 mx-4 pb-2">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              
+              </div> }
       </div>
     </div>
   );

@@ -174,7 +174,7 @@ function UserProfile() {
 
   return (
     <>
-    <title>الملف الشخصي - {user.UsersData.firstName}</title>
+    <title> ملف العميل - {user.UsersData.firstName}</title>
     <Sidebar />
     <div className="min-h-screen bg-[linear-gradient(180deg,_#1A318C_0%,_#161E41_100%)] text-white p-2 sm:p-4 font-cairo md:mr-64 mr-[75px] text-sm mt-6">
       <div className="max-w-7xl mx-auto">
@@ -182,7 +182,7 @@ function UserProfile() {
         <div className="bg-blue-900 bg-opacity-70 rounded-lg p-3 sm:p-4 shadow-lg transition-shadow duration-300 hover:shadow-xl">
           <div className="flex justify-between border-b border-blue-700 pb-1 mb-3">
             <h2 className="text-base sm:text-lg font-semibold flex items-center">
-              الملف الشخصي
+               ملف العميل
             </h2>
           </div>
 
@@ -197,7 +197,8 @@ function UserProfile() {
                   value={formData.firstName}
                   onChange={handleInputChange}
                   className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
-                />
+                  readOnly
+               />
               </div>
               <div>
                 <label className="block text-xs text-gray-300 mb-1">
@@ -208,7 +209,8 @@ function UserProfile() {
                   value={formData.lastName}
                   onChange={handleInputChange}
                   className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
-                />
+                  readOnly
+               />
               </div>
             </div>
 
@@ -221,7 +223,8 @@ function UserProfile() {
                 value={formData.discordUsername}
                 onChange={handleInputChange}
                 className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
-              />
+                readOnly
+             />
             </div>
 
             <div>
@@ -235,13 +238,13 @@ function UserProfile() {
                   className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
                   readOnly
                 />
-                <button
+                {/* <button
                   type="button"
                   onClick={togglePasswordEdit}
                   className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
                 >
                   <Edit2 className="w-3 h-3" />
-                </button>
+                </button> */}
               </div>
 
               {showPasswordEdit && (
@@ -314,6 +317,7 @@ function UserProfile() {
                   value={formData.email}
                   onChange={handleInputChange}
                   className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
+                  readOnly
                 />
               </div>
               <div>
@@ -367,7 +371,8 @@ function UserProfile() {
                   value={formData.companyName}
                   onChange={handleInputChange}
                   className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
-                />
+                  readOnly
+              />
               </div>
               <div>
                 <label className="block text-xs text-gray-300 mb-1">
@@ -378,7 +383,8 @@ function UserProfile() {
                   value={formData.city}
                   onChange={handleInputChange}
                   className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
-                />
+                  readOnly
+               />
               </div>
               <div>
                 <label className="block text-xs text-gray-300 mb-1">
@@ -389,6 +395,7 @@ function UserProfile() {
                   value={formData.country}
                   onChange={handleInputChange}
                   className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
+                  readOnly
                 />
               </div>
             </div>
@@ -402,16 +409,17 @@ function UserProfile() {
                 value={formData.streetAddress}
                 onChange={handleInputChange}
                 className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
-              />
+                readOnly
+             />
             </div>
 
             <div className="flex justify-end gap-2">
-              <button
+              {/* <button
                 type="submit"
                 className="flex items-center gap-1 bg-green-600/90 hover:bg-green-600 px-3 py-1.5 rounded text-xs transition-colors"
               >
                 <span>حفظ التغييرات</span>
-              </button>
+              </button> */}
             </div>
           </form>
         </div>

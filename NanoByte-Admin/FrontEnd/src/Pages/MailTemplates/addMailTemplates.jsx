@@ -99,7 +99,7 @@ const AddEmailTemplate = () => {
       <Sidebar />
       <div className="min-h-screen bg-[linear-gradient(180deg,_#1A318C_0%,_#161E41_100%)] text-white p-4 font-cairo mr-[75px] md:mr-64 text-sm mt-6">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-blue-800 bg-opacity-50 rounded-lg p-4 shadow-lg">
+          <div className="bg-blue-950 bg-opacity-30 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold">إضافة قالب جديد</h2>
             </div>
@@ -111,7 +111,7 @@ const AddEmailTemplate = () => {
                   type="text"
                   value={templateName}
                   onChange={(e) => setTemplateName(e.target.value)}
-                  className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
+                  className="w-full bg-gray-500/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
                   placeholder="أدخل اسم القالب"
                 />
               </div>
@@ -122,7 +122,7 @@ const AddEmailTemplate = () => {
                   type="text"
                   value={senderName}
                   onChange={(e) => setSenderName(e.target.value)}
-                  className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
+                  className="w-full bg-gray-500/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
                   placeholder="أدخل اسم المرسل"
                 />
               </div>
@@ -133,7 +133,7 @@ const AddEmailTemplate = () => {
                   type="email"
                   value={senderEmail}
                   onChange={(e) => setSenderEmail(e.target.value)}
-                  className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
+                  className="w-full bg-gray-500/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
                   placeholder="أدخل البريد الإلكتروني للمرسل"
                 />
               </div>
@@ -144,7 +144,7 @@ const AddEmailTemplate = () => {
                   type="text"
                   value={emailSubject}
                   onChange={(e) => setEmailSubject(e.target.value)}
-                  className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
+                  className="w-full bg-gray-500/10 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-xs px-2 py-1.5 transition-all"
                   placeholder="أدخل موضوع البريد الإلكتروني"
                 />
               </div>
@@ -166,19 +166,19 @@ const AddEmailTemplate = () => {
             <div className="flex justify-between items-center mt-4">
               <button
                 onClick={toggleActive}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-colors ${
+                className={`flex items-center gap-2 ml-2 px-3 py-1.5 rounded text-xs transition-colors ${
                   isActive ? 'bg-green-600/90 hover:bg-green-600' : 'bg-gray-600/90 hover:bg-gray-600'
                 }`}
               >
                 {isActive ? (
                   <>
-                    <ToggleRight className="w-4 h-4" />
-                    <span>القالب مفعل</span>
+                    <ToggleRight className="w-3 h-3" />
+                    <span>فعال</span>
                   </>
                 ) : (
                   <>
-                    <ToggleLeft className="w-4 h-4" />
-                    <span>القالب معطل</span>
+                    <ToggleLeft className="w-3 h-3" />
+                    <span>فعال</span>
                   </>
                 )}
               </button>

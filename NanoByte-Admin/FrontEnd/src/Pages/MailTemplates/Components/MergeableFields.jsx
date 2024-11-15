@@ -105,7 +105,7 @@ const MergeableFields = () => {
   };
 
   return (
-    <div className="mt-4 bg-blue-800 bg-opacity-50 rounded-lg p-4" dir="rtl">
+    <div className="mt-4 bg-blue-950 bg-opacity-30 rounded-lg p-4" dir="rtl">
       <div className="mb-3">
         <h2 className="text-sm font-semibold text-white">الحقول القابلة للدمج</h2>
       </div>
@@ -113,7 +113,7 @@ const MergeableFields = () => {
       <div className="max-h-[300px] overflow-y-auto custom-scrollbar">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
           {Object.entries(fieldGroups).map(([groupKey, group]) => (
-            <div key={groupKey} className="bg-blue-800 bg-opacity-50 rounded-lg overflow-hidden">
+            <div key={groupKey} className="bg-blue-800 bg-opacity-45 rounded-lg overflow-hidden">
               <button
                 onClick={() => toggleSection(groupKey)}
                 className="w-full flex justify-between items-center p-2 text-white hover:bg-blue-800 transition-colors"
@@ -131,7 +131,7 @@ const MergeableFields = () => {
                   {Object.entries(group.fields).map(([key, label]) => (
                     <div 
                       key={key}
-                      className="flex flex-col gap-1 text-white hover:bg-blue-800/50 rounded p-1.5"
+                      className="flex flex-col gap-1 text-white hover:bg-blue-700/40 rounded p-1.5"
                     >
                       <span className="text-xs font-medium text-gray-300">{label}</span>
                       <div

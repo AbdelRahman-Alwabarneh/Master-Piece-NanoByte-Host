@@ -27,6 +27,14 @@ import EmailLogsPage from "./Pages/Users/Emailpage/Emailpage";
 import AddWebsiteHosting from "./Pages/WebsiteHosting/AddWebsiteHosting";
 import WebsiteHostingDetails from "./Pages/WebsiteHosting/DetailsWebsiteHosting";
 import WebsiteHostingManagement from "./Pages/WebsiteHosting/WebsiteHostingManagement";
+import CreateGroupGameHosting from "./Pages/GameHosting/GameHostingGroups/CreateGroupGameHosting";
+import DetailsGroupGameHosting from "./Pages/GameHosting/GameHostingGroups/DetailsGroupGameHosting";
+import AddGameServerPlan from "./Pages/GameHosting/addGameHosting";
+import GameHostingPlanDetails from "./Pages/GameHosting/DetailsGameHosting";
+import GameHostingManagement from "./Pages/GameHosting/GameHostingManagement";
+import AddDomainService from "./Pages/DomainService/AddDomainService";
+import DomainServiceDetails from "./Pages/DomainService/DetailsDomainService";
+import DomainServiceManagement from "./Pages/DomainService/DomainServiceManagement";
 function App() {
   return (
     <>
@@ -62,6 +70,14 @@ function App() {
           <Route path="/AddWebsiteHosting" element={<AddWebsiteHosting />} />
           <Route path="/WebsiteHostingDetails/:id" element={<WebsiteHostingDetails />} />
           <Route path="/WebsiteHostingManagement" element={<WebsiteHostingManagement />} />
+          <Route path="/CreateGroupGameHosting" element={<CreateGroupGameHosting />} />
+          <Route path="/DetailsGroupGameHosting/:id" element={<DetailsGroupGameHosting />} />
+          <Route path="/AddGameServerPlan" element={<AddGameServerPlan />} />
+          <Route path="/GameHostingPlanDetails/:id" element={<GameHostingPlanDetails />} />
+          <Route path="/GameHostingManagement" element={<GameHostingManagement />} />
+          <Route path="/AddDomainService" element={<AddDomainService />} />
+          <Route path="/DomainServiceDetails/:id" element={<DomainServiceDetails />} />
+          <Route path="/DomainServiceManagement" element={<DomainServiceManagement />} />
 
         </Routes>
       </BrowserRouter>

@@ -3,11 +3,9 @@ import axios from "axios";
 import { Save, X, Search, User, Users } from "lucide-react";
 import Swal from "sweetalert2";
 import Sidebar from "../../../Components/Sidebar/Sidebar";
-import { useParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-const DetailsVPSGroup = () => {
-  const { id } = useParams();
-  const [group, setGroup] = useState(null);
+const CreateGroupGameHosting = () => {
   const [users, setUsers] = useState([]);
   const [groupName, setGroupName] = useState("");
   const [groupDescription, setGroupDescription] = useState("");
@@ -15,23 +13,9 @@ const DetailsVPSGroup = () => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchGroupData = async () => {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_VPS_GROUP}/${id}`);
-        const groupData = response.data.DetailsvpsGroup;
-        setGroup(groupData);
-        setGroupName(groupData.groupName);
-        setGroupDescription(groupData.description);
-        setIsVisible(groupData.isVisible);
-        setSelectedUsers(groupData.users);
-      } catch (error) {
-        console.error("Error fetching group data:", error);
-        Swal.fire("خطأ!", "فشل في جلب بيانات المجموعة.", "error");
-      }
-    };
-
     const fetchUserData = async () => {
       try {
         const response = await axios.get(import.meta.env.VITE_USERS_DATA);
@@ -42,66 +26,75 @@ const DetailsVPSGroup = () => {
       }
     };
 
-    fetchGroupData();
     fetchUserData();
-  }, [id]);
-  
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const groupData = {
       groupName,
       description: groupDescription,
       isVisible,
       users: selectedUsers,
     };
-  
+
     Swal.fire({
-      title: "تأكيد تحديث المجموعة",
-      text: "هل أنت متأكد من تحديث هذه المجموعة؟",
+      title: "تأكيد إنشاء المجموعة",
+      text: "هل أنت متأكد من إنشاء هذه المجموعة الجديدة؟",
       icon: "question",
-      iconColor: "#ffcc00", // اللون المخصص للأيقونة
-      background: "#18296C", // اللون الخلفي
-      color: "#ffffff", // لون النص
+      iconColor: "#ffcc00",
+      background: "#18296C",
+      color: "#ffffff",
       showCancelButton: true,
-      confirmButtonText: "نعم، قم بالتحديث",
+      confirmButtonText: "نعم، أنشئ المجموعة",
       cancelButtonText: "إلغاء",
-      confirmButtonColor: "#1E38A3", // لون زر التأكيد
-      cancelButtonColor: "#d33", // لون زر الإلغاء
+      confirmButtonColor: "#1E38A3",
+      cancelButtonColor: "#d33",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.put(
-            `${import.meta.env.VITE_VPS_GROUP}/${id}`,
-            { groupData }
+          const response = await axios.post(
+            `http://localhost:2100/api/GroupGameHosting`,
+            groupData
           );
+
+          const groupId = response.data.group._id;
+
           Swal.fire({
             title: "تم بنجاح!",
             text: response.data.message,
             icon: "success",
-            iconColor: "#28a745", // اللون المخصص لأيقونة النجاح
-            background: "#18296C", // اللون الخلفي
-            color: "#ffffff", // لون النص
-            confirmButtonColor: "#1E38A3", // لون زر التأكيد
+            iconColor: "#28a745",
+            background: "#18296C",
+            color: "#ffffff",
+            confirmButtonColor: "#1E38A3",
             confirmButtonText: "حسناً",
+          }).then(() => {
+            navigate(`/DetailsGroupGameHosting/${groupId}`);
           });
+
+          setGroupName("");
+          setGroupDescription("");
+          setIsVisible(true);
+          setSelectedUsers([]);
+          setSearchTerm("");
         } catch (error) {
           Swal.fire({
             title: "خطأ!",
-            text: "فشل في تحديث المجموعة.",
+            text: "فشل في إضافة المجموعة.",
             icon: "error",
-            iconColor: "#ff0000", // اللون المخصص لأيقونة الخطأ
-            background: "#18296C", // اللون الخلفي
-            color: "#ffffff", // لون النص
-            confirmButtonColor: "#1E38A3", // لون زر التأكيد
+            iconColor: "#ff0000",
+            background: "#18296C",
+            color: "#ffffff",
+            confirmButtonColor: "#1E38A3",
             confirmButtonText: "موافق",
           });
-          console.error("Error updating group:", error);
+          console.error("Error adding group:", error);
         }
       }
     });
   };
-  
 
   const filteredUsers = users.filter(
     (user) =>
@@ -117,10 +110,6 @@ const DetailsVPSGroup = () => {
     );
   };
 
-  if (!group) {
-    return <div className="min-h-screen bg-gradient-to-br text-white font-cairo md:mr-64 mr-[75px] text-sm sm:text-base flex items-center justify-center">جاري التحميل...</div>;
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br text-white font-cairo md:mr-64 mr-[75px] text-sm sm:text-base">
       <Sidebar />
@@ -130,7 +119,7 @@ const DetailsVPSGroup = () => {
           className="bg-blue-950 bg-opacity-30 backdrop-blur-md rounded-xl shadow-2xl overflow-hidden transition-all duration-300 hover:shadow-blue-500/10"
         >
           <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/20">
-            <h2 className="text-xl sm:text-2xl font-bold text-white">تعديل المجموعة</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">إنشاء مجموعة جديدة</h2>
           </div>
           <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
             <div>
@@ -166,7 +155,7 @@ const DetailsVPSGroup = () => {
                 className="mr-2 rounded border-white/30 text-blue-600 focus:ring-blue-500"
               />
               <label className="text-xs sm:text-sm mr-1 text-white/80">
-              إظهار المجموعة
+                إظهار المجموعة
               </label>
             </div>
             <div>
@@ -181,7 +170,7 @@ const DetailsVPSGroup = () => {
                   onFocus={() => setDropdownOpen(true)}
                   className="w-full bg-gray-500/10 bg-opacity-50 rounded-lg border border-white/10 focus:border-blue-400 focus:ring focus:ring-blue-300 text-white placeholder-white/50 px-3 sm:px-4 py-1.5 sm:py-2 pr-8 sm:pr-10 transition-all duration-200 text-xs sm:text-sm"
                   placeholder="ابحث عن المستخدمين..."
-                />   
+                />
                 <div
                   onClick={() => {setDropdownOpen(false); setSearchTerm("");}}
                   className="cursor-pointer absolute top-1.5 sm:top-[9px] left-1 sm:left-2 text-white rounded-full p-0.5 sm:p-1 hover:bg-[#ff343465] transition-all duration-200"
@@ -257,7 +246,7 @@ const DetailsVPSGroup = () => {
               className="w-full sm:w-auto px-4 sm:px-6 py-1.5 sm:py-2 border border-transparent rounded-lg shadow-sm text-xs sm:text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 flex items-center justify-center"
             >
               <Save className="w-4 h-4 sm:w-5 sm:h-5 ml-1 sm:ml-2" />
-              حفظ التغييرات
+              حفظ المجموعة
             </button>
           </div>
         </form>
@@ -266,4 +255,4 @@ const DetailsVPSGroup = () => {
   );
 };
 
-export default DetailsVPSGroup;
+export default CreateGroupGameHosting;
