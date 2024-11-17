@@ -35,6 +35,12 @@ import GameHostingManagement from "./Pages/GameHosting/GameHostingManagement";
 import AddDomainService from "./Pages/DomainService/AddDomainService";
 import DomainServiceDetails from "./Pages/DomainService/DetailsDomainService";
 import DomainServiceManagement from "./Pages/DomainService/DomainServiceManagement";
+import CreateTutorialGroup from "./Pages/TutorialManagement/TutorialGroup/CreateTutorialGroup";
+import DetailsTutorialGroup from "./Pages/TutorialManagement/TutorialGroup/DetailsTutorialGroup";
+import CreateTutorial from "./Pages/TutorialManagement/addTutorial";
+import TutorialDetails from "./Pages/TutorialManagement/DetailsTutorial";
+import TutorialManagement from "./Pages/TutorialManagement/TutorialManagement";
+import ContactMessages from "./Pages/ContactsPages/ContactPages";
 function App() {
   return (
     <>
@@ -78,6 +84,12 @@ function App() {
           <Route path="/AddDomainService" element={<AddDomainService />} />
           <Route path="/DomainServiceDetails/:id" element={<DomainServiceDetails />} />
           <Route path="/DomainServiceManagement" element={<DomainServiceManagement />} />
+          <Route path="/CreateTutorialGroup" element={<CreateTutorialGroup />} />
+          <Route path="/DetailsTutorialGroup/:id" element={<DetailsTutorialGroup />} />
+          <Route path="/CreateTutorial" element={<CreateTutorial />} />
+          <Route path="/TutorialDetails/:id" element={<TutorialDetails />} />
+          <Route path="/TutorialManagement" element={<TutorialManagement />} />
+          <Route path="/ContactMessages" element={<ContactMessages />} />
 
         </Routes>
       </BrowserRouter>

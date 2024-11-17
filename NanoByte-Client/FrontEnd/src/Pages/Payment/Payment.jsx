@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
+import './Payment.css'; 
 
 const PaymentPage = () => {
   const [paymentMethod, setPaymentMethod] = useState("credit-card");
@@ -204,7 +205,7 @@ const PaymentPage = () => {
                         الدفع عبر PayPal
                       </h3>
                       <p className="text-blue-100 mb-4">
-                        اضغط على الزر أدناه لإكمال عملية الدفع بواسطة PayPal
+                        اضغط على زر PayPal لإكمال عملية الدفع بواسطة PayPal
                       </p>
                       <ul className="list-disc text-right list-inside mb-6 space-y-2 text-blue-100">
                         <li>حماية المشتري على مشترياتك المؤهلة</li>
@@ -213,42 +214,9 @@ const PaymentPage = () => {
                       </ul>
                     </div>
 
-                    {paymentError && (
-                      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-                        {paymentError}
-                      </div>
-                    )}
+                 
 
-                    <PayPalScriptProvider
-                      options={{
-                        "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
-                      }}
-                    >
-                      <PayPalButtons
-                        className="paypal-button w-full"
-                        style={{
-                          layout: "horizontal",
-                          shape: "rect",
-                          color: "blue",
-                          tagline: false,
-                        }}
-                        createOrder={(data, actions) => {
-                          return actions.order.create({
-                            purchase_units: [
-                              {
-                                amount: {
-                                  value: totalPrice,
-                                },
-                              },
-                            ],
-                          });
-                        }}
-                        onApprove={onPayPalApprove} // تأكد من أن هنا تمرر الدالة المعدلة
-                        onError={(err) =>
-                          setPaymentError("فشل الدفع: " + err.message)
-                        }
-                      />
-                    </PayPalScriptProvider>
+                    
                   </div>
                 )}
               </form>
@@ -289,6 +257,49 @@ const PaymentPage = () => {
                   </span>
                 </div>
               </div>
+              {paymentMethod === "paypal" && (
+                <>
+                 {paymentError && (
+                      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                        {paymentError}
+                      </div>
+                      
+                    )}
+                     <PayPalScriptProvider
+                      options={{
+                        "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
+                      }}
+                    >
+                      <PayPalButtons
+                        className="paypal-button w-full"
+                        style={{
+                          layout: "horizontal",
+                          shape: "rect",
+                          color: "blue",
+                          tagline: false,
+                          
+                        }}
+                        createOrder={(data, actions) => {
+                          return actions.order.create({
+                            purchase_units: [
+                              {
+                                amount: {
+                                  value: totalPrice,
+                                },
+                              },
+                            ],
+                          });
+                        }}
+                        onApprove={onPayPalApprove} // تأكد من أن هنا تمرر الدالة المعدلة
+                        onError={(err) =>
+                          setPaymentError("فشل الدفع: " + err.message)
+                        }
+                      />
+                    </PayPalScriptProvider>
+                </>
+              )}
+             
+             
               {paymentMethod === "credit-card" && (
                 <button
                   type="submit"

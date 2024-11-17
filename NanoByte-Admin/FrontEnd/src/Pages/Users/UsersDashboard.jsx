@@ -200,7 +200,7 @@ const AllUsers = () => {
                   key={user._id}
                   className="border-b border-[#3B82F6] hover:bg-[#2f64bb] transition-colors duration-200 text-center"
                 >
-                  <td className="p-2 sm:p-3 text-xs sm:text-sm">{index + 1}</td>
+                  <td className="p-2 sm:p-3 text-xs sm:text-sm hover:text-[#2fceff] cursor-pointer"><div onClick={() => handleUserClick(user._id)}>{user._id}</div></td>
                   <td className="p-2 sm:p-3 text-xs sm:text-sm hover:text-[#2fceff] cursor-pointer">
                     <div onClick={() => handleUserClick(user._id)}>
                       {user.firstName}
@@ -263,12 +263,13 @@ const AllUsers = () => {
               className="bg-[#1E38A3] rounded-lg shadow-lg p-3 sm:p-4"
             >
               <p className="mb-2 text-sm">
-                <span className="font-bold">المعرف: </span>
-                {index + 1}
+                <span className="font-bold" >المعرف: </span>
+                <span className="font-bold hover:text-[#2fceff] cursor-pointer" onClick={() => handleUserClick(user._id)} >{user._id} </span>
+                
               </p>
               <p className="mb-2 text-sm">
-                <span className="font-bold">الاسم الأول: </span>
-                <span onClick={() => handleUserClick(user._id)}>
+                <span className="font-bold ">الاسم الأول: </span>
+                <span className="hover:text-[#2fceff] cursor-pointer" onClick={() => handleUserClick(user._id)}>
                   {user.firstName}
                 </span>
               </p>

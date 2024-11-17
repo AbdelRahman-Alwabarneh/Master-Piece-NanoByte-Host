@@ -102,6 +102,26 @@ const emailLogRoutes = require("./Routes/emailLogRoutes");
 
 app.use("/api/emailLog", emailLogRoutes);
 
+const tutorialGroupRoutes = require("./Routes/tutorialGroupRoutes");
+
+app.use("/api/tutorialGroup", tutorialGroupRoutes);
+
+const tutorialRoutes = require("./Routes/tutorialRoutes");
+
+app.use("/api/tutorial", tutorialRoutes);
+
+const GroupGameHostingRoutes = require("./Routes/GroupGameHostingRoutes");
+
+app.use("/api/GroupGameHosting", GroupGameHostingRoutes);
+
+const GameHostingRoutes = require("./Routes/GameHostingRoutes");
+
+app.use("/api/GameHosting", GameHostingRoutes);
+
+const ContactRoutes = require("./Routes/ContactRoutes");
+
+app.use("/api/Contact", ContactRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

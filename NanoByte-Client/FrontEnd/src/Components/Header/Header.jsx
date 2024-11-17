@@ -80,123 +80,125 @@ function Header() {
           {" "}
           <nav className="bg-navbar-color fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
-              <button
-                onClick={toggle}
-                data-collapse-toggle="navbar-sticky"
-                type="button"
-                className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg min-[870px]:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                aria-controls="navbar-sticky"
-                aria-expanded="false"
-              >
-                <svg
-                  className="w-5 h-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 17 14"
+              <div className="flex">
+                <button
+                  onClick={toggle}
+                  data-collapse-toggle="navbar-sticky"
+                  type="button"
+                  className="inline-flex items-center p-2 mt-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg min-[870px]:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                  aria-controls="navbar-sticky"
+                  aria-expanded="false"
                 >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M1 1h15M1 7h15M1 13h15"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    className="w-5 h-5"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 17 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M1 1h15M1 7h15M1 13h15"
+                    />
+                  </svg>
+                </button>
 
-              <div>
-                {user ? (
-                  <>
-                    <div className="flex items-center space-x-4">
-                      <img
-                        className="h-12 w-12 cursor-pointer rounded-full shadow-[0_0_10px_2px_rgba(0,0,0,0.3)]"
-                        src={
-                          user.UsersData[0].profileImage ||
-                          "https://www.transparentpng.com/thumb/user/gray-user-profile-icon-png-fP8Q1P.png"
-                        }
-                        alt="Profile"
-                        onClick={ProfileServices}
-                      />
-                      {/* <p
+                <div>
+                  {user ? (
+                    <>
+                      <div className="flex items-center space-x-4">
+                        <img
+                          className="h-12 w-12 cursor-pointer rounded-full shadow-[0_0_10px_2px_rgba(0,0,0,0.3)]"
+                          src={
+                            user.UsersData[0].profileImage ||
+                            "https://www.transparentpng.com/thumb/user/gray-user-profile-icon-png-fP8Q1P.png"
+                          }
+                          alt="Profile"
+                          onClick={ProfileServices}
+                        />
+                        {/* <p
                         onClick={ProfileServices}
                         className="text-lg font-cairo font-bold text-white"
                       >
                         {user.UsersData[0].firstName}
                       </p> */}
-                    </div>
-                    {ProfileDropdown && (
-                      <div className="absolute mt-2 w-64 bg-white border border-blue-200 rounded-lg shadow-lg overflow-hidden transition-all duration-300 ease-in-out">
-                        <ul className="divide-y divide-blue-100">
-                          <li>
-                            <Link
-                              to="/UserControlPanel"
-                              className="flex items-center justify-end px-4 py-3 text-blue-800 hover:bg-blue-50 transition duration-300"
-                              onClick={() => setServicesDropdown(false)}
-                            >
-                              <span className="font-cairo ml-3">
-                                الملف الشخصي
-                              </span>
-                              <User className="w-5 h-5 ml-1 text-blue-600" />
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              to="/Services/VPS"
-                              className="flex items-center justify-end px-4 py-3 text-blue-800 hover:bg-blue-50 transition duration-300"
-                              onClick={() => setServicesDropdown(false)}
-                            >
-                              <span className="font-cairo ml-3">
-                                إدارة المنتجات
-                              </span>
-                              <Boxes className="w-5 h-5 ml-1 text-blue-600" />
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              to="/Orders"
-                              className="flex items-center justify-end px-4 py-3 text-blue-800 hover:bg-blue-50 transition duration-300"
-                              onClick={() => setServicesDropdown(false)}
-                            >
-                              <span className="font-cairo ml-3">الطلبات</span>
-                              <ShoppingBag className="w-5 h-5 ml-1 text-blue-600" />
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              to="/EmailPage"
-                              className="flex items-center justify-end px-4 py-3 text-blue-800 hover:bg-blue-50 transition duration-300"
-                              onClick={() => setServicesDropdown(false)}
-                            >
-                              <span className="font-cairo ml-3">
-                                سجل البريد
-                              </span>
-                              <MailSearch className="w-5 h-5 ml-1 text-blue-600" />
-                            </Link>
-                          </li>
-                          <li>
-                            <button
-                              onClick={handleLogout}
-                              className="flex items-center justify-end w-full px-4 py-3 text-red-600 hover:bg-red-50 transition duration-300"
-                            >
-                              <span className="font-cairo ml-3">
-                                تسجيل الخروج
-                              </span>
-                              <LogOut className="w-5 h-5" />
-                            </button>
-                          </li>
-                        </ul>
                       </div>
-                    )}
-                  </>
-                ) : (
-                  <Link
-                    to="/SignUp"
-                    className="max-[870px]:hidden font-bold font-cairo text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    التسجيل
-                  </Link>
-                )}
+                      {ProfileDropdown && (
+                        <div className="absolute mt-2 w-64 bg-white border border-blue-200 rounded-lg shadow-lg overflow-hidden transition-all duration-300 ease-in-out">
+                          <ul className="divide-y divide-blue-100">
+                            <li>
+                              <Link
+                                to="/UserControlPanel"
+                                className="flex items-center justify-end px-4 py-3 text-blue-800 hover:bg-blue-50 transition duration-300"
+                                onClick={() => setServicesDropdown(false)}
+                              >
+                                <span className="font-cairo ml-3">
+                                  الملف الشخصي
+                                </span>
+                                <User className="w-5 h-5 ml-1 text-blue-600" />
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                to="/Services/VPS"
+                                className="flex items-center justify-end px-4 py-3 text-blue-800 hover:bg-blue-50 transition duration-300"
+                                onClick={() => setServicesDropdown(false)}
+                              >
+                                <span className="font-cairo ml-3">
+                                  إدارة المنتجات
+                                </span>
+                                <Boxes className="w-5 h-5 ml-1 text-blue-600" />
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                to="/Orders"
+                                className="flex items-center justify-end px-4 py-3 text-blue-800 hover:bg-blue-50 transition duration-300"
+                                onClick={() => setServicesDropdown(false)}
+                              >
+                                <span className="font-cairo ml-3">الطلبات</span>
+                                <ShoppingBag className="w-5 h-5 ml-1 text-blue-600" />
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                to="/EmailPage"
+                                className="flex items-center justify-end px-4 py-3 text-blue-800 hover:bg-blue-50 transition duration-300"
+                                onClick={() => setServicesDropdown(false)}
+                              >
+                                <span className="font-cairo ml-3">
+                                  سجل البريد
+                                </span>
+                                <MailSearch className="w-5 h-5 ml-1 text-blue-600" />
+                              </Link>
+                            </li>
+                            <li>
+                              <button
+                                onClick={handleLogout}
+                                className="flex items-center justify-end w-full px-4 py-3 text-red-600 hover:bg-red-50 transition duration-300"
+                              >
+                                <span className="font-cairo ml-3">
+                                  تسجيل الخروج
+                                </span>
+                                <LogOut className="w-5 h-5" />
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Link
+                      to="/SignUp"
+                      className="max-[870px]:hidden font-bold font-cairo text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                      التسجيل
+                    </Link>
+                  )}
+                </div>
               </div>
 
               <div className="flex min-[870px]:order-2 space-x-3 min-[870px]:space-x-0 rtl:space-x-reverse">
@@ -220,7 +222,15 @@ function Header() {
                 } w-full min-[870px]:flex min-[870px]:w-auto min-[870px]:order-1`}
                 id="navbar-sticky"
               >
-                <ul className="w-full text-center flex flex-col p-4 min-[870px]:p-0 mt-4 font-medium border rounded-lg min-[870px]:space-x-8 rtl:space-x-reverse min-[870px]:flex-row min-[870px]:mt-0 min-[870px]:border-0 min-[870px]:bg-navbar-color bg-[#1b4ab2] border-[#3955c7]">
+                <ul className="w-full text-center flex flex-col-reverse p-4 min-[870px]:p-0 mt-4 font-medium border rounded-lg min-[870px]:space-x-8 rtl:space-x-reverse min-[870px]:flex-row min-[870px]:mt-0 min-[870px]:border-0 min-[870px]:bg-navbar-color bg-[#1b4ab2] border-[#3955c7]">
+                  <li>
+                    <Link
+                      to="/ContactNanobyte"
+                      className="font-bold font-cairo block py-2 px-3 text-white rounded hover:bg-blue-600 min-[870px]:hover:bg-transparent min-[870px]:hover:text-blue-300 min-[870px]:p-0"
+                    >
+                    اتصل بنا
+                    </Link>
+                  </li>
                   <li>
                     <Link
                       to="/AboutNanobyte"
@@ -231,7 +241,7 @@ function Header() {
                   </li>
                   <li>
                     <Link
-                      to="/SupportNanobyte"
+                      to="/ExplanationsLibrary"
                       className="font-bold font-cairo block py-2 px-3 text-white rounded hover:bg-blue-600 min-[870px]:hover:bg-transparent min-[870px]:hover:text-blue-300 min-[870px]:p-0"
                     >
                       الدعم الفني
@@ -274,36 +284,36 @@ function Header() {
                         aria-labelledby="dropdownLargeButton"
                       >
                         <li className="w-full">
-                          <a
-                            href="#"
+                          <Link
+                            to="/DedicatedServer"
                             className="block px-4 py-2 w-full text-white transition duration-200 ease-in-out hover:bg-blue-700 hover:text-white rounded-md"
                           >
                             إستضافة خوادم مركزية
-                          </a>
+                          </Link>
                         </li>
                         <li className="w-full">
-                          <a
-                            href="#"
+                          <Link
+                            to="/VpsServer"
                             className="block px-4 py-2 w-full text-white transition duration-200 ease-in-out hover:bg-blue-700 hover:text-white rounded-md"
                           >
                             VPS إستضافة خوادم
-                          </a>
+                          </Link>
                         </li>
                         <li className="w-full">
-                          <a
-                            href="#"
+                          <Link
+                            to="/GameHostingPage"
                             className="block px-4 py-2 w-full text-white transition duration-200 ease-in-out hover:bg-blue-700 hover:text-white rounded-md"
                           >
                             إستضافة خوادم ألعاب
-                          </a>
+                          </Link>
                         </li>
                         <li className="w-full">
-                          <a
-                            href="#"
+                          <Link
+                            to="/LinuxWebsiteHosting"
                             className="block px-4 py-2 w-full text-white transition duration-200 ease-in-out hover:bg-blue-700 hover:text-white rounded-md"
                           >
                             إستضافة مواقع
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </div>
@@ -316,12 +326,14 @@ function Header() {
                       الرئيسية
                     </Link>
                   </li>
-                  <Link
-                    to="/SignUp"
-                    className="min-[870px]:hidden font-bold font-cairo text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-2 text-center"
-                  >
-                    التسجيل
-                  </Link>
+                  {user ? null : (
+                    <Link
+                      to="/SignUp"
+                      className="min-[870px]:hidden font-bold font-cairo text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-2 text-center"
+                    >
+                      التسجيل
+                    </Link>
+                  )}
                 </ul>
               </div>
             </div>
@@ -346,6 +358,7 @@ function Header() {
                       <p className="text-white">يبدأ من $1.99</p>
                     </div>
                   </Link>
+                  <Link to="/GameHostingPage">
                   <div className="text-center py-2 transition-transform duration-300 hover:scale-105">
                     <img
                       src={Website2}
@@ -357,6 +370,7 @@ function Header() {
                     </p>
                     <p className="text-white">تبدأ من $4</p>
                   </div>
+                  </Link>
                   <Link to="/VpsServer">
                     <div className="text-center py-2 transition-transform duration-300 hover:scale-105">
                       <img

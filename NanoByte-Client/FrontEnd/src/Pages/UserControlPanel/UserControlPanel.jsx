@@ -20,7 +20,9 @@ const ControlPanel = () => {
   const [servicesError, setServicesError] = useState(null);
   const [invoicesLoading, setInvoicesLoading] = useState(true);
   const [invoicesError, setInvoicesError] = useState(null);
-
+  const [tutorialGroups, setTutorialGroups] = useState([]);
+  const [tutorialLoading, setTutorialLoading] = useState(true);
+  const [tutorialError, setTutorialError] = useState(null);
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchUserProfile());
@@ -70,6 +72,29 @@ const ControlPanel = () => {
 
     fetchInvoices();
   }, []);
+
+  useEffect(() => {
+    const fetchTutorialGroups = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:2000/api/tutorialGroup",
+          {},
+          {
+            withCredentials: true,
+          }
+        );
+        setTutorialGroups(response.data.AllTutorialGroup);
+        setTutorialLoading(false);
+      } catch (error) {
+        console.error("Error fetching tutorial groups:", error);
+        setTutorialError(error.message);
+        setTutorialLoading(false);
+      }
+    };
+
+    fetchTutorialGroups();
+  }, []);
+
   const orderCancelled = invoices.filter(invoice => invoice.orderStatus === 'Cancelled').length;
   const [showAllStats, setShowAllStats] = useState(false);
 
@@ -210,7 +235,7 @@ const ControlPanel = () => {
                     {statistics.slice(0, 1).map((stat, index) => (
                 <Link to={stat.link} key={index} >
                 <div
-                  className="bg-white text-black p-4 rounded-lg shadow"
+                  className="bg-[#e0efff] text-black p-4 rounded-lg shadow"
                 >
                   <p className="text-xl mb-2 text-right font-bold">
                     {stat.title}
@@ -230,7 +255,7 @@ const ControlPanel = () => {
                   {statistics.map((stat, index) => (
                  <Link to={stat.link} key={index} >
                  <div
-                   className="bg-white text-black p-4 rounded-lg shadow"
+                   className="bg-[#e0efff] text-black p-4 rounded-lg shadow"
                  >
                    <p className="text-xl mb-2 text-right font-bold">
                      {stat.title}
@@ -261,7 +286,7 @@ const ControlPanel = () => {
                   {statistics.slice(1).map((stat, index) => (
                     <Link to={stat.link} key={index} >
                     <div
-                      className="bg-white text-black p-4 rounded-lg shadow"
+                      className="bg-[#e0efff] text-black p-4 rounded-lg shadow"
                     >
                       <p className="text-xl mb-2 text-right font-bold">
                         {stat.title}
@@ -278,7 +303,7 @@ const ControlPanel = () => {
                 </div>
               )}
 
-<div className="bg-white text-black p-4 rounded-lg shadow mb-4 mt-4">
+<div className="bg-[#e0efff] text-black p-4 rounded-lg shadow mb-4 mt-4">
   <h2 className="text-xl mb-2 font-bold text-right pb-2 border-b-[2px] border-b-[solid] border-b-[black]">
   احصائيات اخر 5 منتجات / خدمات فعالة 
   </h2>
@@ -300,7 +325,7 @@ const ControlPanel = () => {
   ) : (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+        <thead className="bg-[#e0efff]">
           <tr>
             <th className="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
               لوحة التحكم
@@ -325,10 +350,10 @@ const ControlPanel = () => {
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-[#e0efff] divide-y divide-gray-200">
           {services.slice(-5).reverse().map((service) => (
           (service.status === "expired" || service.status === "pending" || service.status === "active")
-           ? <tr key={service._id} className="hover:bg-gray-50">
+           ? <tr key={service._id} className="hover:bg-[#e0efff]">
            <td onClick={() => handleUserClick(service._id, service.OrderNumber)} className="px-3 py-4 whitespace-nowrap text-center">
              <button className="text-blue-600 hover:text-blue-800">
                <Settings size={20} />
@@ -374,7 +399,7 @@ const ControlPanel = () => {
   )}
 </div>
 
-              <div className="bg-white text-black p-4 rounded-lg shadow font-bold">
+              <div className="bg-[#e0efff] text-black p-4 rounded-lg shadow font-bold">
                 <h2 className="text-xl mb-2 text-right font-bold pb-2 border-b-[2px] border-b-[solid] border-b-[black]">
                   احصائيات اخر 5 طلبات خوادم / نطاقات
                 </h2>
@@ -400,7 +425,7 @@ const ControlPanel = () => {
                 ) : (
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200 max-w-full">
-                      <thead className="bg-gray-50">
+                      <thead className="bg-[#e0efff]">
                         <tr>
                           <th className="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                             حالة الدفع
@@ -422,7 +447,7 @@ const ControlPanel = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
+                      <tbody className="bg-[#e0efff] divide-y divide-gray-200">
                         {invoices.slice(0, 5).map((invoice) => (
                           <tr
                             key={invoice._id}
@@ -474,7 +499,7 @@ const ControlPanel = () => {
 
             {/* Right Section */}
             <div className="order-1 lg-1074:order-2">
-              <div className="bg-white text-black p-4 rounded-lg shadow mb-4">
+              <div className="bg-[#e0efff] text-black p-4 rounded-lg shadow mb-4">
                 <div className="flex justify-end mb-4">
                   <img
                     src={user ? user.UsersData[0].profileImage : null}
@@ -530,37 +555,67 @@ const ControlPanel = () => {
                   </Link>
                 </div>
               </div>
-              <div className="bg-white text-black p-4 rounded-lg shadow mb-4 font-bold">
+              <div className="bg-[#e0efff] text-black p-4 rounded-lg shadow mb-4 font-bold">
                 <h2 className="text-xl mb-2 text-right pb-2 border-b-[2px] border-b-[solid] border-b-[black]">
-                      الأخبار
+                الأخبار والأعلانات
                 </h2>
                 <div className="flex justify-center py-24 flex-col items-center h-24">
                   <img src={services_svg} alt="Placeholder" className="mr-2" />
                   <p className="text-gray-500 mt-2">
-                    لا تمتلك طلبات خوادم / نطاقات
+                    لايوجد اخبار او اعلانات في الوقت الحالي
                   </p>
-                  <Link
-                    to="/VpsServer"
+                  {/* <Link
+                    to="#"
                     className="text-gray-500 hover:text-blue-500 mt-1"
                   >
                     فتح تذكرة جديدة
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
-              <div className="bg-white text-black p-4 rounded-lg shadow font-bold">
+              <div className="bg-[#e0efff] text-black p-4 rounded-lg shadow font-bold">
                 <h2 className="text-xl mb-2 text-right pb-2 border-b-[2px] border-b-[solid] border-b-[black]">
-                  مكتبة الشروجات
+                  مكتبة الشروحات
                 </h2>
-                <div className="flex justify-center py-24 flex-col items-center h-24">
-                  <img src={services_svg} alt="Placeholder" className="mr-2" />
-                  <p className="text-gray-500 mt-2">لا يوجد شروحات حاليا</p>
-                </div>
+                {tutorialLoading ? (
+                  <Loading />
+                ) : tutorialError || !tutorialGroups || tutorialGroups.length === 0 ? (
+                  <div className="flex justify-center py-24 flex-col items-center h-24">
+                    <img src={services_svg} alt="Placeholder" className="mr-2" />
+                    <p className="text-gray-500 mt-2">لا يوجد شروحات حاليا</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 gap-4">
+                    {tutorialGroups.slice(0, 2).map((group) => (
+                      <div 
+                        key={group._id}
+                        className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+                      >
+                        <h3 className="text-lg font-bold text-right mb-2">
+                          {group.groupName}
+                        </h3>
+                        <p className="text-gray-600 text-right text-sm mb-2">
+                          {group.description}
+                        </p>
+                       <div className="flex justify-between">
+                       <p className="text-gray-500 text-right text-xs">
+                          {new Date(group.createdAt).toLocaleDateString('en-GB', {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                          })}
+                        </p>
+                        <Link to={`/ExplanationsLibrary/tutorial/${group.Link}`} className="text-blue-600 text-right text-xs hover:text-blue-400">مشاهدة المزيد</Link>
+
+                       </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
       )}
-
       <Footer />
     </>
   );

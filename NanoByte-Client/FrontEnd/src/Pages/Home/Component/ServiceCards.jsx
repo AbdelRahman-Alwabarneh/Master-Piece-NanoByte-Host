@@ -46,7 +46,7 @@ function ServiceCards() {
         </div>
         {/* <!-- Card 2 --> */}
         <div className={`bg-gradient-to-b bg-[#182D7E] w-full h-full rounded-lg shadow-lg transform transition-transform duration-700 ease-in-out ${inView ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'} hover:scale-105`}>
-          <Link to="/">
+          <Link to="/GameHostingPage">
             <div className="flex justify-center items-center mt-4">
               <img
                 className="rounded-t-lg w-[230px] object-contain"

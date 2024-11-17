@@ -63,7 +63,7 @@ function WhyUs() {
           لماذا نحن
         </h2>
         <p className="text-white text-center mb-16">
-          تعرف على سبب ثقة اكثر من 1329 عميل حول العالم
+          تعرف على سبب ثقة الناس بنانوبايت هوست
         </p>
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-12 max-md:max-w-lg mx-auto">
           {AllWhyUs.map((card, index) => {

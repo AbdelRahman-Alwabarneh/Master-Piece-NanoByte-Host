@@ -77,6 +77,18 @@ const DomainServiceRoutes = require("./Routes/DomainServiceRoutes");
 
 app.use("/api/DomainService", DomainServiceRoutes);
 
+const tutorialGroupRoutes = require("./Routes/tutorialGroupRoutes");
+
+app.use("/api/tutorialGroup", tutorialGroupRoutes);
+
+const tutorialRoutes = require("./Routes/tutorialRoutes");
+
+app.use("/api/tutorial", tutorialRoutes);
+
+const ContactRoutes = require("./Routes/ContactRoutes");
+
+app.use("/api/Contact", ContactRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

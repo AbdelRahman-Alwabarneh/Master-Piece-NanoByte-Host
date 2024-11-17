@@ -216,7 +216,7 @@ const DedicatedOrderDetails = () => {
               className="bg-blue-800 bg-opacity-50 rounded-lg p-4 shadow-lg sticky"
               style={{ top: "80px" }}
             >
-              <h2 className="text-xl font-semibold mb-4 border-b border-blue-600 pb-2">
+              <h2 className="text-2xl font-semibold mb-4 border-b border-blue-600 pb-2">
                 ملخص الطلب
               </h2>
               <div className="space-y-3 mb-4">
@@ -244,7 +244,7 @@ const DedicatedOrderDetails = () => {
                 </div>
                 <button
                   onClick={handlePayment}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded transition duration-300 text-sm shadow-md"
+                  className="w-full bg-[#4CAF50] hover:bg-[#45a049] text-white font-bold py-3 px-4 rounded transition duration-300 text-sm shadow-md"
                 >
                   الاستمرار للدفع
                 </button>

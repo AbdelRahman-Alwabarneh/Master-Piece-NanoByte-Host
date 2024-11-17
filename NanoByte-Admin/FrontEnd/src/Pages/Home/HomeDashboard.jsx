@@ -4,23 +4,27 @@ import ReactECharts from "echarts-for-react";
 
 const HomeDashboard = () => {
   const statistics = [
-    { title: "طلبات في الأنتظار", value: "20", color: "bg-[#3B82F6]" }, // الأزرق الفاتح
-    { title: "الرسائل غير المقروءة", value: "20", color: "bg-[#60A5FA]" }, // الأزرق الفاتح جداً
-    { title: "عدد المستحدمين", value: "20", color: "bg-[#3B82F6]" }, // الأزرق الفاتح
-    { title: "الأرباح", value: "20", color: "bg-[#60A5FA]" }, // الأزرق الفاتح جداً
+    { title: "طلبات في الأنتظار", value: "8", color: "bg-[#3B82F6]" }, // الأزرق الفاتح
+    { title: "الرسائل غير المقروءة", value: "0", color: "bg-[#60A5FA]" }, // الأزرق الفاتح جداً
+    { title: "عدد المستحدمين", value: "2", color: "bg-[#3B82F6]" }, // الأزرق الفاتح
+    { title: "الأرباح", value: "549.62", color: "bg-[#60A5FA]" }, // الأزرق الفاتح جداً
   ];
 
   const data = [
-    { name: "يناير", Profits: 200 },
-    { name: "فبراير", Profits: 300 },
-    { name: "مارس", Profits: 600 },
-    { name: "أبريل", Profits: 200 },
-    { name: "مايو", Profits: 500 },
-    { name: "يونيو", Profits: 222 },
-    { name: "يوليو", Profits: 520 },
-    { name: "أغسطس", Profits: 300 },
-    { name: "سبتمبر", Profits: 80 },
+    { name: "يناير", Profits: 0 },
+    { name: "فبراير", Profits: 0 },
+    { name: "مارس", Profits: 0 },
+    { name: "أبريل", Profits: 0 },
+    { name: "مايو", Profits: 0 },
+    { name: "يونيو", Profits: 0 },
+    { name: "يوليو", Profits: 0 },
+    { name: "أغسطس", Profits: 0 },
+    { name: "سبتمبر", Profits: 0 },
+    { name: "أكتوبر", Profits: 0 }, 
+    { name: "نوفمبر", Profits: 0 },  
+    { name: "ديسمبر", Profits: 549.62 },  
   ];
+  
 
   // إعدادات المخطط باستخدام ECharts
   const chartOptions = useMemo(

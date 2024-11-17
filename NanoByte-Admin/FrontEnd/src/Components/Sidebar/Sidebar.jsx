@@ -22,6 +22,8 @@ import {
   PackageOpen,
   MailPlus,
   Waypoints,
+  BookOpenText,
+  NotebookPen,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -89,8 +91,18 @@ const Sidebar = () => {
 
       ],
     },
+    {
+      icon: BookOpenText,
+      text: "مكتبة الشروجات",
+      path: "#",
+      menuName: "ExplanationsLibrary", // تعريف اسم القائمة
+      subMenu: [
+        { icon: NotebookPen, text: "إِدارة الشروحات", path: "/TutorialManagement" },
+
+      ],
+    },
     { icon: MailPlus, text: "إِدارة البريد", path: "/EmailTemplateManagement" },
-    { icon: Contact, text: "اتصل بنا", path: "/Dashboard/ContactUS" },
+    { icon: Contact, text: "اتصل بنا", path: "/ContactMessages" },
   ];
 
   const handleLogout = async () => {

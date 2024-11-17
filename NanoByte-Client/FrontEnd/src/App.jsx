@@ -18,7 +18,13 @@ import InvoicePage from "./Pages/Invoice/InvoicePage";
 import ServicesDashboard from "./Pages/ServiceControlPanel/ServicesDashboard";
 import AllOrders from "./Pages/OrdersPage/AllOrders";
 import EmailLogPage from "./Pages/EmailsLogPage/EmailLogPage";
+import TutorialGroupPage from "./Pages/TutorialPage/TutorialGroupPage";
+import TutorialPage from "./Pages/TutorialPage/TutorialPage";
+import TutorialDetailsPage from "./Pages/TutorialPage/TutorialDetailsPage";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import GameHostingPage from "./Pages/GameHostingPage/GameHosting";
+import AboutUs from "./Pages/AboutUs/AboutUsPage";
+import ContactPage from "./Pages/ContactPages/ContactPages";
 import { Link } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
@@ -116,6 +122,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/ExplanationsLibrary" element={<TutorialGroupPage />} />
+          <Route path="/ExplanationsLibrary/tutorial/:Link" element={<TutorialPage />} />
+          <Route path="/ExplanationsLibrary/tutorialdetails/:Link" element={<TutorialDetailsPage />} />
+
+          <Route path="/GameHostingPage" element={<GameHostingPage />} />
+          <Route path="/AboutNanobyte" element={<AboutUs />} />
+          <Route path="/ContactNanobyte" element={<ContactPage />} />
+
         </Routes>
       </BrowserRouter>
     </>

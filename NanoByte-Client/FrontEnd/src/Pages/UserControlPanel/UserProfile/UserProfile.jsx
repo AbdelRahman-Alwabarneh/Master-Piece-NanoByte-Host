@@ -14,7 +14,7 @@ import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
 import './UserProfileCss/customStyles.css'; // تأكد من المسار الصحيح
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
-
+import UserSidebar from "../../../Components/UserSidebar/UserSidebar";
 function UserProfile() {
   const [showPasswordEdit, setShowPasswordEdit] = useState(false);
   const [showNewPasswordEdit, setshowNewPasswordEdit] = useState(false);
@@ -195,8 +195,9 @@ function UserProfile() {
         <div className="absolute inset-0  opacity-50"></div>
         <div className="relative z-10">
           <Header />
+       
           <div className="container mx-auto px-4 py-8">
-            <div className="bg-white bg-opacity-10 backdrop-blur-xl rounded-2xl shadow-2xl p-6 md:p-8 max-w-6xl mx-auto">
+            <div className="bg-blue-900 text-white bg-opacity-70 rounded-lg p-3 sm:p-4 shadow-lg transition-shadow duration-300 hover:shadow-xl">
               <div className="text-center mb-8">
                 <h2 className="text-3xl font-bold text-white tracking-wide mb-2">
                   مرحبًا بك في ملفك الشخصي
@@ -206,7 +207,7 @@ function UserProfile() {
                 </p>
               </div>
 
-              <div className="flex justify-center mb-6">
+              {/* <div className="flex justify-center mb-6">
                 <div className="relative group" onClick={handleImageClick}>
                   <img
                     src={formData.profileImage || "/placeholder-profile.jpg"}
@@ -224,7 +225,7 @@ function UserProfile() {
                   onChange={handleImageChange}
                   accept="image/*"
                 />
-              </div>
+              </div> */}
 
               <form onSubmit={handleSubmit} className="space-y-4" dir="rtl">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -241,7 +242,7 @@ function UserProfile() {
                       type="text"
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className="w-full bg-white bg-opacity-20 border border-white rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all"
+                      className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm px-2 py-1.5 transition-all"
                       required
                     />
                   </div>
@@ -258,7 +259,7 @@ function UserProfile() {
                       type="text"
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className="w-full bg-white bg-opacity-20 border border-white rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all"
+                      className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm px-2 py-1.5 transition-all"
                       required
                     />
                   </div>
@@ -277,7 +278,7 @@ function UserProfile() {
                     type="text"
                     value={formData.discordUsername}
                     onChange={handleInputChange}
-                    className="w-full bg-white bg-opacity-20 border border-white rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all"
+                    className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm px-2 py-1.5 transition-all"
                   />
                 </div>
 
@@ -292,7 +293,7 @@ function UserProfile() {
                     <input
                       type="password"
                       value="••••••••"
-                      className="w-full bg-white bg-opacity-20 border border-white rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all"
+                      className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm px-2 py-1.5 transition-all"
                       readOnly
                     />
                     <button
@@ -319,7 +320,7 @@ function UserProfile() {
                           type={showNewPasswordEdit ? "text" : "password"}
                           value={formData.newPassword}
                           onChange={handleInputChange}
-                          className="w-full bg-white bg-opacity-20 border border-white rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all"
+                          className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm px-2 py-1.5 transition-all"
                           required
                         />
                            <button
@@ -379,7 +380,7 @@ function UserProfile() {
                       type="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full cursor-not-allowed bg-white bg-opacity-20 border border-white rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all"
+                      className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm px-2 py-1.5 transition-all"
                       required
                       readOnly
                     />
@@ -405,28 +406,21 @@ function UserProfile() {
                         buttonClass="flex items-center bg-transparent border border-white rounded-l-md px-2 hover:bg-transparent"
                         inputStyle={{
                           width: "100%",
-                          height:"37.6px",
-                          backgroundColor: "rgba(255, 255, 255, 0.2)",
-                          border: "1px solid white",
-                          borderRadius: "0.5rem",
-                          padding: "0.5rem 1rem", // padding متوازن
-                          paddingTop:"8px",
+                          height: "34px",
+                          backgroundColor: "rgba(30, 58, 138, 0.5)",
+                          border: "1px solid rgb(29, 78, 216)",
+                          borderRadius: "0.25rem",
                           color: "white",
                           fontSize: "0.875rem",
-                          outline: "none",
-                          transition: "all 0.2s",
-                          paddingLeft: "4rem", // زيادة المسافة اليسرى
+                          paddingLeft: "3rem",
+                          paddingTop:"0.375rem",
+                          paddingBottom:"0.375rem",
                         }}
                         buttonStyle={{
-                          backgroundColor: "rgba(255, 255, 255, 0.3)",
-                          border: "1px solid white",
+                          backgroundColor: "rgba(30, 58, 138, 0.5)",
+                          border: "1px solid rgb(29, 78, 216)",
                           borderRight: "none",
-                          borderRadius: "0.5rem 0 0 0.5rem",
-                          padding: "0.5rem 0.75rem", // padding محسّن
-                          marginRight: "-1px", // إزالة الهوامش لتجنب تداخل الحدود
-                          transition: "all 0.2s",
-                          display: "flex",
-                          alignItems: "center",
+                          borderRadius: "0.25rem 0 0 0.25rem",
                         }}
                         dropdownStyle={{
                           top: "25px",
@@ -460,7 +454,7 @@ function UserProfile() {
                     type="text"
                     value={formData.companyName}
                     onChange={handleInputChange}
-                    className="w-full bg-white bg-opacity-20 border border-white rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all"
+                    className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm px-2 py-1.5 transition-all"
                   />
                 </div>
 
@@ -477,7 +471,7 @@ function UserProfile() {
                     type="text"
                     value={formData.streetAddress}
                     onChange={handleInputChange}
-                    className="w-full bg-white bg-opacity-20 border border-white rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all"
+                    className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm px-2 py-1.5 transition-all"
                   />
                 </div>
 
@@ -495,7 +489,7 @@ function UserProfile() {
                       type="text"
                       value={formData.city}
                       onChange={handleInputChange}
-                      className="w-full bg-white bg-opacity-20 border border-white rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all"
+                      className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm px-2 py-1.5 transition-all"
                     />
                   </div>
                   <div className="space-y-1">
@@ -511,19 +505,19 @@ function UserProfile() {
                       type="text"
                       value={formData.country}
                       onChange={handleInputChange}
-                      className="w-full bg-white bg-opacity-20 border border-white rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all"
+                      className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm px-2 py-1.5 transition-all"
                     />
                   </div>
                 </div>
 
-                <div className="flex justify-center mt-6">
-                  <button
-                    type="submit"
-                    className="w-full bg-[#182D7E] text-white font-semibold py-2 rounded-lg shadow-lg hover:bg-[#1E38A3] transition-colors text-sm"
-                  >
-                    حفظ التغييرات
-                  </button>
-                </div>
+                <div className="flex justify-end gap-2">
+              <button
+                type="submit"
+                className="flex items-center gap-1 bg-green-600/90 hover:bg-green-600 px-3 py-1.5 rounded text-xs transition-colors"
+              >
+                <span>حفظ التغييرات</span>
+              </button>
+            </div>
               </form>
             </div>
           </div>
@@ -546,7 +540,7 @@ function InputField({ label, name, value, onChange, type = "text" }) {
         type={type}
         value={value}
         onChange={onChange}
-        className="w-full bg-white bg-opacity-20 border border-white rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all"
+        className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm px-2 py-1.5 transition-all"
         required
       />
     </div>

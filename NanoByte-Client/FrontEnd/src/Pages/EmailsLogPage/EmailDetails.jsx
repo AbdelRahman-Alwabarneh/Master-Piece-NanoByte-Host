@@ -36,7 +36,7 @@ const EmailDetails = ({ onClose, emailData }) => {
     <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
     
     {/* Modal Content */}
-    <div className="relative w-full max-w-3xl bg-[linear-gradient(180deg,_#1A318C_0%,_#161E41_100%)] rounded-lg shadow-xl overflow-hidden">
+    <div className="relative w-full max-w-3xl bg-[#11365a] rounded-lg shadow-xl overflow-hidden">
       <div className="p-4">
         {/* Header */}
         <div className="flex justify-between items-center border-b border-blue-700 pb-3 mb-4">
@@ -56,7 +56,7 @@ const EmailDetails = ({ onClose, emailData }) => {
         <div className="space-y-3 text-right">
           {/* Subject and Sender in one row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div className="bg-blue-900/30 p-3 rounded-lg border border-blue-700/30">
+            <div className="bg-blue-700/30 p-3 rounded-lg border border-blue-700/30">
               <div className="flex items-start gap-2 justify-end">
                 <div className="flex-1">
                   <h3 className="text-gray-300 text-sm mb-1">العنوان</h3>
@@ -66,7 +66,7 @@ const EmailDetails = ({ onClose, emailData }) => {
               </div>
             </div>
 
-            <div className="bg-blue-900/30 p-3 rounded-lg border border-blue-700/30">
+            <div className="bg-blue-700/30 p-3 rounded-lg border border-blue-700/30">
               <div className="flex items-start gap-2 justify-end">
                 <div className="flex-1">
                   <h3 className="text-gray-300 text-sm mb-1">معلومات المرسل</h3>
@@ -79,7 +79,7 @@ const EmailDetails = ({ onClose, emailData }) => {
           </div>
 
           {/* Recipient Info */}
-          <div className="bg-blue-900/30 p-3 rounded-lg border border-blue-700/30">
+          <div className="bg-blue-700/30 p-3 rounded-lg border border-blue-700/30">
             <div className="flex items-start gap-2 justify-end">
               <div className="flex-1">
                 <h3 className="text-gray-300 text-sm mb-1">معلومات المستلم</h3>
@@ -91,7 +91,7 @@ const EmailDetails = ({ onClose, emailData }) => {
           </div>
 
           {/* Email Body */}
-          <div className="bg-blue-900/30 p-3 max-h-72 overflow-y-auto overflow-x-hidden rounded-lg border border-blue-700/30">
+          <div className="bg-blue-700/30 p-3 max-h-72 overflow-y-auto overflow-x-hidden rounded-lg border border-blue-700/30">
             <h3 className="text-gray-300 text-sm mb-2">محتوى الرسالة</h3>
             <div 
               className="text-black text-sm prose prose-invert max-w-none bg-white"
