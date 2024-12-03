@@ -15,8 +15,8 @@ exports.GetContacts = async (req, res) => {
         const totalCount = await Contacts.countDocuments();
         const contactsData = await Contacts.find()
             .skip(skip)
-            .limit(limit);
-
+            .limit(limit)
+            .sort({ createdAt: -1 });
         res.status(200).json({
             contactsData,
             currentPage: page,

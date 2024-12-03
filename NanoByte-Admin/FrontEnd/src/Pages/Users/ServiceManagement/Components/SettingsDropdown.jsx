@@ -41,6 +41,15 @@ const SettingsDropdown = ({ serviceData, userId }) => {
               <span>ارسال رسالة</span>
             </button>
           </div>
+          <div className="py-1 border-t border-blue-700/60">
+            <button
+              type="button"
+              className="w-full text-right  px-4 py-2.5 text-[11px] sm:text-xs hover:bg-blue-700/50 flex items-center justify-between transition-colors duration-200 active:bg-blue-600/50"
+              onClick={handleOpenModal}
+            >
+              <span>فواتير الخدمة</span>
+            </button>
+          </div>
         </div>
       )}
 

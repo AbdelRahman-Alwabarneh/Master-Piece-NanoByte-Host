@@ -89,6 +89,10 @@ const ContactRoutes = require("./Routes/ContactRoutes");
 
 app.use("/api/Contact", ContactRoutes);
 
+const statisticsRoutes = require("./Routes/statisticsRoutes");
+
+app.use("/api/statistics", statisticsRoutes);
+
 // بدء تشغيل الخادم
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

@@ -101,17 +101,23 @@ exports.sendEmail = async (req, res) => {
         `;
 
         // إعدادات النقل باستخدام nodemailer
+        // const transporter = nodemailer.createTransport({
+        //     host: 'smtp.mailtrap.io', 
+        //     port: 587, 
+        //     secure: false,
+        //     debug: true, 
+        //     auth: {
+        //         user: '4a0de4f047b4fa', 
+        //         pass: 'ab1cec9204d7ca'
+        //     }
+        // });
         const transporter = nodemailer.createTransport({
-            host: 'smtp.mailtrap.io', 
-            port: 587, 
-            secure: false,
-            debug: true, 
+            service: 'gmail', // أو أي خدمة بريد تستخدمها
             auth: {
-                user: '4a0de4f047b4fa', 
-                pass: 'ab1cec9204d7ca'
-            }
-        });
-
+              user: 'nanobytehost@gmail.com', // ضع بريدك الإلكتروني هنا
+              pass: process.env.PASSWORD_SEND_EMAIL, // ضع كلمة مرور بريدك الإلكتروني هنا
+            },
+          });
         // إعداد بيانات الإيميل
         const mailOptions = {
             from: `"${template.senderName}" <${template.senderEmail}>`,

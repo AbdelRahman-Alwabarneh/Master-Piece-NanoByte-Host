@@ -4,7 +4,7 @@ import {
   Users,
   Contact,
   LogOut,
-  CalendarCog,
+  Megaphone,
   Logs,
   ChevronRight,
   ChevronDown,
@@ -24,6 +24,8 @@ import {
   Waypoints,
   BookOpenText,
   NotebookPen,
+  BellPlus,
+  Bell,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -98,6 +100,16 @@ const Sidebar = () => {
       menuName: "ExplanationsLibrary", // تعريف اسم القائمة
       subMenu: [
         { icon: NotebookPen, text: "إِدارة الشروحات", path: "/TutorialManagement" },
+
+      ],
+    },
+    {
+      icon: BellPlus,
+      text: "الأخبار والأعلانات",
+      path: "#",
+      menuName: "NewsAndAdvertisements", // تعريف اسم القائمة
+      subMenu: [
+        { icon: Bell, text: "إِدارة الأخبار والأعلانات", path: "/NewsAndAdvertisements" },
 
       ],
     },

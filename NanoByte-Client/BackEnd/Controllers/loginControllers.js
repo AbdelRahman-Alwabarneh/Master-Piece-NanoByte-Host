@@ -31,7 +31,12 @@ exports.login = async (req, res) => {
           .status(401)
           .json({ message: "البريد الإلكتروني أو كلمة المرور غير صحيحة" });
       }
-
+      if(checkRegistration.isBanned == true){
+       
+        return res
+        .status(401)
+        .json({ message: "تم حظر المستخدم. لمزيد من التفاصيل، يُرجى التواصل مع الإدارة." });
+      }
       // jwt
       const payloadJwt = {
         id: checkRegistration.id,
@@ -53,7 +58,7 @@ exports.login = async (req, res) => {
         .status(201)
         .json({
           message: "تم تسجيل الدخول بنجاح",
-          user: checkRegistration,
+          // user: checkRegistration,
         });
     }
   } catch (error) {

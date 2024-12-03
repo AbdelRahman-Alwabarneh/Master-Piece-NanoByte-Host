@@ -85,3 +85,7 @@ const OrdersSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("Order", OrdersSchema, "Orders");
+// isRenewal: {
+//   type: Boolean,
+//   default: false, // القيمة الافتراضية هي أنه طلب جديد
+// }

@@ -19,10 +19,6 @@ export const updateUserProfile = createAsyncThunk(
   "profile/updateUserProfile",
   async ({ formData }, { rejectWithValue }) => {
     try {
-      const x = console.log({
-        pass: formData.firstName,
-      });
-
       const response = await axios.put(import.meta.env.VITE_USER_UPDATE_PROFILE, {Data : formData}, {
         withCredentials: true,
       });

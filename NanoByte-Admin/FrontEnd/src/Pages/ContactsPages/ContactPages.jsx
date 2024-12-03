@@ -200,8 +200,8 @@ const ContactMessages = () => {
                   <td className="p-2 sm:p-3 text-xs sm:text-sm text-center">{index + 1}</td>
                   <td className="p-2 sm:p-3 text-xs sm:text-sm text-center">{message.name}</td>
                   <td className="p-2 sm:p-3 text-xs sm:text-sm text-center">{message.email}</td>
-                  <td className="p-2 sm:p-3 text-xs sm:text-sm text-center"><div className="max-h-[100px] max-w-[200px] whitespace-pre-wrap overflow-y-auto overflow-x-hidden mx-auto [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100">{message.description}</div></td>
-                  <td className="p-2 sm:p-3 text-xs sm:text-sm text-center"><div className="max-h-[100px] max-w-[200px] whitespace-pre-wrap overflow-y-auto overflow-x-hidden mx-auto [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100">{message.adminReply || "لا يوجد رد"}</div></td>
+                  <td className="p-2 sm:p-3 text-xs sm:text-sm text-center max-w-[200px]"><div className="max-h-[100px] max-w-[200px] whitespace-pre-wrap overflow-y-auto overflow-x-hidden mx-auto [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100">{message.description}</div></td>
+                  <td className="p-2 sm:p-3 text-xs sm:text-sm text-center max-w-[200px]"><div className="max-h-[100px] max-w-[200px] whitespace-pre-wrap overflow-y-auto overflow-x-hidden mx-auto [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100">{message.adminReply || "لا يوجد رد"}</div></td>
                   <td className="p-2 sm:p-3 text-xs sm:text-sm text-center">{message.status}</td>
                   <td className="p-2 sm:p-3 text-xs sm:text-sm text-center">
                     {new Date(message.createdAt).toLocaleDateString("en-GB", {

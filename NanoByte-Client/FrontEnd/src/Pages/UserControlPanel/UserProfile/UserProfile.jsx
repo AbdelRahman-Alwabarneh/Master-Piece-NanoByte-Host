@@ -344,9 +344,9 @@ function UserProfile() {
                           type={showConfirmationPasswordEdit? "text" : "password"}
                           value={formData.confirmPassword}
                           onChange={handleInputChange}
-                          className={`w-full bg-white bg-opacity-20 border ${
-                            passwordMatch ? "border-white" : "border-red-500"
-                          } rounded-lg p-2 text-white placeholder-white text-sm focus:outline-none focus:ring-2 focus:ring-white transition-all`}
+                          className={`w-full bg-blue-900 bg-opacity-50 border ${
+                            passwordMatch ? "border-blue-700" : "border-red-500"
+                          } rounded-lg p-2 text-white placeholder-white border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm px-2 py-1.5 transition-all`}
                           required
                         />
                                  <button

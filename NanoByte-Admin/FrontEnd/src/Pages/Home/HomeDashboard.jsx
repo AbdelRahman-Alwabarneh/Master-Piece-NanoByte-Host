@@ -1,13 +1,54 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import ReactECharts from "echarts-for-react";
-
+import Loading from "../../Components/Loading/Loading";
+import axios from "axios";
+import { Link } from "react-router-dom";
 const HomeDashboard = () => {
+  const [Statistic, setStatistic] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchStatistics();
+  }, []);
+
+  const fetchStatistics = async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:2100/api/statistics/count`
+      );
+      setStatistic(response.data.allStatistics);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+      setStatus("error");
+    }
+  };
   const statistics = [
-    { title: "طلبات في الأنتظار", value: "8", color: "bg-[#3B82F6]" }, // الأزرق الفاتح
-    { title: "الرسائل غير المقروءة", value: "0", color: "bg-[#60A5FA]" }, // الأزرق الفاتح جداً
-    { title: "عدد المستحدمين", value: "2", color: "bg-[#3B82F6]" }, // الأزرق الفاتح
-    { title: "الأرباح", value: "549.62", color: "bg-[#60A5FA]" }, // الأزرق الفاتح جداً
+    {
+      title: "طلبات في الأنتظار",
+      value: Statistic.pendingCount,
+      color: "bg-[#3B82F6]",
+      path: "/OrderManagement/Pending",
+    }, // الأزرق الفاتح
+    {
+      title: "الرسائل غير المقروءة",
+      value: Statistic.contactsCount,
+      color: "bg-[#60A5FA]",
+      path: "/ContactMessages",
+    }, // الأزرق الفاتح جداً
+    {
+      title: "عدد المستحدمين",
+      value: Statistic.usersCount,
+      color: "bg-[#3B82F6]",
+      path: "/AllUsers",
+    }, // الأزرق الفاتح
+    {
+      title: "الأرباح",
+      value: "549.62",
+      color: "bg-[#60A5FA]",
+      path: "/TutorialManagement",
+    }, // الأزرق الفاتح جداً
   ];
 
   const data = [
@@ -20,11 +61,10 @@ const HomeDashboard = () => {
     { name: "يوليو", Profits: 0 },
     { name: "أغسطس", Profits: 0 },
     { name: "سبتمبر", Profits: 0 },
-    { name: "أكتوبر", Profits: 0 }, 
-    { name: "نوفمبر", Profits: 0 },  
-    { name: "ديسمبر", Profits: 549.62 },  
+    { name: "أكتوبر", Profits: 0 },
+    { name: "نوفمبر", Profits: 0 },
+    { name: "ديسمبر", Profits: 549.62 },
   ];
-  
 
   // إعدادات المخطط باستخدام ECharts
   const chartOptions = useMemo(
@@ -60,6 +100,9 @@ const HomeDashboard = () => {
     }),
     [data]
   );
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen font-cairo">
@@ -71,13 +114,14 @@ const HomeDashboard = () => {
         {/* إحصائيات */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {statistics.map((stat, index) => (
+            <Link to={stat.path} key={index}>
             <div
-              key={index}
               className={`${stat.color} text-white p-4 rounded shadow`}
             >
               <h3 className="text-lg font-semibold">{stat.title}</h3>
               <p className="text-2xl font-bold">{stat.value}</p>
             </div>
+            </Link>
           ))}
         </div>
         {/* تحليل المبيعات */}
