@@ -72,7 +72,7 @@ const AddDomainService = () => {
 
       if (result.isConfirmed) {
         const response = await axios.post(
-          "http://localhost:2100/api/DomainService",
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/DomainService`,
           { planData: domain }
         );
 

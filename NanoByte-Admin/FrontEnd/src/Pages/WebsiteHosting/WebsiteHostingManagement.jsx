@@ -18,7 +18,7 @@ const WebsiteHostingManagement = () => {
     const fetchHostingData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:2100/api/websiteHosting"
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/websiteHosting`
         );
         setHostingData(response.data.WebsiteHostingData);
       } catch (err) {
@@ -56,7 +56,7 @@ const WebsiteHostingManagement = () => {
     if (result.isConfirmed) {
       try {
         const response = await axios.patch(
-          `http://localhost:2100/api/websiteHosting/${id}`
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/websiteHosting/${id}`
         );
 
         if (response.status !== 200) {

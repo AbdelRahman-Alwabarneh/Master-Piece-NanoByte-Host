@@ -3,7 +3,7 @@ import axios from "axios";
 import { Save, X, Link as LinkIcon } from "lucide-react";
 import Swal from "sweetalert2";
 import Sidebar from "../../../Components/Sidebar/Sidebar";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const CreateTutorialGroup = () => {
   const [groupName, setGroupName] = useState("");
@@ -16,7 +16,7 @@ const CreateTutorialGroup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const groupData = {
       groupName,
       description: groupDescription,
@@ -25,7 +25,7 @@ const CreateTutorialGroup = () => {
       tutorials,
       Link: link,
     };
-  
+
     Swal.fire({
       title: "تأكيد إنشاء المجموعة",
       text: "هل أنت متأكد من إنشاء هذه المجموعة التعليمية الجديدة؟",
@@ -42,12 +42,12 @@ const CreateTutorialGroup = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.post(
-            "http://localhost:2100/api/tutorialGroup",
+            `${import.meta.env.VITE_API_URL_ADMIN}/api/tutorialGroup`,
             groupData
           );
-  
+
           const groupId = response.data.group._id;
-  
+
           Swal.fire({
             title: "تم بنجاح!",
             text: response.data.message,
@@ -60,7 +60,7 @@ const CreateTutorialGroup = () => {
           }).then(() => {
             navigate(`/DetailsTutorialGroup/${groupId}`);
           });
-  
+
           // Reset form
           setGroupName("");
           setGroupDescription("");
@@ -94,7 +94,9 @@ const CreateTutorialGroup = () => {
           className="bg-blue-950 bg-opacity-30 rounded-xl shadow-2xl overflow-hidden transition-all duration-300 hover:shadow-blue-500/10"
         >
           <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-white/20">
-            <h2 className="text-xl sm:text-2xl font-bold text-white">إنشاء مجموعة تعليمية جديدة</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">
+              إنشاء مجموعة تعليمية جديدة
+            </h2>
           </div>
           <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
             <div>
@@ -153,7 +155,9 @@ const CreateTutorialGroup = () => {
                 <input
                   type="checkbox"
                   checked={visibleToRegisteredOnly}
-                  onChange={() => setVisibleToRegisteredOnly(!visibleToRegisteredOnly)}
+                  onChange={() =>
+                    setVisibleToRegisteredOnly(!visibleToRegisteredOnly)
+                  }
                   className="mr-2 rounded border-white/30 text-blue-600 focus:ring-blue-500"
                 />
                 <label className="text-xs sm:text-sm mr-1 text-white/80">

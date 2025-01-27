@@ -6,7 +6,7 @@ export const fetchUserData = createAsyncThunk(
   "UserData/fetchUserData",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(import.meta.env.VITE_USERS_DATA, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/usersData`, {
         withCredentials: true,
       });
       return response.data;
@@ -21,7 +21,7 @@ export const userDetails = createAsyncThunk(
   "UserData/userDetails",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_USERS_DATA}/${id}`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/usersData/${id}`, {
         withCredentials: true,
       });
       return response.data;
@@ -35,7 +35,7 @@ export const updateUserProfile = createAsyncThunk(
     "UserData/updateUserProfile",
     async ({ formData , id }, { rejectWithValue }) => {
       try {  
-        const response = await axios.put(`${import.meta.env.VITE_USERS_DATA}/${id}`, {Data : formData}, {
+        const response = await axios.put(`${import.meta.env.VITE_API_URL_ADMIN}/api/usersData/${id}`, {Data : formData}, {
           withCredentials: true,
         });
         return response.data;

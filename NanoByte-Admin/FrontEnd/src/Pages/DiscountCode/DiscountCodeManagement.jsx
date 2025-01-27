@@ -17,7 +17,7 @@ const DiscountCodeManagement = () => {
     const fetchDiscountCodes = async () => {
       try {
         const response = await axios.get(
-            import.meta.env.VITE_DISCOUNT_CODE
+            `${import.meta.env.VITE_API_URL_ADMIN}/api/discountCode`
         );
         setDiscountCodes(response.data.DiscountCodeData);
       } catch (err) {
@@ -55,7 +55,7 @@ const DiscountCodeManagement = () => {
     if (result.isConfirmed) {
       try {
         const response = await axios.patch(
-          `${import.meta.env.VITE_DISCOUNT_CODE}/${id}`
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/discountCode/${id}`
         );
 
         if (response.status !== 200) {

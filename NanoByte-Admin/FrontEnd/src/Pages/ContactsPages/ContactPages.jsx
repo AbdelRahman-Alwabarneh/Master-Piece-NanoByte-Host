@@ -24,7 +24,7 @@ const ContactMessages = () => {
   const fetchMessages = async (page, limit) => {
     try {
       const response = await axios.post(
-        `http://localhost:2100/api/Contact?page=${page}&limit=${limit}`
+        `${import.meta.env.VITE_API_URL_ADMIN}/api/Contact?page=${page}&limit=${limit}`
       );
       setMessages(response.data.contactsData);
       setTotalPages(response.data.totalPages);
@@ -90,7 +90,7 @@ const ContactMessages = () => {
     if (result.isConfirmed && replyText) {
       try {
         // إرسال الرد
-        await axios.post(`http://localhost:2100/api/Contact/${messageId}`, {
+        await axios.post(`${import.meta.env.VITE_API_URL_ADMIN}/api/Contact/${messageId}`, {
           adminReply: replyText,
           emailSubject: messageTitle,
         });

@@ -2,7 +2,7 @@
 
 const GithubLoginButton = () => {
   const handleLogin = () => {
-    window.location.href = import.meta.env.VITE_GITHUB_AUTH;
+    window.location.href = `${import.meta.env.VITE_API_URL}/api/githubAuth/github`;
   };
 
   return (

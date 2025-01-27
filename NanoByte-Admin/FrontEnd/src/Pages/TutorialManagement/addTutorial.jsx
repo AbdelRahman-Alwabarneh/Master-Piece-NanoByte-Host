@@ -45,7 +45,7 @@ const CreateTutorial = () => {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const response = await axios.get("http://localhost:2100/api/tutorialGroup");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/tutorialGroup`);
         setGroups(response.data.AllTutorialGroup);
       } catch (error) {
         console.error("Error fetching groups:", error);
@@ -100,14 +100,14 @@ const CreateTutorial = () => {
       });
 
       if (result.isConfirmed) {
-        const response = await axios.post("http://localhost:2100/api/tutorial", {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL_ADMIN}/api/tutorial`, {
           tutorialData: tutorial,
         });
 
         if (response.status === 201) {
           const newTutorialId = response.data.tutorial._id;
           await axios.patch(
-            `http://localhost:2100/api/tutorialGroup/${newTutorialId}`,
+            `${import.meta.env.VITE_API_URL_ADMIN}/api/tutorialGroup/${newTutorialId}`,
             { tutorial }
           );
           Swal.fire({

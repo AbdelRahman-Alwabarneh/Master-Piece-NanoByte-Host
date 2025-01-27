@@ -19,7 +19,7 @@ const DetailsVPSGroup = () => {
   useEffect(() => {
     const fetchGroupData = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_VPS_GROUP}/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/vpsGroup/${id}`);
         const groupData = response.data.DetailsvpsGroup;
         setGroup(groupData);
         setGroupName(groupData.groupName);
@@ -34,7 +34,7 @@ const DetailsVPSGroup = () => {
 
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(import.meta.env.VITE_USERS_DATA);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/usersData`);
         setUsers(response.data.UsersData);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -72,7 +72,7 @@ const DetailsVPSGroup = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.put(
-            `${import.meta.env.VITE_VPS_GROUP}/${id}`,
+            `${import.meta.env.VITE_API_URL_ADMIN}/api/vpsGroup/${id}`,
             { groupData }
           );
           Swal.fire({

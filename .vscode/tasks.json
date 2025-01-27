@@ -1,0 +1,59 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start All Tasks",
+      "dependsOn": [
+        "🖥️FrontEnd_Client",
+        "🗂️BackEnd_Client",
+        "🖥️FrontEnd_Admin",
+        "🗂️BackEnd_Admin"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "🖥️FrontEnd_Client",
+      "type": "shell",
+      "command": "npm run dev",
+      "group": "build",
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}/NanoByte-Client/FrontEnd"
+      },
+      "isBackground": true
+    },
+    {
+      "label": "🗂️BackEnd_Client",
+      "type": "shell",
+      "command": "nodemon server",
+      "group": "build",
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}/NanoByte-Client/BackEnd"
+      },
+      "isBackground": true
+    },
+    {
+      "label": "🖥️FrontEnd_Admin",
+      "type": "shell",
+      "command": "npm run dev",
+      "group": "build",
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}/NanoByte-Admin/FrontEnd"
+      },
+      "isBackground": true
+    },
+    {
+      "label": "🗂️BackEnd_Admin",
+      "type": "shell",
+      "command": "nodemon server",
+      "group": "build",
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}/NanoByte-Admin/BackEnd"
+      },
+      "isBackground": true
+    },
+  ]
+}

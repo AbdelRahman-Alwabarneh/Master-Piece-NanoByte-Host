@@ -70,7 +70,7 @@ const AddDedicatedServer = () => {
       if (result.isConfirmed) {
         // إرسال البيانات إلى الـ API باستخدام axios
         const response = await axios.post(
-            import.meta.env.VITE_DEDICATED_SERVER_MANAGEMENT,
+            `${import.meta.env.VITE_API_URL_ADMIN}/api/DedicatedServerManagement`,
             { serverData: plan } // تمرير plan داخل كائن serverData
           );
   

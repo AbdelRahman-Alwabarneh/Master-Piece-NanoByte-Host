@@ -27,7 +27,7 @@ const OrdersPage = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:2100/api/order/UserOrders/${id}`
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/order/UserOrders/${id}`
         );
         setOrders(response.data.orders);
         setLoading(false);

@@ -260,7 +260,7 @@ function UserProfile() {
                       value={formData.lastName}
                       onChange={handleInputChange}
                       className="w-full bg-blue-900 bg-opacity-50 rounded border border-blue-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm px-2 py-1.5 transition-all"
-                      required
+                      
                     />
                   </div>
                 </div>

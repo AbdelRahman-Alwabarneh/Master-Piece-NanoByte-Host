@@ -28,7 +28,7 @@ const EmailTemplateDetails = () => {
   const fetchEmailTemplate = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:2100/api/emailTemplate/${id}`
+        `${import.meta.env.VITE_API_URL_ADMIN}/api/emailTemplate/${id}`
       );
       const details = response.data.EmailTemplatesDetails;
       settemplateData({ ...details });
@@ -65,7 +65,7 @@ const EmailTemplateDetails = () => {
 
       if (result.isConfirmed) {
         const response = await axios.patch(
-          `http://localhost:2100/api/emailTemplate/UpdateEmailTemplate/${id}`,
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/emailTemplate/UpdateEmailTemplate/${id}`,
           templateData
         );
 

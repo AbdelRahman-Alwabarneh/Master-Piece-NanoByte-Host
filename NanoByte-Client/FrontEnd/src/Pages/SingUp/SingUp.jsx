@@ -133,7 +133,7 @@ function SingUp() {
 
     try {
       const response = await axios.post(
-        import.meta.env.VITE_Add_User,
+        `${import.meta.env.VITE_API_URL}/api/users`,
         {
           First_Name: FirstName,
           Last_Name: LastName,

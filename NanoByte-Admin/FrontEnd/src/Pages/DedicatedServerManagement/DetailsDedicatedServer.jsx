@@ -39,7 +39,7 @@ const DedicatedServerDetails = () => {
   const fetchDedicatedServerDetails = async (serverId) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_DEDICATED_SERVER_MANAGEMENT}/${serverId}`
+        `${import.meta.env.VITE_API_URL_ADMIN}/api/DedicatedServerManagement/${serverId}`
       );
       const serverData = response.data.DedicatedServerDetails;
       setPlan(serverData);
@@ -93,7 +93,7 @@ const DedicatedServerDetails = () => {
 
       if (result.isConfirmed) {
         const response = await axios.put(
-          `${import.meta.env.VITE_DEDICATED_SERVER_MANAGEMENT}/${id}`,
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/DedicatedServerManagement/${id}`,
           { serverData: plan }
         );
 

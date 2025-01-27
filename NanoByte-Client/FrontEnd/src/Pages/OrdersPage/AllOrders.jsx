@@ -22,7 +22,7 @@ const AllOrders = () => {
 
     const fetchInvoices = async (page, limit) => {
       try {
-        const response = await axios.get(`http://localhost:2000/api/invoices?page=${page}&limit=${limit}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/invoices?page=${page}&limit=${limit}`, {
           withCredentials: true,
         });
         setInvoices(response.data.payments);

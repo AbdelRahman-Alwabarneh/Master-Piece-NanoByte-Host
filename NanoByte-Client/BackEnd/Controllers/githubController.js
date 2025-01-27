@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../Models/usersModels');
 
 exports.githubLogin = (req, res) => {
-    res.redirect('http://localhost:2000/api/githubAuth/github/callback');
+    res.redirect(`${process.env.API_URL}/api/githubAuth/github/callback`);
 };
 
 exports.githubCallback = (req, res) => {
@@ -13,5 +13,5 @@ exports.githubCallback = (req, res) => {
             sameSite: "strict", // يتم ارسال الكوكيز فقط مع الطلبات التي تأتي مع نفس الرابط
             maxAge: 2 * 60 * 60 * 1000, // مدة صلاحية الكوكيز في الملي ثانية هاي المدة ساعتين
           }); 
-    res.redirect("http://localhost:1000/?login=true");
+    res.redirect(`${process.env.FRONT_END_LINK}/?login=true`);
 };

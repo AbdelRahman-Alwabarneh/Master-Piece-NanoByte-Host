@@ -15,7 +15,6 @@ const PaymentPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("تم تقديم نموذج الدفع");
   };
 
   const planName = Cookies.get("planName");
@@ -53,38 +52,38 @@ const PaymentPage = () => {
         paymentMethod: "PayPal",
       };
 
-     const response = await axios.post("http://localhost:2000/api/orders", paymentData, {
+     const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/ordsers`, paymentData, {
         withCredentials: true,
       });
       const receivedOrderID = response.data._id;
     
       if (Servicetype == "VPS") {
         await axios.post(
-          "http://localhost:2000/api/vpsDetails",
+          `${import.meta.env.VITE_API_URL}/api/vpsDetails`,
           { productLink },
           { withCredentials: true }
         );
         await axios.post(
-          "http://localhost:2000/api/service",
+          `${import.meta.env.VITE_API_URL}/api/service`,
           { orderNumber: captureResponse.id , receivedOrderID , Servicetype},
           { withCredentials: true }
         );
       }
       if (Servicetype == "DedicatedServer") {
         await axios.post(
-          "http://localhost:2000/api/dedicatedServerDetails",
+          `${import.meta.env.VITE_API_URL}/api/dedicatedServerDetails`,
           { productLink },
           { withCredentials: true }
         );
         await axios.post(
-            "http://localhost:2000/api/service",
+            `${import.meta.env.VITE_API_URL}/api/service`,
             { orderNumber: captureResponse.id , receivedOrderID , Servicetype},
             { withCredentials: true }
           );
       }
       if (discountCode == !null) {
         await axios.post(
-          "http://localhost:2000/api/discountCode/useDiscountCode",
+          `${import.meta.env.VITE_API_URL}/api/discountCode/useDiscountCode`,
           { codeName: discountCode },
           { withCredentials: true }
         );

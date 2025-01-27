@@ -49,7 +49,7 @@ const GameHostingPlanDetails = () => {
 
   const fetchGameHostingPlan = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:2100/api/GameHosting/${id}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/GameHosting/${id}`);
       const gameServerPlan = response.data.GameServerPlan;
       setPlan((prev) => ({
         ...prev,
@@ -101,7 +101,7 @@ const GameHostingPlanDetails = () => {
 
 const fetchGroups = async () => {
   try {
-    const response = await axios.get('http://localhost:2100/api/GroupGameHosting');
+    const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/GroupGameHosting`);
     setGroups(response.data.GamesHostingGroup);
   } catch (error) {
     console.error('Error fetching groups:', error);
@@ -151,11 +151,11 @@ const fetchGroups = async () => {
       if (result.isConfirmed) {
         try {
             const response = await axios.put(
-                `http://localhost:2100/api/GameHosting/${id}`,
+                `${import.meta.env.VITE_API_URL_ADMIN}/api/GameHosting/${id}`,
                 {gameData:plan}
               );
           // تنفيذ PATCH request باستخدام axios
-          await axios.patch(`http://localhost:2100/api/GroupGameHosting/${id}`, {plan});
+          await axios.patch(`${import.meta.env.VITE_API_URL_ADMIN}/api/GroupGameHosting/${id}`, {plan});
 
           await fetchGameHostingPlan(id);
 

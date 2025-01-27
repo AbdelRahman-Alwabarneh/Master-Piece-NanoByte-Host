@@ -8,7 +8,9 @@ exports.DiscountCodeData = async (req, res) => {
   try {
     const { code, serviceId } = req.body;
     const userId = req.user?.id;
-
+    console.log(code);
+    console.log(serviceId);
+    
     // البحث عن كود الخصم
     const discountCode = await DiscountCode.findOne({ codeName: code });
     if (!discountCode) {

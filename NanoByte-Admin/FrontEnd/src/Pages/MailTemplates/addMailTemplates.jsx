@@ -54,7 +54,7 @@ const AddEmailTemplate = () => {
       });
   
       if (result.isConfirmed) {
-        const response = await axios.post('http://localhost:2100/api/emailTemplate', templateData);
+        const response = await axios.post(`${import.meta.env.VITE_API_URL_ADMIN}/api/emailTemplate`, templateData);
         const newTemplateId = response.data.template._id;
         
         if (response.status === 200 || response.status === 201) {

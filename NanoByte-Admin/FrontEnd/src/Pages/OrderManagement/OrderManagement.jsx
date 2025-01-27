@@ -25,7 +25,7 @@ const PendingOrderManagement = () => {
 
     const fetchInvoices = async (page, limit) => {
       try {
-        const response = await axios.post(`http://localhost:2100/api/order/Status/${orderStatus}?page=${page}&limit=${limit}&search=${searchTerm}`);
+        const response = await axios.post(`${import.meta.env.VITE_API_URL_ADMIN}/api/order/Status/${orderStatus}?page=${page}&limit=${limit}&search=${searchTerm}`);
         // Access the orders array from the response
         setInvoices(response.data.orders || []);
         setTotalPages(response.data.totalPages);

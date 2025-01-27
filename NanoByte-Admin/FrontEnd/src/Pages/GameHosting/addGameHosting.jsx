@@ -40,7 +40,7 @@ const AddGameServerPlan = () => {
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get('http://localhost:2100/api/GroupGameHosting');
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/GroupGameHosting`);
       setGroups(response.data.GamesHostingGroup);
     } catch (error) {
       console.error('Error fetching groups:', error);
@@ -94,7 +94,7 @@ const AddGameServerPlan = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.post('http://localhost:2100/api/GameHosting', { gameData: plan });
+          const response = await axios.post(`${import.meta.env.VITE_API_URL_ADMIN}/api/GameHosting`, { gameData: plan });
           const addedGameServerPlanId = response.data.GameServer._id;
           Swal.fire({
             title: "تمت الإضافة!",
@@ -106,7 +106,7 @@ const AddGameServerPlan = () => {
             confirmButtonColor: "#1E38A3",
             confirmButtonText: "موافق",
           }).then(async () => {
-            await axios.patch(`http://localhost:2100/api/GroupGameHosting/${addedGameServerPlanId}`, {plan});
+            await axios.patch(`${import.meta.env.VITE_API_URL_ADMIN}/api/GroupGameHosting/${addedGameServerPlanId}`, {plan});
 
             navigate(`/GameHostingPlanDetails/${addedGameServerPlanId}`);
           });

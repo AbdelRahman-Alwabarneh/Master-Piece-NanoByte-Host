@@ -15,11 +15,11 @@ const GameHostingGroupsAndPlans = () => {
     const fetchData = async () => {
       try {
         const groupsResponse = await axios.get(
-          "http://localhost:2000/api/GroupGameHosting",
+          `${import.meta.env.VITE_API_URL}/api/GroupGameHosting`,
           { withCredentials: true }
         );
         const plansResponse = await axios.get(
-          "http://localhost:2000/api/GameHosting",
+          `${import.meta.env.VITE_API_URL}/api/GameHosting`,
           { withCredentials: true }
         );
 

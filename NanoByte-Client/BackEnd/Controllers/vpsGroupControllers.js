@@ -24,13 +24,22 @@ exports.GroupsData = async (req, res) => {
       };
     }
 
-    const vpsGroupsData = await vpsGroupModels.find(query);
+    const vpsGroupsData = await vpsGroupModels.find(query).populate({
+      path: "plans", 
+      match: { isHidden: false }, 
+      select:"planName ram cpu storage connectionSpeed security subscriptionDurations.oneMonth.price quantity isUnlimited productLink",
+    });
 
     // التحقق من وجود بيانات وإرجاعها
     if (!vpsGroupsData.length) {
       return res.status(404).json({ message: "No groups found" });
     }
-
+    vpsGroupsData.forEach((group) => {
+      group.plans.sort((a, b) => {
+        return a.planName.localeCompare(b.planName, undefined, { numeric: true });
+      });
+    });
+    
     // إرجاع البيانات
     return res.status(200).json({ vpsGroupsData });
   } catch (error) {

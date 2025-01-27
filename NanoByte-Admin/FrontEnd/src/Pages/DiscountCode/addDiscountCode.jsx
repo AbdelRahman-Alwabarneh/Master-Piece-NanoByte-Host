@@ -38,7 +38,7 @@ const AddDiscountCode = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_USERS_DATA);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/usersData`);
       setUsers(response.data.UsersData);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -48,7 +48,7 @@ const AddDiscountCode = () => {
 
   const fetchVpsPlans = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_VPS_MANAGEMENT);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/vpsManagement`);
       setVpsPlans(response.data.VPSPlanData);
     } catch (error) {
       console.error('Error fetching VPS plans:', error);
@@ -58,7 +58,7 @@ const AddDiscountCode = () => {
 
   const fetchDedicatedServers = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_DEDICATED_SERVER_MANAGEMENT);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/DedicatedServerManagement`);
       setDedicatedServers(response.data.DedicatedServerData);
     } catch (error) {
       console.error('Error fetching Dedicated Servers:', error);
@@ -167,7 +167,7 @@ const AddDiscountCode = () => {
       });
   
       if (result.isConfirmed) {
-        const response = await axios.post(import.meta.env.VITE_DISCOUNT_CODE, discountCode);
+        const response = await axios.post(`${import.meta.env.VITE_API_URL_ADMIN}/api/discountCode`, discountCode);
         const newServerId = response.data.discountCode._id;
         if (response.status === 201) {
           Swal.fire({

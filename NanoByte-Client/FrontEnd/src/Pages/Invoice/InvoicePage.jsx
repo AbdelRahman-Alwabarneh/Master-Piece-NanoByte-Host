@@ -15,7 +15,7 @@ const InvoicePage = () => {
     const fetchInvoice = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:2000/api/invoices/${orderNumber}`
+          `${import.meta.env.VITE_API_URL}/api/invoices/${orderNumber}`
         );
         setInvoice(response.data);
       } catch (err) {

@@ -48,7 +48,7 @@ const TutorialDetails = () => {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const response = await axios.get("http://localhost:2100/api/tutorialGroup");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/tutorialGroup`);
         setGroups(response.data.AllTutorialGroup);
         setloading(false)
       } catch (error) {
@@ -60,7 +60,7 @@ const TutorialDetails = () => {
 
     const fetchTutorial = async () => {
       try {
-        const response = await axios.get(`http://localhost:2100/api/tutorial/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/tutorial/${id}`);
         setTutorial(response.data.TutorialDetails);
         setTutorial((prev) => ({...prev,oldGroupId:response.data.TutorialDetails.groupId}));
         setloading(false)
@@ -119,10 +119,10 @@ const TutorialDetails = () => {
       });
 
       if (result.isConfirmed) {
-        const response = await axios.put(`http://localhost:2100/api/tutorial/${id}`, {
+        const response = await axios.put(`${import.meta.env.VITE_API_URL_ADMIN}/api/tutorial/${id}`, {
           tutorialData: tutorial,
         });
-        await axios.patch(`http://localhost:2100/api/tutorialGroup/${id}`, {tutorial});
+        await axios.patch(`${import.meta.env.VITE_API_URL_ADMIN}/api/tutorialGroup/${id}`, {tutorial});
 
         if (response.status === 200) {
           Swal.fire({

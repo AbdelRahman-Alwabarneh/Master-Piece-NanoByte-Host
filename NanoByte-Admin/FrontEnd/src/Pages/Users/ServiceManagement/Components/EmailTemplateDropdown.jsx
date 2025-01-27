@@ -15,7 +15,7 @@ const EmailTemplateModal = ({ onClose ,serviceData, userId}) => {
   };
   useEffect(() => {
     // Fetch email templates on component mount
-    axios.get('http://localhost:2100/api/emailTemplate')
+    axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/emailTemplate`)
       .then((response) => {
         setEmailTemplates(response.data.emailTemplates);
       })
@@ -29,7 +29,7 @@ const EmailTemplateModal = ({ onClose ,serviceData, userId}) => {
     if (selectedTemplate) {
       setLoading(true);
       try {
-        const response = await axios.post('http://localhost:2100/api/SendEmail', { 
+        const response = await axios.post(`${import.meta.env.VITE_API_URL_ADMIN}/api/SendEmail`, { 
           id: selectedTemplate._id, 
           serviceData, 
           userId 

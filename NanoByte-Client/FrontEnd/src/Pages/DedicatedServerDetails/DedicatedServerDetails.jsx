@@ -23,7 +23,7 @@ const DedicatedOrderDetails = () => {
     const fetchServerDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:2000/api/dedicatedServerDetails/${productLink}`
+          `${import.meta.env.VITE_API_URL}/api/dedicatedServerDetails/${productLink}`
         );
         const data = response.data.DedicatedServerDetails;
         setServerDetails(data);
@@ -49,7 +49,7 @@ const DedicatedOrderDetails = () => {
   const applyDiscount = async (price) => {
     try {
       const response = await axios.post(
-        "http://localhost:2000/api/discountCode",
+        `${import.meta.env.VITE_API_URL}/api/discountCode`,
         {
           code: promoCode,
           serviceId: serverDetails._id,

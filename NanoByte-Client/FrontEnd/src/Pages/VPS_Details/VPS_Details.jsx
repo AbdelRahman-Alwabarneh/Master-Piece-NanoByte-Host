@@ -23,7 +23,7 @@ const VPSOrderDetails = () => {
     const fetchVPSDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:2000/api/vpsDetails/${productLink}`
+          `${import.meta.env.VITE_API_URL}/api/vpsDetails/${productLink}`
         );
         setVpsDetails(response.data.vpsDetailsPlan);
         setTotalPrice(
@@ -51,7 +51,7 @@ const VPSOrderDetails = () => {
   const applyDiscount = async (price) => {
     try {
       const response = await axios.post(
-        "http://localhost:2000/api/discountCode",
+        `${import.meta.env.VITE_API_URL}/api/discountCode`,
         {
           code: promoCode,
           serviceId: vpsDetails._id,

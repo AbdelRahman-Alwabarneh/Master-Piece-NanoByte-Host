@@ -10,7 +10,7 @@ const EmailDetails = ({ onClose, emailData }) => {
   useEffect(() => {
     const fetchEmailLogs = async () => {
       try {
-        const response = await axios.post(`http://localhost:2100/api/emailLog/logId/${emailData}`);
+        const response = await axios.post(`${import.meta.env.VITE_API_URL_ADMIN}/api/emailLog/logId/${emailData}`);
         setEmailLogs(response.data.emailLogDataDetails);
         setLoading(false);
       } catch (err) {

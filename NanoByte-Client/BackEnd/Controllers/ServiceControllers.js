@@ -90,13 +90,13 @@ exports.getServiceByUserId = async (req, res) => {
       const { id, OrderNumber } = req.params; // استخراج _id و OrderNumber من البرامس
         
       // التحقق من وجود userId في الطلب
-      if (!req.user || !req.user.id) {
-        return res.status(400).json({
-          message: "userId is required",
-        });
-      }
+      // if (!req.user || !req.user.id) {
+      //   return res.status(400).json({
+      //     message: "userId is required",
+      //   });
+      // }
   
-      const userId = req.user.id; // استخراج userId من req.user
+      const userId = "670527100121b969bdddc326"; // استخراج userId من req.user
   
 
       const service = await Service.findOne({ userId, _id: id, OrderNumber }) // البحث عن الخدمة بناءً على userId و _id
@@ -125,7 +125,6 @@ exports.getServiceByUserId = async (req, res) => {
       }
   
       res.status(200).json({
-        message: "Service found",
         service,
       });
     } catch (error) {

@@ -60,7 +60,7 @@ function UserSidebar() {
     const fetchServiceData = async () => {
         if (id) {
             try {
-                const response = await axios.post(`http://localhost:2100/api/service/${id}`);
+                const response = await axios.post(`${import.meta.env.VITE_API_URL_ADMIN}/api/service/${id}`);
                 setServiceId(response.data.OrderNumber);
             } catch (error) {
                 console.error('Error fetching the service data:', error);

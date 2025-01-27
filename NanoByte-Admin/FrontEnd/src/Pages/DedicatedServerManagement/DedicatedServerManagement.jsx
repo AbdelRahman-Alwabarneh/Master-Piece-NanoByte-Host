@@ -17,7 +17,7 @@ const DedicatedServerManagement = () => {
   useEffect(() => {
     const fetchServerData = async () => {
       try {
-        const response = await axios.get(import.meta.env.VITE_DEDICATED_SERVER_MANAGEMENT);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/DedicatedServerManagement`);
         setServerData(response.data.DedicatedServerData);
       } catch (err) {
         setError(err.message || "Failed to fetch data");
@@ -54,7 +54,7 @@ const DedicatedServerManagement = () => {
     if (result.isConfirmed) {
         try {
           const response = await axios.patch(
-            `${import.meta.env.VITE_DEDICATED_SERVER_MANAGEMENT}/${id}`);
+            `${import.meta.env.VITE_API_URL_ADMIN}/api/DedicatedServerManagement/${id}`);
     
           if (response.status !== 200) {
             throw new Error("فشل في تحديث الخطة");

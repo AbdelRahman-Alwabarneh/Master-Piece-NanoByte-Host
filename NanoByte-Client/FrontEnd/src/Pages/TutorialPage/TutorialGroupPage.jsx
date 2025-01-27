@@ -14,7 +14,7 @@ const TutorialGroupPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post("http://localhost:2000/api/tutorialGroup",{},{ withCredentials: true });
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/tutorialGroup`,{},{ withCredentials: true });
         setTutorialGroups(response.data.AllTutorialGroup);
       } catch (error) {
         console.error("Error fetching tutorial groups:", error);

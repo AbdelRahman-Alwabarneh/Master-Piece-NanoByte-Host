@@ -24,7 +24,7 @@ const ContactForm = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:2000/api/Contact', {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/Contact`, {
         name: formData.name,
         email: formData.email,
         description: formData.description

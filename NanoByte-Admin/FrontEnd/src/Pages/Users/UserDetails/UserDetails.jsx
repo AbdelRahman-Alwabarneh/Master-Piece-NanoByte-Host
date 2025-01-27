@@ -57,7 +57,7 @@ const Dashboard = () => {
     const fetchEmailLogs = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:2100/api/emailLog/${id}`
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/emailLog/${id}`
         );
         setEmailLogs(response.data.emailLogData);
 
@@ -75,7 +75,7 @@ const Dashboard = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:2100/api/order/UserOrders/${id}`
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/order/UserOrders/${id}`
         );
         setOrders(response.data.orders);
         setLoadingorders(false);
@@ -91,7 +91,7 @@ const Dashboard = () => {
   const fetchServices = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:2100/api/service/AllServices/${id}`
+        `${import.meta.env.VITE_API_URL_ADMIN}/api/service/AllServices/${id}`
       );
       setServices(response.data.services);
       setloadingservices(false);

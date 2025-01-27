@@ -15,7 +15,7 @@ const HomeDashboard = () => {
   const fetchStatistics = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:2100/api/statistics/count`
+        `${import.meta.env.VITE_API_URL_ADMIN}/api/statistics/count`
       );
       setStatistic(response.data.allStatistics);
       setLoading(false);

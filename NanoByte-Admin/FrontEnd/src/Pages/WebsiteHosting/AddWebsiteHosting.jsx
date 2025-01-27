@@ -70,7 +70,7 @@ const AddWebsiteHosting = () => {
   
       if (result.isConfirmed) {
         const response = await axios.post(
-          "http://localhost:2100/api/websiteHosting",
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/websiteHosting`,
           { hostingData: hosting }
         );
   

@@ -5,7 +5,7 @@ export const fetchUserProfile = createAsyncThunk(
   "profile/fetchUserProfile",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(import.meta.env.VITE_USER_DATA, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/userData`, {
         withCredentials: true,
       });
       return response.data;
@@ -19,7 +19,7 @@ export const updateUserProfile = createAsyncThunk(
   "profile/updateUserProfile",
   async ({ formData }, { rejectWithValue }) => {
     try {
-      const response = await axios.put(import.meta.env.VITE_USER_UPDATE_PROFILE, {Data : formData}, {
+      const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/updateProfile`, {Data : formData}, {
         withCredentials: true,
       });
       return response.data;

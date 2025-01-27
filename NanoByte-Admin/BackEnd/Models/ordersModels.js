@@ -14,12 +14,19 @@ const OrdersSchema = new mongoose.Schema(
     },
     Servicetype: {
       type: String,
-      enum: ['VPS', 'DedicatedServer'],
+      enum: ["VPS", "DedicatedServer"],
       required: true,
     },
     Subscriptionduration: {
       type: String,
-      enum: ["شهر واحد", "شهرين", "ثلاثة أشهر", "أربعة أشهر", "خمسة أشهر", "ستة أشهر"],
+      enum: [
+        "شهر واحد",
+        "شهرين",
+        "ثلاثة أشهر",
+        "أربعة أشهر",
+        "خمسة أشهر",
+        "ستة أشهر",
+      ],
       required: true,
     },
     orderNumber: {
@@ -65,27 +72,22 @@ const OrdersSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    vpsId: { 
+    vpsId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "VPS", 
-      required: function() {
-        return this.serviceType === 'VPS';
+      ref: "VPS",
+      required: function () {
+        return this.serviceType === "VPS";
       },
     },
-    dedicatedServerId: { 
+    dedicatedServerId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "DedicatedServer", 
-      required: function() {
-        return this.serviceType === 'DedicatedServer'; 
+      ref: "DedicatedServer",
+      required: function () {
+        return this.serviceType === "DedicatedServer";
       },
-    }
-
+    },
   },
   { timestamps: true }
 );
 
 module.exports = mongoose.model("Order", OrdersSchema, "Orders");
-// isRenewal: {
-//   type: Boolean,
-//   default: false, // القيمة الافتراضية هي أنه طلب جديد
-// }

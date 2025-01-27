@@ -20,7 +20,7 @@ const GoogleLoginButton = () => {
         );
         // إرسال id_token إلى الخادم الخاص بك
         const res = await axios.post(
-          import.meta.env.VITE_GOOGLE_AUTH,
+          `${import.meta.env.VITE_API_URL}/api/googleAuth`,
           {
             id_token: tokenResponse.access_token,
             google_id: data.sub,

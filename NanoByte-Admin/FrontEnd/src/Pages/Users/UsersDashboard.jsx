@@ -28,7 +28,7 @@ const AllUsers = () => {
   const fetchUserData = async (page, limit) => {
     try {
       const response = await axios.post(
-        `http://localhost:2100/api/usersData?page=${page}&limit=${limit}&search=${searchTerm}`
+        `${import.meta.env.VITE_API_URL_ADMIN}/api/usersData?page=${page}&limit=${limit}&search=${searchTerm}`
       );
       console.log(response.data);
 
@@ -87,7 +87,7 @@ const AllUsers = () => {
     if (result.isConfirmed) {
       try {
         const response = await axios.patch(
-          `http://localhost:2100/api/usersData/${userId}`,
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/usersData/${userId}`,
           {
             isBanned: !isBanned,
           }

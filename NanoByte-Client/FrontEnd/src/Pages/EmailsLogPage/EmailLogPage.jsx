@@ -21,7 +21,7 @@ const EmailLogPage = () => {
   const fetchEmailLogs = async (page, limit) => {
     try {
       const response = await axios.post(
-        `http://localhost:2000/api/emailLog?page=${page}&limit=${limit}`,
+        `${import.meta.env.VITE_API_URL}/api/emailLog?page=${page}&limit=${limit}`,
         {},
         { withCredentials: true }
       );

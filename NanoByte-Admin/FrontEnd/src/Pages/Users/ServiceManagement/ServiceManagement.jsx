@@ -50,7 +50,7 @@ const ServiceManagement = () => {
   const fetchVpsPlans = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:2100/api/vpsManagement/NotHidden"
+        `${import.meta.env.VITE_API_URL_ADMIN}/api/vpsManagement/NotHidden`
       );
       setVpsPlans(response.data.VPSPlansDataNotHidden);
     } catch (error) {
@@ -62,7 +62,7 @@ const ServiceManagement = () => {
   const fetchDedicatedPlans = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:2100/api/DedicatedServerManagement/NotHidden"
+        `${import.meta.env.VITE_API_URL_ADMIN}/api/DedicatedServerManagement/NotHidden`
       );
       setDedicatedPlans(response.data.DedicatedServerData);
     } catch (error) {
@@ -88,7 +88,7 @@ const ServiceManagement = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:2100/api/service/getService/${id}/${OrderNumber}`
+        `${import.meta.env.VITE_API_URL_ADMIN}/api/service/getService/${id}/${OrderNumber}`
       );
 
       if (response.data && response.data.service) {
@@ -125,7 +125,7 @@ const ServiceManagement = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:2100/api/order/${OrderNumber}`
+        `${import.meta.env.VITE_API_URL_ADMIN}/api/order/${OrderNumber}`
       );
       const orderData = response.data;
 
@@ -191,7 +191,7 @@ const ServiceManagement = () => {
   const fetchDiscountCodes = async () => {
     setIsLoadingDiscounts(true);
     try {
-      const response = await axios.get(import.meta.env.VITE_DISCOUNT_CODE);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/discountCode`);
       setDiscountCodes(response.data.DiscountCodeData);
 
       if (serviceData.discountCode) {
@@ -221,7 +221,7 @@ const ServiceManagement = () => {
   const fetchServices = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:2100/api/service/AllServices/${id}`
+        `${import.meta.env.VITE_API_URL_ADMIN}/api/service/AllServices/${id}`
       );
       setServices(response.data.services);
     } catch (error) {
@@ -299,7 +299,7 @@ const ServiceManagement = () => {
 
       if (result.isConfirmed) {
         const response = await axios.patch(
-          `http://localhost:2100/api/service/${serviceData.serviceId}`,
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/service/${serviceData.serviceId}`,
           {
             userId: id,
             OrderNumber,
@@ -314,7 +314,7 @@ const ServiceManagement = () => {
         );
 
         const responseOrder = await axios.patch(
-          `http://localhost:2100/api/order/updateOrder/${serviceData.orderNumber}`, // تأكد من استخدام المعرف الصحيح
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/order/updateOrder/${serviceData.orderNumber}`, // تأكد من استخدام المعرف الصحيح
           {
             userId: id,
             orderNumber: serviceData.orderNumber,

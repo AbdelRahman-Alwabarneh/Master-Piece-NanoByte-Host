@@ -18,7 +18,7 @@ const TutorialManagement = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:2100/api/tutorialGroup");
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/tutorialGroup`);
       setTutorialGroups(response.data.AllTutorialGroup);
       setLoading(false);
     } catch (error) {
@@ -55,7 +55,7 @@ const TutorialManagement = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.patch(`http://localhost:2100/api/tutorial/${id}`);
+        await axios.patch(`${import.meta.env.VITE_API_URL_ADMIN}/api/tutorial/${id}`);
         fetchData();
 
         Swal.fire({

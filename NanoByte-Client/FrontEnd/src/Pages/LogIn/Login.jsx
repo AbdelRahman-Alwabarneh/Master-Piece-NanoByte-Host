@@ -57,7 +57,7 @@ function LogIn() {
 
     try {
       const response = await axios.post(
-        import.meta.env.VITE_LOG_IN,
+        `${import.meta.env.VITE_API_URL}/api/login`,
         {
           Email: ValidationEmail,
           Password: ValidationPassword,

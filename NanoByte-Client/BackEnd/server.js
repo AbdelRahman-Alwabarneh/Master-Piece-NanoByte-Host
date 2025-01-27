@@ -62,10 +62,6 @@ const vpsGroupRoutes = require("./Routes/vpsGroupRoutes");
 
 app.use("/api/vpsGroup", vpsGroupRoutes);
 
-const vpsPlansRoutes = require("./Routes/vpsPlansRoutes");
-
-app.use("/api/vpsPlans", vpsPlansRoutes);
-
 const vpsDetailsRoutes = require("./Routes/vpsDetailsRoutes");
 
 app.use("/api/vpsDetails", vpsDetailsRoutes);

@@ -21,7 +21,7 @@ const VPSTable = () => {
   const fetchServices = async (page, limit) => {
     try {
       const response = await axios.post(
-        `http://localhost:2000/api/service/ServiceUser/VPS?page=${page}&limit=${limit}`,
+        `${import.meta.env.VITE_API_URL}/api/service/ServiceUser/VPS?page=${page}&limit=${limit}`,
         {},
         { withCredentials: true }
       );
@@ -44,10 +44,6 @@ const VPSTable = () => {
     fetchServices(1, value);
   };
 
-  console.log(services);
-  console.log(totalPages);
-  console.log(itemsPerPage);
-
   const formatStatus = (status) => {
     switch (status.toLowerCase()) {
       case "active":
@@ -68,7 +64,7 @@ const VPSTable = () => {
       case "active":
         return "text-green-600";
       case "expired":
-        return "text-blue-600";
+        return "text-blue-400";
       case "cancelled":
         return "text-red-600";
       case "pending":
@@ -80,13 +76,37 @@ const VPSTable = () => {
   const calculateTimeRemaining = (nextPaymentDate) => {
     const now = new Date();
     const paymentDate = new Date(nextPaymentDate);
-    const diffTime = Math.abs(paymentDate - now);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const diffHours = Math.floor(
-      (diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    return `${diffDays}.${diffHours}`;
+    
+    // حساب الفرق الزمني بالملي ثانية
+    const diffTime = paymentDate - now;
+    
+    // تحويل الفرق الزمني إلى ساعات
+    const totalHours = diffTime / (1000 * 60 * 60);
+    
+    // التعامل مع الحالات المختلفة
+    if (totalHours >= 0) {
+      const days = Math.floor(totalHours / 24);
+      const remainingHours = Math.floor(totalHours % 24);
+      
+      // تنسيق النتيجة بدقة رقمين عشريين
+      return Number(`${days}.${remainingHours.toString().padStart(2, '0')}`);
+    } else {
+      // للتواريخ المنتهية
+      const absoluteHours = Math.abs(Math.floor(totalHours));
+      
+      // إذا كان أقل من ساعة
+      if (absoluteHours === 0) {
+        return -0.01;
+      }
+      
+      const days = Math.floor(absoluteHours / 24);
+      const remainingHours = absoluteHours % 24;
+      
+      // إضافة علامة سالب مع التنسيق
+      return Number(`-${days}.${remainingHours.toString().padStart(2, '0')}`);
+    }
   };
+
 
   const handleUserClick = (serviceid, OrderNumber) => {
     navigate(`/ServiceControlPanel/${serviceid}/${OrderNumber}`);

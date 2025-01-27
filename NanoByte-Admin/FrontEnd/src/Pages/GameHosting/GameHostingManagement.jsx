@@ -20,7 +20,7 @@ const GameHostingManagement = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:2100/api/GroupGameHosting/AllGamesHostingGroup");
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/GroupGameHosting/AllGamesHostingGroup`);
       setGamesHostingGroups(response.data.GamesHostingGroup);
       setLoading(false);
     } catch (error) {
@@ -58,7 +58,7 @@ const GameHostingManagement = () => {
     if (result.isConfirmed) {
       try {
         const response = await axios.patch(
-            `http://localhost:2100/api/GameHosting/${id}`
+            `${import.meta.env.VITE_API_URL_ADMIN}/api/GameHosting/${id}`
           );
           fetchData()
           

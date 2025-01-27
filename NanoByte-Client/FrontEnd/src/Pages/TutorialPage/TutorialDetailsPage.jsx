@@ -14,7 +14,7 @@ const TutorialDetailsPage = () => {
   useEffect(() => {
     const fetchTutorialDetails = async () => {
       try {
-        const response = await axios.post(`http://localhost:2000/api/tutorial/${Link}`,{},{ withCredentials: true });
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/tutorial/${Link}`,{},{ withCredentials: true });
         setTutorial(response.data.TutorialByLink[0]);
         setLoading(false);
       } catch (error) {

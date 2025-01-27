@@ -35,7 +35,7 @@ const ControlPanel = () => {
     const fetchServices = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:2000/api/service/AllServiceUser",
+          `${import.meta.env.VITE_API_URL}/api/service/AllServiceUser`,
           {},
           {
             withCredentials: true,
@@ -58,7 +58,7 @@ const ControlPanel = () => {
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const response = await axios.get("http://localhost:2000/api/invoices/getPayments", {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/invoices/getPayments`, {
           withCredentials: true,
         });
         setInvoices(response.data);
@@ -77,7 +77,7 @@ const ControlPanel = () => {
     const fetchTutorialGroups = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:2000/api/tutorialGroup",
+          `${import.meta.env.VITE_API_URL}/api/tutorialGroup`,
           {},
           {
             withCredentials: true,
@@ -109,12 +109,35 @@ const ControlPanel = () => {
   const calculateTimeRemaining = (nextPaymentDate) => {
     const now = new Date();
     const paymentDate = new Date(nextPaymentDate);
-    const diffTime = Math.abs(paymentDate - now);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const diffHours = Math.floor(
-      (diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    return `${diffDays}.${diffHours}`;
+    
+    // حساب الفرق الزمني بالملي ثانية
+    const diffTime = paymentDate - now;
+    
+    // تحويل الفرق الزمني إلى ساعات
+    const totalHours = diffTime / (1000 * 60 * 60);
+    
+    // التعامل مع الحالات المختلفة
+    if (totalHours >= 0) {
+      const days = Math.floor(totalHours / 24);
+      const remainingHours = Math.floor(totalHours % 24);
+      
+      // تنسيق النتيجة بدقة رقمين عشريين
+      return Number(`${days}.${remainingHours.toString().padStart(2, '0')}`);
+    } else {
+      // للتواريخ المنتهية
+      const absoluteHours = Math.abs(Math.floor(totalHours));
+      
+      // إذا كان أقل من ساعة
+      if (absoluteHours === 0) {
+        return -0.01;
+      }
+      
+      const days = Math.floor(absoluteHours / 24);
+      const remainingHours = absoluteHours % 24;
+      
+      // إضافة علامة سالب مع التنسيق
+      return Number(`-${days}.${remainingHours.toString().padStart(2, '0')}`);
+    }
   };
 
   const formatStatus = (status) => {
@@ -198,7 +221,7 @@ const ControlPanel = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        import.meta.env.VITE_USER_LOG_OUT,
+        `${import.meta.env.VITE_API_URL}/api/LogOut`,
         {},
         {
           withCredentials: true,

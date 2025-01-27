@@ -40,7 +40,7 @@ const   DetailsDiscountCode = () => {
 
   const fetchDiscountCodeDetails = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_DISCOUNT_CODE}/${id}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/discountCode/${id}`);
       const details = response.data.DiscountCodeDetails;
       setDiscountCode({
         ...details,
@@ -55,7 +55,7 @@ const   DetailsDiscountCode = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_USERS_DATA);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/usersData`);
       setUsers(response.data.UsersData);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -65,7 +65,7 @@ const   DetailsDiscountCode = () => {
 
   const fetchVpsPlans = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_VPS_MANAGEMENT);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/vpsManagement`);
       setVpsPlans(response.data.VPSPlanData);
     } catch (error) {
       console.error('Error fetching VPS plans:', error);
@@ -75,7 +75,7 @@ const   DetailsDiscountCode = () => {
 
   const fetchDedicatedServers = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_DEDICATED_SERVER_MANAGEMENT);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/DedicatedServerManagement`);
       setDedicatedServers(response.data.DedicatedServerData);
     } catch (error) {
       console.error('Error fetching Dedicated Servers:', error);
@@ -184,7 +184,7 @@ const   DetailsDiscountCode = () => {
       });
   
       if (result.isConfirmed) {
-        const response = await axios.put(`${import.meta.env.VITE_DISCOUNT_CODE}/${id}`, discountCode);
+        const response = await axios.put(`${import.meta.env.VITE_API_URL_ADMIN}/api/discountCode/${id}`, discountCode);
         
         if (response.status === 200) {
           Swal.fire({

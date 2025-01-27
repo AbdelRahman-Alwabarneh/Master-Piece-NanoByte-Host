@@ -17,7 +17,7 @@ const EmailTemplateManagement = () => {
   useEffect(() => {
     const fetchTemplateData = async () => {
       try {
-        const response = await axios.get("http://localhost:2100/api/emailTemplate");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/emailTemplate`);
         setTemplateData(response.data.emailTemplates);
       } catch (err) {
         setError(err.message || "Failed to fetch data");
@@ -54,7 +54,7 @@ const EmailTemplateManagement = () => {
     if (result.isConfirmed) {
       try {
         const response = await axios.patch(
-          `http://localhost:2100/api/emailTemplate/${id}`
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/emailTemplate/${id}`
         );
 
         if (response.status !== 200) {

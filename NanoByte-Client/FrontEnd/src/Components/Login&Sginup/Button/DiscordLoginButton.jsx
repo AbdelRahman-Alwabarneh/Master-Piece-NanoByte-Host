@@ -2,7 +2,7 @@ const DiscordLoginButton = () => {
   const handleLogin = () => {
     // توجيه المستخدم إلى مسار تسجيل الدخول عبر Discord
     // تحقق من أن المسار صحيح ويطابق ما هو موجود في خادمك
-    window.location.href = import.meta.env.VITE_DISCORD_AUTH;
+    window.location.href = `${import.meta.env.VITE_API_URL}/api/discordAuth/discord`;
   };
 
   return (

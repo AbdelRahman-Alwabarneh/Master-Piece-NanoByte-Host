@@ -18,7 +18,7 @@ const CreateGroupGameHosting = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(import.meta.env.VITE_USERS_DATA);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/usersData`);
         setUsers(response.data.UsersData);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -55,7 +55,7 @@ const CreateGroupGameHosting = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.post(
-            `http://localhost:2100/api/GroupGameHosting`,
+            `${import.meta.env.VITE_API_URL_ADMIN}/api/GroupGameHosting`,
             groupData
           );
 

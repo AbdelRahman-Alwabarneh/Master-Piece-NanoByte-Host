@@ -18,7 +18,7 @@ const EmailLogsPage = () => {
   useEffect(() => {
     const fetchEmailLogs = async () => {
       try {
-        const response = await axios.post(`http://localhost:2100/api/emailLog/${id}`);
+        const response = await axios.post(`${import.meta.env.VITE_API_URL_ADMIN}/api/emailLog/${id}`);
         setEmailLogs(response.data.emailLogData);
         setLoading(false);
       } catch (err) {

@@ -35,7 +35,7 @@ const DomainServiceDetails = () => {
   useEffect(() => {
     const fetchDomainDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:2100/api/DomainService/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/DomainService/${id}`);
         if (response.status === 200) {
           setDomain(response.data.DomainServiceDetails);
         }
@@ -97,7 +97,7 @@ const DomainServiceDetails = () => {
 
       if (result.isConfirmed) {
         const response = await axios.put(
-          `http://localhost:2100/api/DomainService/${id}`,
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/DomainService/${id}`,
           { planData: domain }
         );
 

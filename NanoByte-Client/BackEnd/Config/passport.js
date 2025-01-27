@@ -7,7 +7,7 @@ require('dotenv').config();
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: 'http://localhost:2000/api/githubAuth/github/callback',
+    callbackURL: `${process.env.API_URL}/api/githubAuth/github/callback`,
     scope: ['user:email', 'user:profile'] // طلب الأذونات المناسبة
   },
   async (accessToken, refreshToken, profile, done) => {

@@ -1,4 +1,4 @@
-const DedicatedServer = require('../Models/dedicatedServerModel'); // استدعاء الموديل
+const DedicatedServer = require('../Models/dedicatedServerModel'); 
 
 exports.createDedicatedServer = async (req, res) => {
   try {

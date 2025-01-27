@@ -25,6 +25,7 @@ import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import GameHostingPage from "./Pages/GameHostingPage/GameHosting";
 import AboutUs from "./Pages/AboutUs/AboutUsPage";
 import ContactPage from "./Pages/ContactPages/ContactPages";
+import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
 import { Link } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
@@ -33,6 +34,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="*" element={<Error404 />} />
@@ -123,13 +125,18 @@ function App() {
             }
           />
           <Route path="/ExplanationsLibrary" element={<TutorialGroupPage />} />
-          <Route path="/ExplanationsLibrary/tutorial/:Link" element={<TutorialPage />} />
-          <Route path="/ExplanationsLibrary/tutorialdetails/:Link" element={<TutorialDetailsPage />} />
+          <Route
+            path="/ExplanationsLibrary/tutorial/:Link"
+            element={<TutorialPage />}
+          />
+          <Route
+            path="/ExplanationsLibrary/tutorialdetails/:Link"
+            element={<TutorialDetailsPage />}
+          />
 
           <Route path="/GameHostingPage" element={<GameHostingPage />} />
           <Route path="/AboutNanobyte" element={<AboutUs />} />
           <Route path="/ContactNanobyte" element={<ContactPage />} />
-
         </Routes>
       </BrowserRouter>
     </>

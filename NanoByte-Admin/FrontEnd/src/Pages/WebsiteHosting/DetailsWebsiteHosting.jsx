@@ -40,7 +40,7 @@ const WebsiteHostingDetails = () => {
   const fetchWebsiteHostingDetails = async (hostingId) => {
     try {
       const response = await axios.get(
-        `http://localhost:2100/api/websiteHosting/${hostingId}`
+        `${import.meta.env.VITE_API_URL_ADMIN}/api/websiteHosting/${hostingId}`
       );
       const hostingData = response.data.WebsiteHostingDetails;
       setPlan(hostingData);
@@ -94,7 +94,7 @@ const WebsiteHostingDetails = () => {
 
       if (result.isConfirmed) {
         const response = await axios.put(
-          `http://localhost:2100/api/websiteHosting/${id}`,
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/websiteHosting/${id}`,
           { serverData: plan }
         );
 

@@ -16,7 +16,7 @@ const CreateGroup = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(import.meta.env.VITE_USERS_DATA);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/usersData`);
         setUsers(response.data.UsersData);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -53,7 +53,7 @@ const CreateGroup = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.post(
-            import.meta.env.VITE_VPS_GROUP,
+            `${import.meta.env.VITE_API_URL_ADMIN}/api/vpsGroup`,
             groupData
           );
   

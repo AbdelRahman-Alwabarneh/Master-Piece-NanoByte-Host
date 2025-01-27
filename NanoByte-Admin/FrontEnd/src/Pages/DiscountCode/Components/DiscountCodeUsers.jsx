@@ -17,7 +17,7 @@ const DiscountCodeUsers = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:2100/api/discountCode/${id}`
+        `${import.meta.env.VITE_API_URL_ADMIN}/api/discountCode/${id}`
       );
       const data = response.data.DiscountCodeDetails;
 

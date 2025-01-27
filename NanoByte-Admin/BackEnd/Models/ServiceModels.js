@@ -15,6 +15,11 @@ const ServiceSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    RenewalOrders: [
+        {
+         RenewalOrderId: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
+        },
+      ],
     Servicetype: {
         type: String,
         enum: ['VPS', 'DedicatedServer'],

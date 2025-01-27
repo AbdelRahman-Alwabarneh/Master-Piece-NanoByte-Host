@@ -5,7 +5,7 @@ export const fetchVPSData = createAsyncThunk(
   "VPSData/fetchVPSData",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(import.meta.env.VITE_VPS_MANAGEMENT, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/vpsManagement`, {
         withCredentials: true,
       });
       return response.data.VPSPlanData || []; // Ensure we always return an array
@@ -19,7 +19,7 @@ export const VPSDetails = createAsyncThunk(
   "VPSData/userDetails",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_VPS_MANAGEMENT}/${id}`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/vpsManagement/${id}`, {
         withCredentials: true,
       });
       return response.data;
@@ -33,7 +33,7 @@ export const updateVPS = createAsyncThunk(
   "VPSData/updateVPS",
   async ({ plan, id }, { rejectWithValue }) => {
     try {
-      const response = await axios.put(`${import.meta.env.VITE_VPS_MANAGEMENT}/${id}`, { vpsData: plan }, {
+      const response = await axios.put(`${import.meta.env.VITE_API_URL_ADMIN}/api/vpsManagement/${id}`, { vpsData: plan }, {
         withCredentials: true,
       });
       return response.data;
@@ -47,7 +47,7 @@ export const addVPS = createAsyncThunk(
   "VPSData/addVPS",
   async ({ plan }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(import.meta.env.VITE_VPS_MANAGEMENT, { vpsData: plan }, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL_ADMIN}/api/vpsManagement`, { vpsData: plan }, {
         withCredentials: true,
       });
       return response.data;
@@ -61,7 +61,7 @@ export const HiddenVPSPlan = createAsyncThunk(
   "VPSData/HiddenVPSPlan",
   async ( id , { rejectWithValue }) => {
     try {
-      const response = await axios.patch(`${import.meta.env.VITE_VPS_MANAGEMENT}/${id}`);
+      const response = await axios.patch(`${import.meta.env.VITE_API_URL_ADMIN}/api/vpsManagement/${id}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);

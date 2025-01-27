@@ -19,7 +19,7 @@ const DetailsTutorialGroup = () => {
   useEffect(() => {
     const fetchGroupDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:2100/api/tutorialGroup/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL_ADMIN}/api/tutorialGroup/${id}`);
         const group = response.data.DetailsTutorialGroup;
         
         setGroupName(group.groupName);
@@ -74,7 +74,7 @@ const DetailsTutorialGroup = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.put(
-            `http://localhost:2100/api/tutorialGroup/${id}`,
+            `${import.meta.env.VITE_API_URL_ADMIN}/api/tutorialGroup/${id}`,
             { groupData }
           );
   

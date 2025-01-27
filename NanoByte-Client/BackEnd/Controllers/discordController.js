@@ -87,13 +87,13 @@ const handleDiscordCallback = async (req, res) => {
     });
 
     // توجيه المستخدم إلى صفحة مناسبة بعد تسجيل الدخول
-    res.redirect("http://localhost:1000/?login=true"); // استبدل هذا بالمسار الذي تريده
+    res.redirect(`${process.env.FRONT_END_LINK}/?login=true`); // استبدل هذا بالمسار الذي تريده
   } catch (error) {
     console.error(
       "Error during Discord authentication:",
       error.response ? error.response.data : error.message
     );
-    res.redirect("http://localhost:1000/signup");
+    res.redirect(`${process.env.FRONT_END_LINK}/signup`);
     res.status(500).send("Authentication failed.");
   }
 };

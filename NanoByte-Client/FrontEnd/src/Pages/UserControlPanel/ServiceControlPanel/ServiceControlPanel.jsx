@@ -4,12 +4,13 @@ import axios from 'axios';
 import Header from "../../../Components/Header/Header";
 import Footer from "../../../Components/Footer/Footer";
 import Loading from "../../../Components/Loading/Loading";
+import Swal from 'sweetalert2';
 import { 
   Power, PowerOff, RotateCw, Eye, EyeOff, 
   RefreshCw, Server, Monitor, Key, ChevronDown,
   Cpu, HardDrive, Globe, MemoryStick
 } from 'lucide-react';
-
+import ServerRenewalModal from './VPSRenewalWorkflow/ServerRenewalModal';
 const ServiceControlPanel = () => {
   const { serviceId, orderNumber } = useParams();
   const [data, setData] = useState(null);
@@ -28,6 +29,7 @@ const ServiceControlPanel = () => {
     },
   ];
 
+
   useEffect(() => {
     fetchData();
   }, [serviceId, orderNumber]);
@@ -35,7 +37,7 @@ const ServiceControlPanel = () => {
   const fetchData = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:2000/api/service/Controlpanel/${serviceId}/${orderNumber}`,
+        `${import.meta.env.VITE_API_URL}/api/service/Controlpanel/${serviceId}/${orderNumber}`,
         {},
         { withCredentials: true }
       );
@@ -70,6 +72,34 @@ const ServiceControlPanel = () => {
   if (loading) {
     return <Loading />;
   }
+  
+  if (data.status == "pending") {
+    return <>
+  <Header />
+    <div className="h-screen text-right mt-[73px]">
+    <div className="[direction:rtl] flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
+  <svg className="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+  </svg>
+  <span className="sr-only">Info</span>
+  <div>
+    <span className="font-medium">الخادم الخاص بك قيد الأنشاء</span>
+  </div>
+</div>
+ </div>
+  <Footer />
+  </>;
+  }
+  if (data.status == "expired") {
+    return <>
+  <Header />
+    <div className="h-screen  text-right">
+    <ServerRenewalModal serviceData={data} />
+ </div>
+  <Footer />
+  </>;
+  }
+
   const renderServerSpecs = () => {
     if (data.OrderdId.Servicetype === "VPS") {
       return (

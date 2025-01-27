@@ -18,7 +18,7 @@ const DomainServiceManagement = () => {
     const fetchDomainData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:2100/api/DomainService"
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/DomainService`
         );
         setDomainData(response.data.DomainServiceData);
       } catch (err) {
@@ -56,7 +56,7 @@ const DomainServiceManagement = () => {
     if (result.isConfirmed) {
       try {
         const response = await axios.patch(
-          `http://localhost:2100/api/DomainService/${id}`
+          `${import.meta.env.VITE_API_URL_ADMIN}/api/DomainService/${id}`
         );
 
         if (response.status !== 200) {
