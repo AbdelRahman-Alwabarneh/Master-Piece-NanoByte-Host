@@ -1,6 +1,6 @@
-import services_svg from "../../Assets/Photo/services.svg";
+import services_svg from "../../../Assets/Photo/server.svg";
 
-function FeaturesOfOurServices1() {
+function FeaturesOfOurServices3() {
   return (
     <>
       <h2 className="font-cairo text-3xl font-bold text-center text-white mb-3 mt-[100px]">
@@ -47,4 +47,4 @@ function FeaturesOfOurServices1() {
     </>
   );
 }
-export default FeaturesOfOurServices1;
+export default FeaturesOfOurServices3;

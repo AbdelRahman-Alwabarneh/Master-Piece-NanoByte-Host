@@ -1,4 +1,4 @@
-import services_svg from "../../../Assets/Photo/services.svg";
+import services_svg from "../../../Assets/Photo/servers.svg";
 
 function FeaturesOfOurServices1({ motion, AnimatePresence }) {
   return (

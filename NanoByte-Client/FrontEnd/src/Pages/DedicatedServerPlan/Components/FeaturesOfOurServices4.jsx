@@ -1,6 +1,6 @@
-import services_svg2 from "../../Assets/Photo/hero-svg-img-2.svg";
+import services_svg2 from "../../../Assets/Photo/Security.svg";
 
-function FeaturesOfOurServices2() {
+function FeaturesOfOurServices4() {
   return (
     <>
       <div className="font-cairo sm:flex items-center justify-center min-h-screen max-w-screen-xl mx-auto">
@@ -37,4 +37,4 @@ function FeaturesOfOurServices2() {
     </>
   );
 }
-export default FeaturesOfOurServices2;
+export default FeaturesOfOurServices4;

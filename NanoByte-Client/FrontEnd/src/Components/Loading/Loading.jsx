@@ -2,7 +2,7 @@ import LogoNano from "../../Assets/Photo/android-chrome-512x512.png";
 
 function Loading() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br">
+    <div className="flex fixed w-full z-20 top-0 start-0 flex-col items-center justify-center h-screen bg-nano-bg-100">
       <div className="relative">
         <img
           src={LogoNano}

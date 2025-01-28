@@ -1,4 +1,4 @@
-import services_svg2 from "../../../Assets/Photo/hero-svg-img-2.svg";
+import services_svg2 from "../../../Assets/Photo/Security.svg";
 
 function FeaturesOfOurServices2() {
   return (
