@@ -4,7 +4,7 @@ exports.DedicatedServerData = async (req, res) => {
   try {
     const DedicatedServerDataPlans = await DedicatedServer.find({
        isHidden: false,
-    });
+    }).select('planTitle subscriptionDurations.oneMonth secondaryTitle quantity isUnlimited planDescription productLink');
 
     res.status(200).json({ DedicatedServerDataPlans });
   } catch (error) {

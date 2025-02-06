@@ -1,11 +1,19 @@
 
+import React, { Suspense, lazy } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import SectionDedicatedServer from "./Components/SectionDedicatedServer";
-import FeaturesOfOurServices3 from "./Components/FeaturesOfOurServices3";
-import FeaturesOfOurServices4 from "./Components/FeaturesOfOurServices4";
-import AllDedicatedServer from "./Components/AllDedicatedServer";
+import AllDedicatedServer from "./Components/Card_DedicatedServer/AllDedicatedServer";
+import Loading from "../../Components/Loading/Loading";
+
 function DedicatedServer() {
+  const FeaturesOfOurServices3 = lazy(() =>
+    import("./Components/FeaturesOfOurServices3")
+  );
+  const FeaturesOfOurServices4 = lazy(() =>
+    import("./Components/FeaturesOfOurServices4")
+  );
   return (
     <>
       <title>الخوادم المركزية - NanoByte</title>
@@ -16,8 +24,10 @@ function DedicatedServer() {
           <AllDedicatedServer />
         </div>
       </section>
-      <FeaturesOfOurServices3 />
-      <FeaturesOfOurServices4 />
+      <Suspense fallback={<Loading />}>
+        <FeaturesOfOurServices3 AnimatePresence={AnimatePresence} motion={motion}/>
+        <FeaturesOfOurServices4 AnimatePresence={AnimatePresence} motion={motion}/>
+      </Suspense>
       <Footer />
     </>
   );

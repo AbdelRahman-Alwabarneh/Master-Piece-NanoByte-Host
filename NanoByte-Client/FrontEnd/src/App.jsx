@@ -1,40 +1,64 @@
-import Header from "./Components/Header/Header";
-import HomePage from "./Pages/Home/Home";
-import LogIn from "./Pages/LogIn/Login";
-import Error404 from "./Pages/Error404/Error404";
-import SingUp from "./Pages/SingUp/SingUp";
-import VpsServer from "./Pages/VPS_Server/VpsServer";
-import DedicatedServer from "./Pages/DedicatedServerPlan/DedicatedServer";
-import LinuxWebsiteHosting from "./Pages/WebsiteHostingLinux/LinuxWebsiteHosting";
-import WindowsWebsiteHosting from "./Pages/WindowsWebsiteHosting/WindowsWebsiteHosting";
-import DomainsPage from "./Pages/Domains/Domains";
-import ControlPanel from "./Pages/UserControlPanel/UserControlPanel";
-import UserProfile from "./Pages/UserControlPanel/UserProfile/UserProfile";
-import ServiceControlPanel from "./Pages/UserControlPanel/ServiceControlPanel/ServiceControlPanel";
-import VPSDetails from "./Pages/VPS_Details/VPS_Details";
-import DedicatedOrderDetails from "./Pages/DedicatedServerDetails/DedicatedServerDetails";
-import PaymentPage from "./Pages/Payment/Payment";
-import InvoicePage from "./Pages/Invoice/InvoicePage";
-import ServicesDashboard from "./Pages/ServiceControlPanel/ServicesDashboard";
-import AllOrders from "./Pages/OrdersPage/AllOrders";
-import EmailLogPage from "./Pages/EmailsLogPage/EmailLogPage";
-import TutorialGroupPage from "./Pages/TutorialPage/TutorialGroupPage";
-import TutorialPage from "./Pages/TutorialPage/TutorialPage";
-import TutorialDetailsPage from "./Pages/TutorialPage/TutorialDetailsPage";
-import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
-import GameHostingPage from "./Pages/GameHostingPage/GameHosting";
-import AboutUs from "./Pages/AboutUs/AboutUsPage";
-import ContactPage from "./Pages/ContactPages/ContactPages";
-import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
-import { Link } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
+import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import Loading from "./Components/Loading/Loading";
 import "./App.css";
+
+// Lazy loading for all pages
+const HomePage = lazy(() => import("./Pages/Home/Home"));
+const LogIn = lazy(() => import("./Pages/LogIn/Login"));
+const Error404 = lazy(() => import("./Pages/Error404/Error404"));
+const SingUp = lazy(() => import("./Pages/SingUp/SingUp"));
+const VpsServer = lazy(() => import("./Pages/VPS_Server/VpsServer"));
+const DedicatedServer = lazy(() =>
+  import("./Pages/DedicatedServerPlan/DedicatedServer")
+);
+const LinuxWebsiteHosting = lazy(() =>
+  import("./Pages/WebsiteHostingLinux/LinuxWebsiteHosting")
+);
+const WindowsWebsiteHosting = lazy(() =>
+  import("./Pages/WindowsWebsiteHosting/WindowsWebsiteHosting")
+);
+const DomainsPage = lazy(() => import("./Pages/Domains/Domains"));
+const ControlPanel = lazy(() =>
+  import("./Pages/UserControlPanel/UserControlPanel")
+);
+const UserProfile = lazy(() =>
+  import("./Pages/UserControlPanel/UserProfile/UserProfile")
+);
+const ServiceControlPanel = lazy(() =>
+  import("./Pages/UserControlPanel/ServiceControlPanel/ServiceControlPanel")
+);
+const VPSDetails = lazy(() => import("./Pages/VPS_Details/VPS_Details"));
+const DedicatedOrderDetails = lazy(() =>
+  import("./Pages/DedicatedServerDetails/DedicatedServerDetails")
+);
+const PaymentPage = lazy(() => import("./Pages/Payment/Payment"));
+const InvoicePage = lazy(() => import("./Pages/Invoice/InvoicePage"));
+const ServicesDashboard = lazy(() =>
+  import("./Pages/ServiceControlPanel/ServicesDashboard")
+);
+const AllOrders = lazy(() => import("./Pages/OrdersPage/AllOrders"));
+const EmailLogPage = lazy(() => import("./Pages/EmailsLogPage/EmailLogPage"));
+const TutorialGroupPage = lazy(() =>
+  import("./Pages/TutorialPage/TutorialGroupPage")
+);
+const TutorialPage = lazy(() => import("./Pages/TutorialPage/TutorialPage"));
+const TutorialDetailsPage = lazy(() =>
+  import("./Pages/TutorialPage/TutorialDetailsPage")
+);
+const GameHostingPage = lazy(() =>
+  import("./Pages/GameHostingPage/GameHosting")
+);
+const AboutUs = lazy(() => import("./Pages/AboutUs/AboutUsPage"));
+const ContactPage = lazy(() => import("./Pages/ContactPages/ContactPages"));
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <ScrollToTop />
+    <BrowserRouter>
+      <ScrollToTop />
+      <Suspense fallback={<Loading/>}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="*" element={<Error404 />} />
@@ -138,8 +162,8 @@ function App() {
           <Route path="/AboutNanobyte" element={<AboutUs />} />
           <Route path="/ContactNanobyte" element={<ContactPage />} />
         </Routes>
-      </BrowserRouter>
-    </>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 

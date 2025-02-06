@@ -3,7 +3,7 @@ import services_svg2 from "../../../Assets/Photo/Security.svg";
 function FeaturesOfOurServices4() {
   return (
     <>
-      <div className="font-cairo sm:flex items-center justify-center min-h-screen max-w-screen-xl mx-auto">
+      <div className="font-cairo sm:flex items-center justify-center max-w-screen-xl mx-auto">
         <div className="sm:w-1/2 p-10">
           <div className="image object-center text-center">
             <img src={services_svg2} />
