@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PlanCard from "./PlanCard";
 import Loading from "../../../../Components/Loading/Loading";
-const AllDedicatedServer = () => {
+const AllDedicatedServer = ({motion, AnimatePresence}) => {
   const [plans, setPlans] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -35,8 +35,12 @@ const AllDedicatedServer = () => {
     );
 
   return rows.map((row, rowIndex) => (
-    <div
-      key={rowIndex}
+    <AnimatePresence key={rowIndex}>
+    <motion.div
+    initial={{ opacity: 0, y: -20 }}
+    animate={{ opacity: 1, y: 0, scale: 1 }}
+    exit={{ opacity: 0, y: -20, scale: 0.95 }}
+    transition={{ duration: 0.6, ease: "easeOut" }}
       className="flex flex-col md:flex-row sm:gap-6 w-full justify-center"
     >
       {row.map((plan) => (
@@ -46,7 +50,8 @@ const AllDedicatedServer = () => {
           isFullWidth={plans.length === 1}
         />
       ))}
-    </div>
+    </motion.div>
+    </AnimatePresence>
   ));
 };
 

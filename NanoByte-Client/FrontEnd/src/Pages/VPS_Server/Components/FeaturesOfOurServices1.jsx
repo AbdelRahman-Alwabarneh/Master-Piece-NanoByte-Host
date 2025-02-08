@@ -1,16 +1,17 @@
 import services_svg from "../../../Assets/Photo/servers.svg";
 
-function FeaturesOfOurServices1({ motion, AnimatePresence }) {
+function FeaturesOfOurServices1({motion, useInView}) {
+  const { ref: imgRef, inView: imgVisible } = useInView({
+    triggerOnce: true, 
+    threshold: 0.2
+  });
+  const { ref: textRef, inView: textVisible } = useInView({
+    triggerOnce: true, 
+    threshold: 0.2
+  });
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
-        viewport={{ once: true }}
-      >
-        <h2 className="font-cairo text-3xl font-bold text-center text-white mb-3 mt-[200px]">
+      <div>
+        <h2 className="font-cairo text-3xl font-bold text-center text-nano-text-100 mb-3 mt-[100px]">
           ما الذي يميزنا
         </h2>
         <p className="font-cairo text-white text-center">
@@ -19,12 +20,28 @@ function FeaturesOfOurServices1({ motion, AnimatePresence }) {
           عليها طابعًا من الراحة والأمان
         </p>
         <div className="font-cairo sm:flex items-center justify-center max-w-screen-xl mx-auto min-h-screen">
-          <div className="sm:w-1/2 p-10">
+        <motion.div
+          ref={imgRef}
+          className="sm:w-1/2 p-10"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{
+            opacity: imgVisible ? 1 : 0,
+            y: imgVisible ? 0 : 10
+          }}
+          transition={{ duration: 1 }}
+        >
             <div className="image object-center text-center">
               <img alt="Services Img" src={services_svg} />
             </div>
-          </div>
-          <div className="sm:w-1/2 p-5">
+          </motion.div>
+          <motion.div
+          ref={textRef}
+          className="sm:w-1/2 p-5"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{
+            opacity: textVisible ? 1 : 0,
+            y: textVisible ? 0 : 10
+          }}>
             <div className="text">
               <span className="text-white border-b-2 border-[#fff] uppercase">
                 نانوبايت هوست
@@ -60,10 +77,9 @@ function FeaturesOfOurServices1({ motion, AnimatePresence }) {
                 قهوتك.
               </p>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </motion.div>
-    </AnimatePresence>
+      </div>
   );
 }
 export default FeaturesOfOurServices1;

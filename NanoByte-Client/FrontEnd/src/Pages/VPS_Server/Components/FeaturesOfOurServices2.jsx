@@ -1,11 +1,25 @@
 import services_svg2 from "../../../Assets/Photo/Security.svg";
 
-function FeaturesOfOurServices2() {
+function FeaturesOfOurServices2({motion, useInView}) {
+  const { ref: imgRef, inView: imgVisible } = useInView({
+    triggerOnce: true, 
+    threshold: 0.2
+  });
+  const { ref: textRef, inView: textVisible } = useInView({
+    triggerOnce: true, 
+    threshold: 0.2
+  });
   return (
     <>
       <div className="font-cairo sm:flex items-center justify-center min-h-screen max-w-screen-xl mx-auto">
-    
-        <div className="sm:w-1/2 p-5">
+      <motion.div
+          ref={textRef}
+          className="sm:w-1/2 p-5"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{
+            opacity: textVisible ? 1 : 0,
+            y: textVisible ? 0 : 10
+          }}>
           <div className="text-right">
             <span className="text-white border-b-2 border-white uppercase">
               نانوبايت هوست
@@ -20,7 +34,6 @@ function FeaturesOfOurServices2() {
               <br />
               <br />
               <span className="font-semibold">
-                {" "}
                 تعاوننا مع شركة Arbor يتيح لنا حماية شبكتنا من هجمات إيقاف
                 الخدمة (DDoS) لضمان أمان خدمات عملائنا. <br /> نظام الحماية
                 لدينا قادر على التصدي لهجمات تصل قوتها إلى 2.5 تيرابايت في
@@ -28,12 +41,21 @@ function FeaturesOfOurServices2() {
               </span>
             </p>
           </div>
-        </div>
-        <div className="sm:w-1/2 p-10">
+        </motion.div>
+        <motion.div
+          ref={imgRef}
+          className="sm:w-1/2 p-10"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{
+            opacity: imgVisible ? 1 : 0,
+            y: imgVisible ? 0 : 10
+          }}
+          transition={{ duration: 1 }}
+        >
           <div className="image object-center text-center">
             <img alt="Services Img" src={services_svg2} />
           </div>
-        </div>
+        </motion.div>
       </div>
     </>
   );

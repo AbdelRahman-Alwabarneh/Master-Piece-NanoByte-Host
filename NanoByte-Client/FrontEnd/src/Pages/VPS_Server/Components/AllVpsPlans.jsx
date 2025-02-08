@@ -46,20 +46,32 @@ const VpsGroupsAndPlans = ({ motion, AnimatePresence }) => {
   return (
     <>
       <div className="font-cairo max-w-[1400px] mx-auto mt-[100px] mb-16">
-        <h2 className="text-4xl font-bold text-center text-white mb-4 p-4 rounded-md">
-          إستضافة خوادم مشتركة (VPS)
-        </h2>
-        <p className="text-xl text-white text-center mb-12">
-          كن مستعدا للانطلاق مع نانوبايت هوست
-        </p>
         <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className=""
+          >
+            <h2 className="text-4xl font-bold text-center text-white mb-4 p-4 rounded-md">
+              إستضافة خوادم مشتركة (VPS)
+            </h2>
+            <p className="text-xl text-white text-center mb-12">
+              كن مستعدا للانطلاق مع نانوبايت هوست
+            </p>
+          </motion.div>
           {groupsData.map((group) => (
             <div
               key={group._id}
               className="mb-10 bg-nano-bg-additional-200 rounded-2xl overflow-hidden shadow-2xl border border-nano-primary-300/20 transition-all duration-300 shadow-nano-primary-300/20 hover:shadow-nano-primary-200/30 hover:shadow-xl"
             >
               {/* Group Header */}
-              <div
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
                 className="p-6 cursor-pointer flex justify-between items-center bg-gradient-to-r from-nano-bg-additional-300 to-nano-bg-additional-400 border-b border-nano-primary-300/20"
                 onClick={() => toggleGroup(group._id)}
                 style={{ userSelect: "none" }}
@@ -72,7 +84,7 @@ const VpsGroupsAndPlans = ({ motion, AnimatePresence }) => {
                     expandedGroups[group._id] ? "rotate-180" : ""
                   }`}
                 />
-              </div>
+              </motion.div>
 
               {/* Group Content */}
               <AnimatePresence>

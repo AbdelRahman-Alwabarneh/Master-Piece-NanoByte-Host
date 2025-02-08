@@ -3,6 +3,7 @@ import Header from "../../Components/Header/Header";
 import AllVpsPlans from "./Components/AllVpsPlans";
 import Footer from "../../Components/Footer/Footer";
 import { motion, AnimatePresence } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import MetaTags from "./Components/MetaTags";
 import Loading from "../../Components/Loading/Loading";
 const FeaturesOfOurServices1 = lazy(() =>
@@ -19,8 +20,8 @@ function VpsServer() {
       <Header />
       <AllVpsPlans AnimatePresence={AnimatePresence} motion={motion} />
       <Suspense fallback={<Loading />}>
-        <FeaturesOfOurServices1 AnimatePresence={AnimatePresence} motion={motion}/>
-        <FeaturesOfOurServices2 AnimatePresence={AnimatePresence} motion={motion}/>
+        <FeaturesOfOurServices1 useInView={useInView} motion={motion}/>
+        <FeaturesOfOurServices2 useInView={useInView} motion={motion}/>
       </Suspense>
       <Footer />
     </div>

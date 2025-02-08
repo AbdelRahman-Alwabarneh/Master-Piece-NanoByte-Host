@@ -1,6 +1,7 @@
 
 import React, { Suspense, lazy } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import SectionDedicatedServer from "./Components/SectionDedicatedServer";
@@ -20,13 +21,13 @@ function DedicatedServer() {
       <Header />
       <section className="font-cairo mt-[72px]">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-          <SectionDedicatedServer />
-          <AllDedicatedServer />
+          <SectionDedicatedServer AnimatePresence={AnimatePresence} motion={motion}/>
+          <AllDedicatedServer AnimatePresence={AnimatePresence} motion={motion}/>
         </div>
       </section>
       <Suspense fallback={<Loading />}>
-        <FeaturesOfOurServices3 AnimatePresence={AnimatePresence} motion={motion}/>
-        <FeaturesOfOurServices4 AnimatePresence={AnimatePresence} motion={motion}/>
+        <FeaturesOfOurServices3 motion={motion} useInView={useInView} />
+        <FeaturesOfOurServices4 motion={motion} useInView={useInView}/>
       </Suspense>
       <Footer />
       </div>
