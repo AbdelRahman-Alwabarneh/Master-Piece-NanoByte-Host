@@ -8,7 +8,7 @@ function FeaturesOfOurServices1({ motion, AnimatePresence }) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
-        viewport={{ once: false }} // ليظهر العنصر مرة واحدة فقط عند التمرير
+        viewport={{ once: true }}
       >
         <h2 className="font-cairo text-3xl font-bold text-center text-white mb-3 mt-[200px]">
           ما الذي يميزنا

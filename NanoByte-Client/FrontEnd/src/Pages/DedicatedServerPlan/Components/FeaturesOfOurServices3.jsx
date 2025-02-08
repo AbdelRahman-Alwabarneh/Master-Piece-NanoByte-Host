@@ -11,10 +11,10 @@ function FeaturesOfOurServices3() {
   بفضل تفوق فريق العمل لدينا في تقديم تجربة مميزة تسهل أعمالك وتضفي عليها
   طابعًا من الراحة والأمان
 </p>
-<div className="font-cairo sm:flex items-center justify-center max-w-screen-xl mx-auto [direction:rtl] ">
+<div className="font-cairo sm:flex items-center justify-center max-w-screen-xl mx-auto">
   <div className="sm:w-1/2 p-10">
     <div className="image object-center text-center">
-      <img src={services_svg} />
+      <img alt="ما الذي يميزنا" src={services_svg} />
     </div>
   </div>
   <div className="sm:w-1/2 p-5">

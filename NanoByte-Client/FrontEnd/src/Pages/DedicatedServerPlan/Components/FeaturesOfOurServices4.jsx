@@ -4,12 +4,7 @@ function FeaturesOfOurServices4() {
   return (
     <>
       <div className="font-cairo sm:flex items-center justify-center max-w-screen-xl mx-auto">
-        <div className="sm:w-1/2 p-10">
-          <div className="image object-center text-center">
-            <img src={services_svg2} />
-          </div>
-        </div>
-        <div className="sm:w-1/2 p-5 [direction:rtl]">
+        <div className="sm:w-1/2 p-5">
           <div className="text-right">
             <span className="text-white border-b-2 border-white uppercase">
               نانوبايت هوست
@@ -31,6 +26,11 @@ function FeaturesOfOurServices4() {
                 الثانية الواحدة.
               </span>
             </p>
+          </div>
+        </div>
+        <div className="sm:w-1/2 p-10">
+          <div className="image object-center text-center">
+            <img alt="نظام حماية من هجمات DDoS عالي الكفاءة" src={services_svg2} />
           </div>
         </div>
       </div>

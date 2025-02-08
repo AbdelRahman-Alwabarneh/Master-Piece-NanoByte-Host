@@ -5,9 +5,9 @@ function SectionDedicatedServer() {
    إستضافة خوادم مركزية<span className="inline-block mx-1">( Dedicated )</span>
 </h2>
       <p className="mb-5 font-light text-white text-sm sm:text-base lg:text-xl">
-        .استعد لتجربة استثنائية ومتميزة مع نانوبايت هوست
+        استعد لتجربة استثنائية ومتميزة مع نانوبايت هوست.
         <br />
-        .نقدم لك خدماتنا عالية الجودة لتلبية احتياجاتك بكفاءة واحترافية
+        نقدم لك خدماتنا عالية الجودة لتلبية احتياجاتك بكفاءة واحترافية.
       </p>
     </div>
   );
