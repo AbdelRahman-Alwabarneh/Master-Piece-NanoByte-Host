@@ -1,4 +1,4 @@
-const vpsModels = require("../Models/vpsModels");
+const vpsModels = require("../../Models/vpsModels");
 
 exports.vpsDetails = async (req, res) => {
   try {

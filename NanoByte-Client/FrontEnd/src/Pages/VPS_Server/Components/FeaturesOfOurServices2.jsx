@@ -11,7 +11,7 @@ function FeaturesOfOurServices2({motion, useInView}) {
   });
   return (
     <>
-      <div className="font-cairo sm:flex items-center justify-center min-h-screen max-w-screen-xl mx-auto">
+      <div className="font-cairo sm:flex items-center justify-center max-w-screen-xl mx-auto">
       <motion.div
           ref={textRef}
           className="sm:w-1/2 p-5"

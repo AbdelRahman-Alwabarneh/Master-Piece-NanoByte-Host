@@ -1,4 +1,4 @@
-const vpsGroupModels = require("../Models/vpsGroupModels");
+const vpsGroupModels = require("../../Models/vpsGroupModels");
 
 exports.GroupsData = async (req, res) => {
   try {
@@ -6,7 +6,6 @@ exports.GroupsData = async (req, res) => {
     let query = {
       isVisible: true,
     };
-    // console.log(req.user.id)
     // إذا كان المستخدم مسجل دخول، أضف شرط للتحقق من وجوده في قائمة المستخدمين أو إذا كانت المجموعات لا تحتوي على مستخدمين
     if (req.user?.id) {
       query = {
@@ -25,9 +24,10 @@ exports.GroupsData = async (req, res) => {
     }
 
     const vpsGroupsData = await vpsGroupModels.find(query).populate({
-      path: "plans", 
-      match: { isHidden: false }, 
-      select:"planName ram cpu storage connectionSpeed security subscriptionDurations.oneMonth.price quantity isUnlimited productLink",
+      path: "plans",
+      match: { isHidden: false },
+      select:
+        "planName ram cpu storage connectionSpeed security subscriptionDurations.oneMonth.price quantity isUnlimited productLink",
     });
 
     // التحقق من وجود بيانات وإرجاعها
@@ -36,15 +36,19 @@ exports.GroupsData = async (req, res) => {
     }
     vpsGroupsData.forEach((group) => {
       group.plans.sort((a, b) => {
-        return a.planName.localeCompare(b.planName, undefined, { numeric: true });
+        return a.planName.localeCompare(b.planName, undefined, {
+          numeric: true,
+        });
       });
     });
-    
+
     // إرجاع البيانات
     return res.status(200).json({ vpsGroupsData });
   } catch (error) {
     // التعامل مع أي خطأ يحدث أثناء العملية
     console.error("Error fetching groups:", error);
-    return res.status(500).json({ message: "Internal server error", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };

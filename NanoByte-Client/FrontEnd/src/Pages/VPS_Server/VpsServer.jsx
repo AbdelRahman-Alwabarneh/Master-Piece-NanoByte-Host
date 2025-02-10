@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import Header from "../../Components/Header/Header";
+import SectionVPS_Server from "./Components/SectionVPS_Server";
 import AllVpsPlans from "./Components/AllVpsPlans";
 import Footer from "../../Components/Footer/Footer";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,6 +19,7 @@ function VpsServer() {
     <div dir="rtl">
       <MetaTags />
       <Header />
+      <SectionVPS_Server AnimatePresence={AnimatePresence} motion={motion} />
       <AllVpsPlans AnimatePresence={AnimatePresence} motion={motion} />
       <Suspense fallback={<Loading />}>
         <FeaturesOfOurServices1 useInView={useInView} motion={motion}/>

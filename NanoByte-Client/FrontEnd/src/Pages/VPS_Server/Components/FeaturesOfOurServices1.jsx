@@ -19,7 +19,7 @@ function FeaturesOfOurServices1({motion, useInView}) {
           بفضل تفوق فريق العمل لدينا في تقديم تجربة مميزة تسهل أعمالك وتضفي
           عليها طابعًا من الراحة والأمان
         </p>
-        <div className="font-cairo sm:flex items-center justify-center max-w-screen-xl mx-auto min-h-screen">
+        <div className="font-cairo sm:flex items-center justify-center max-w-screen-xl mx-auto mt-10">
         <motion.div
           ref={imgRef}
           className="sm:w-1/2 p-10"

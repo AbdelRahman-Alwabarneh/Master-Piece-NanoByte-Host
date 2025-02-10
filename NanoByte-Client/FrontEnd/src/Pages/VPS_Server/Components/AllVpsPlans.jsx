@@ -45,22 +45,8 @@ const VpsGroupsAndPlans = ({ motion, AnimatePresence }) => {
 
   return (
     <>
-      <div className="font-cairo max-w-[1400px] mx-auto mt-[100px] mb-16">
+      <div className="font-cairo max-w-[1400px] mx-auto mb-16">
         <AnimatePresence>
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className=""
-          >
-            <h2 className="text-4xl font-bold text-center text-white mb-4 p-4 rounded-md">
-              إستضافة خوادم مشتركة (VPS)
-            </h2>
-            <p className="text-xl text-white text-center mb-12">
-              كن مستعدا للانطلاق مع نانوبايت هوست
-            </p>
-          </motion.div>
           {groupsData.map((group) => (
             <div
               key={group._id}

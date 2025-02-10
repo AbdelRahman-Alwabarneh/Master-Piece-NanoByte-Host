@@ -95,11 +95,10 @@ exports.createGameServerPlan = async (req, res) => {
       if (!gamePlan) {
         return res.status(404).json({ message: "Game hosting plan not found" });
       }
-  
       // Update the Game Hosting plan properties
       gamePlan.planName = gameData.name || gamePlan.planName;
       gamePlan.ram = gameData.ram || gamePlan.ram;
-      gamePlan.cpu = gameData.protection || gamePlan.cpu;
+      gamePlan.cpu = gameData.processor || gamePlan.cpu;
       gamePlan.storage = gameData.storage || gamePlan.storage;
       gamePlan.connectionSpeed = gameData.connectionSpeed || gamePlan.connectionSpeed;
       gamePlan.security = gameData.protection || gamePlan.security;

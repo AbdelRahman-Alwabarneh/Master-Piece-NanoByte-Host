@@ -1,9 +1,7 @@
-
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const dedicatedServerPlansController = require('../Controllers/dedicatedServerPlansController');
+const dedicatedServerPlansController = require("../Controllers/DedicatedServer_Controllers/dedicatedServerPlansController");
 
-router.get('/', dedicatedServerPlansController.DedicatedServerData);
-
+router.get("/", dedicatedServerPlansController.DedicatedServerData);
 
 module.exports = router;

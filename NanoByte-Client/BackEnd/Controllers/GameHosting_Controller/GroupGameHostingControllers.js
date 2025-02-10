@@ -1,4 +1,4 @@
-const Group = require("../Models/GroupGameHostingModels"); // تأكد من اسم الموديل الصحيح
+const Group = require("../../Models/GroupGameHostingModels"); // تأكد من اسم الموديل الصحيح
 
 exports.GroupsData = async (req, res) => {
   try {
@@ -24,8 +24,12 @@ exports.GroupsData = async (req, res) => {
       };
     }
 
-    const groupsData = await Group.find(query).populate("plans", "planName price") // إذا كنت تريد معلومات عن الخطط
-      .populate("users", "firstName lastName email"); // إضافة بيانات المستخدمين إذا أردت
+    const groupsData = await Group.find(query).populate({
+      path: "plans",
+      match: { isHidden: false },
+      select:
+        "planName ram cpu storage connectionSpeed security databases subscriptionDurations.oneMonth.price quantity productLink isUnlimited",
+    }); // إذا كنت تريد معلومات عن الخطط
 
     // التحقق من وجود بيانات وإرجاعها
     if (!groupsData.length) {
@@ -37,6 +41,8 @@ exports.GroupsData = async (req, res) => {
   } catch (error) {
     // التعامل مع أي خطأ يحدث أثناء العملية
     console.error("Error fetching groups:", error);
-    return res.status(500).json({ message: "Internal server error", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
