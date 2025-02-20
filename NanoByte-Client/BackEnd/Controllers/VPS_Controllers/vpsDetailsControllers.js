@@ -3,11 +3,26 @@ const vpsModels = require("../../Models/vpsModels");
 exports.vpsDetails = async (req, res) => {
   try {
     
-    const vpsDetailsPlan = await vpsModels.findOne({
+    const serviceDetailsPlan = await vpsModels.findOne({
         productLink: req.params.productLink,
-    });
+    }).select("subscriptionDurations planName ram cpu storage connectionSpeed security productLink groupName setupFee");
 
-    res.status(200).json({ vpsDetailsPlan });
+    res.status(200).json({ serviceDetailsPlan });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+};
+
+exports.vpsDetailsPayment = async (req, res) => {
+  const { duration } = req.params;
+  try {
+    const serviceDetailsPlan = await vpsModels.findOne({
+        productLink: req.params.productLink,
+    }).select(`subscriptionDurations.${duration}.price planName setupFee`);
+
+    res.status(200).json({ serviceDetailsPlan });
   } catch (error) {
     res
       .status(500)

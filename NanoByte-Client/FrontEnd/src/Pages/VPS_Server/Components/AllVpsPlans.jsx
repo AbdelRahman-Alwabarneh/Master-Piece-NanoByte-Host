@@ -40,7 +40,7 @@ const VpsGroupsAndPlans = ({ motion, AnimatePresence }) => {
   };
 
   const goToDetails = (productLink) => {
-    navigate(`/VPSDetails/${productLink}`);
+    navigate(`/OrderSetup/vpsDetails/${productLink}`);
   };
 
   return (

@@ -6,6 +6,10 @@ router.get(
   "/:productLink",
   dedicatedServerDetailsController.DedicatedServerDetails
 );
+router.post(
+  "/:productLink/:duration",
+  dedicatedServerDetailsController.DedicatedServerDetailsPayment
+);
 router.post("/", dedicatedServerDetailsController.dedicatedServerQuantity);
 
 module.exports = router;

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 function PlanCard({ plan, isFullWidth = false }) {
   const navigate = useNavigate();
   const goToDetails = (productLink) =>
-    navigate(`/DedicatedDetails/${productLink}`);
+    navigate(`/OrderSetup/dedicatedServerDetails/${productLink}`);
 
   return (
     <>

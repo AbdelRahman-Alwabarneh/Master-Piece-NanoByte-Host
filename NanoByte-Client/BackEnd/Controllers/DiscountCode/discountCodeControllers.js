@@ -1,4 +1,4 @@
-const DiscountCode = require('../Models/discountCodeModels'); // استدعاء الموديل
+const DiscountCode = require('../../Models/discountCodeModels'); // استدعاء الموديل
 
 // دوال مساعدة لتواريخ البدء والانتهاء
 const isExpired = (date) => date && date < new Date();
@@ -6,15 +6,13 @@ const isNotStartedYet = (date) => date && date > new Date();
 
 exports.DiscountCodeData = async (req, res) => {
   try {
-    const { code, serviceId } = req.body;
+    const { code, serviceId, totalPrice, setupFee} = req.body;
     const userId = req.user?.id;
-    console.log(code);
-    console.log(serviceId);
     
     // البحث عن كود الخصم
     const discountCode = await DiscountCode.findOne({ codeName: code });
     if (!discountCode) {
-      return res.status(404).json({ message: "Discount code not found" });
+      return res.status(404).json({ message: "لم يتم العثور على كود الخصم" });
     }
 
     // التحقق من حالة الكود وتواريخ الصلاحية
@@ -67,9 +65,26 @@ exports.DiscountCodeData = async (req, res) => {
       });
     }
 
-    // الرد بنجاح مع بيانات الكود
-    res.status(200).json({ discountCode });
+    // حساب الخصم وتحديد المجموع الجديد
+    let discountValue = 0;
+    if (discountCode.discountType === "percentage") {
+      const total = totalPrice + setupFee
+      discountValue = (total * discountCode.discountValue) / 100;
 
+    } else {
+      discountValue = discountCode.discountValue;
+    }
+
+    const newTotalPrice = totalPrice + setupFee - discountValue;
+    
+    res.status(200).json({ 
+      newTotalPrice,
+      discountValue,
+      OriginalDiscountValue:discountCode.discountValue,
+      discountType: discountCode.discountType,
+      codeName: discountCode.codeName
+    });
+    
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error: error.message });
   }

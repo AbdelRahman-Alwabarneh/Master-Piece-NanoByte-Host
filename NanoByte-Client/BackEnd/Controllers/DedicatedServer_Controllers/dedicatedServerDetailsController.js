@@ -2,12 +2,28 @@ const DedicatedServer = require("../../Models/dedicatedServerModel");
 
 exports.DedicatedServerDetails = async (req, res) => {
   try {
-    const DedicatedServerDetails = await DedicatedServer.findOne({
+    const serviceDetailsPlan = await DedicatedServer.findOne({
       productLink: req.params.productLink,
       isHidden: false,
     });
 
-    res.status(200).json({ DedicatedServerDetails });
+    res.status(200).json({ serviceDetailsPlan });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+};
+
+exports.DedicatedServerDetailsPayment = async (req, res) => {
+  const { duration } = req.params;
+  try {
+    const serviceDetailsPlan = await DedicatedServer.findOne({
+      productLink: req.params.productLink,
+      isHidden: false,
+    }).select(`subscriptionDurations.${duration}.price planTitle setupFee`);;
+
+    res.status(200).json({ serviceDetailsPlan });
   } catch (error) {
     res
       .status(500)

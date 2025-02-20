@@ -30,10 +30,8 @@ const UserProfile = lazy(() =>
 const ServiceControlPanel = lazy(() =>
   import("./Pages/UserControlPanel/ServiceControlPanel/ServiceControlPanel")
 );
-const VPSDetails = lazy(() => import("./Pages/VPS_Details/VPS_Details"));
-const DedicatedOrderDetails = lazy(() =>
-  import("./Pages/DedicatedServerDetails/DedicatedServerDetails")
-);
+const OrderSetup = lazy(() => import("./Pages/OrderSetupPage/OrderSetup"));
+
 const PaymentPage = lazy(() => import("./Pages/Payment/Payment"));
 const InvoicePage = lazy(() => import("./Pages/Invoice/InvoicePage"));
 const ServicesDashboard = lazy(() =>
@@ -93,10 +91,10 @@ function App() {
             }
           />
 
-          <Route path="/VPSDetails/:productLink" element={<VPSDetails />} />
+          <Route path="/OrderSetup/vpsDetails/:productLink" element={<OrderSetup />} />
           <Route
-            path="/DedicatedDetails/:productLink"
-            element={<DedicatedOrderDetails />}
+            path="/OrderSetup/dedicatedServerDetails/:productLink"
+            element={<OrderSetup />}
           />
 
           <Route
