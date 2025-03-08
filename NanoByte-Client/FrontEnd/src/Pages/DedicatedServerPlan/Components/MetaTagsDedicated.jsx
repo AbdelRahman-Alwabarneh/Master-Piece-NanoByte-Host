@@ -23,10 +23,13 @@ function MetaTagsDedicated() {
         property="og:description"
         content="استعد لتجربة استثنائية ومتميزة مع نانوبايت هوست.\nنقدم لك خدماتنا عالية الجودة لتلبية احتياجاتك بكفاءة واحترافية."
       />
-      <meta property="og:url" content="https://test.nanobyte.host/DedicatedServer" />
+      <meta
+        property="og:url"
+        content="https://test.nanobyte.host/DedicatedServer"
+      />
       <meta
         property="og:image"
-        content="https://test.nanobyte.host/assets/logolit-removebg-preview-ZZ38TVGA.png"
+        content="https://test.nanobyte.host/assets/Logo_NanoByte-ZZ38TVGA.png"
       />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="NanoByte Dedicated Server" />
@@ -41,7 +44,7 @@ function MetaTagsDedicated() {
       />
       <meta
         name="twitter:image"
-        content="https://test.nanobyte.host/assets/logolit-removebg-preview-ZZ38TVGA.png"
+        content="https://test.nanobyte.host/assets/Logo_NanoByte-ZZ38TVGA.png"
       />
       <meta name="twitter:creator" content="@NanoByte" />
 
@@ -52,7 +55,7 @@ function MetaTagsDedicated() {
       <link
         rel="apple-touch-icon"
         sizes="180x180"
-        href="https://test.nanobyte.host/assets/logolit-removebg-preview-ZZ38TVGA.png"
+        href="https://test.nanobyte.host/assets/Logo_NanoByte-ZZ38TVGA.png"
       />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta
@@ -65,13 +68,13 @@ function MetaTagsDedicated() {
       />
       <link
         rel="apple-touch-startup-image"
-        href="https://test.nanobyte.host/assets/logolit-removebg-preview-ZZ38TVGA.png"
+        href="https://test.nanobyte.host/assets/Logo_NanoByte-ZZ38TVGA.png"
       />
 
       {/* Mask Icon */}
       <link
         rel="mask-icon"
-        href="https://test.nanobyte.host/assets/logolit-removebg-preview-ZZ38TVGA.png"
+        href="https://test.nanobyte.host/assets/Logo_NanoByte-ZZ38TVGA.png"
         color="#1F3A5F"
       />
 
@@ -96,7 +99,7 @@ function MetaTagsDedicated() {
           publisher: {
             "@type": "Organization",
             name: "NanoByte",
-            logo: "https://test.nanobyte.host/assets/logolit-removebg-preview-ZZ38TVGA.png",
+            logo: "https://test.nanobyte.host/assets/Logo_NanoByte-ZZ38TVGA.png",
           },
         })}
       </script>

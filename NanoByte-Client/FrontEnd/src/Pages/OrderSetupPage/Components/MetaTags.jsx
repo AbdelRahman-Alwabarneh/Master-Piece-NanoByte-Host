@@ -19,7 +19,7 @@ function MetaTags() {
       <link
         rel="apple-touch-icon"
         sizes="180x180"
-        href="https://test.nanobyte.host/assets/logolit-removebg-preview-ZZ38TVGA.png"
+        href="https://test.nanobyte.host/assets/Logo_NanoByte-ZZ38TVGA.png"
       />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-title" content="NanoByte" />

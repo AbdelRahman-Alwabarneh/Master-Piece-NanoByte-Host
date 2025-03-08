@@ -43,8 +43,7 @@ const usersSchema = new mongoose.Schema({
   },
   profileImage: {
     type: String,
-    default:
-      "https://cdn.discordapp.com/attachments/1250078577219600477/1282784975699181588/userImg.png?ex=66e09e1b&is=66df4c9b&hm=abe5fc2fa807935338710e8449ff4adb3c9526291e121b706fab910bbad08edc&",
+    default: "https://test.nanobyte.host/assets/userImg-DbP5HJok.png",
   },
   isBanned: {
     type: Boolean,
