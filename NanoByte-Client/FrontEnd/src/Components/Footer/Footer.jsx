@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import LogoNanoByte from "../../Assets/Photo/logolit-removebg-preview.png";
+import LogoNanoByte from "../../Assets/Photo/Logo_NanoByte.png";
 
 const footerData = {
   brand: {

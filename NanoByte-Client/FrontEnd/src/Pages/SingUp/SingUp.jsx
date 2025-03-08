@@ -1,5 +1,5 @@
 import dedicated_server_SingUp from "../../Assets/Photo/dedicated_server_logIn.png";
-import logolit_removebg_preview from "../../Assets/Photo/logolit-removebg-preview.png";
+import logolit_removebg_preview from "../../Assets/Photo/Logo_NanoByte.png";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

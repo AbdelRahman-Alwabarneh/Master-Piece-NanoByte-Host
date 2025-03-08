@@ -1,4 +1,4 @@
-import LogoNanoByte from "../../../Assets/Photo/logolit-removebg-preview.png";
+import LogoNanoByte from "../../../Assets/Photo/Logo_NanoByte.png";
 import { Link } from "react-router-dom";
 
 function LogoNanoByteAndName() {
