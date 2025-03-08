@@ -8,9 +8,11 @@ const handlePayPalApprove = (
   Service_Type,
   totalPrice,
   Product_Link,
+  SelectedServiceType,
   setPaymentError,
   navigate
 ) => {
+  
   const onPayPalApprove = async (data, actions) => {
     try {
       const captureResponse = await actions.order.capture();
@@ -21,10 +23,10 @@ const handlePayPalApprove = (
         DurationText,
         Discount_Code,
         Service_Type,
+        SelectedServiceType,
         amount: parseFloat(totalPrice),
         paymentMethod: "PayPal",
       };
-
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/orders`,
         paymentData,
@@ -41,7 +43,7 @@ const handlePayPalApprove = (
       );
       await axios.post(
         `${import.meta.env.VITE_API_URL}/api/service`,
-        { orderNumber: captureResponse.id, receivedOrderID, Service_Type },
+        { orderNumber: captureResponse.id, receivedOrderID, SelectedServiceType },
         { withCredentials: true }
       );
       if (Discount_Code && Discount_Code !== "null") {

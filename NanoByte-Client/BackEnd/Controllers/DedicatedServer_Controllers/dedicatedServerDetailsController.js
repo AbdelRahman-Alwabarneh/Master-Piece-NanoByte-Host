@@ -32,13 +32,13 @@ exports.DedicatedServerDetailsPayment = async (req, res) => {
 };
 
 exports.dedicatedServerQuantity = async (req, res) => {
-  const { productLink } = req.body;
-  if (!productLink) {
+  const { Product_Link } = req.body;
+  if (!Product_Link) {
     return res.status(400).json({ error: "Invalid Product Link" });
   }
 
   try {
-    const dedicatedServer = await DedicatedServer.findOne({ productLink });
+    const dedicatedServer = await DedicatedServer.findOne({ productLink: Product_Link });
 
     if (!dedicatedServer) {
       return res.status(404).json({ error: "Dedicated server not found" });
@@ -46,14 +46,12 @@ exports.dedicatedServerQuantity = async (req, res) => {
 
     if (!dedicatedServer.isUnlimited && dedicatedServer.quantity > 0) {
       dedicatedServer.quantity -= 1;
-
       await dedicatedServer.save();
     }
 
     res.status(200).json({ dedicatedServer });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Internal server error", error: error.message });
+    console.error("Error while updating dedicated server quantity:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };

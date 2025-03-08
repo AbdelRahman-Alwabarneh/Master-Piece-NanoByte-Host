@@ -16,7 +16,7 @@ function HomePage() {
         <WhyUs />
         <FAQ />
         <Footer />
-        <SignupSuccessfull />
+        {/* <SignupSuccessfull /> */}
       </div>
     </>
   );

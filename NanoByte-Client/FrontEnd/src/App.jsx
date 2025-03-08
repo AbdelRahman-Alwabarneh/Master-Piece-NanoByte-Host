@@ -71,8 +71,8 @@ function App() {
             element={<WindowsWebsiteHosting />}
           />
           <Route path="/domains" element={<DomainsPage />} />
-          <Route path="/SignUp" element={<SingUp />} />
-          <Route path="/LogIn" element={<LogIn />} />
+          <Route path="/SignUp" element={<ProtectedRoute><SingUp /></ProtectedRoute>} />
+          <Route path="/LogIn" element={<ProtectedRoute><LogIn /></ProtectedRoute>} />
 
           <Route
             path="/UserControlPanel"

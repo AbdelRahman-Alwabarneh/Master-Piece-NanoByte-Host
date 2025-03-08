@@ -142,7 +142,10 @@ function SingUp() {
         },
         { withCredentials: true }
       );
-      navigate("/", { state: { signedUp: true } }); // الانتقال لصفحة أخرى عند التسجيل الناجح
+      const redirectPath = sessionStorage.getItem("redirectAfterLogin") || "/";
+      sessionStorage.removeItem("redirectAfterLogin"); 
+      
+      navigate(redirectPath, { state: { login: true } }); // الانتقال لصفحة أخرى عند التسجيل الناجح
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setAlertError("flex");

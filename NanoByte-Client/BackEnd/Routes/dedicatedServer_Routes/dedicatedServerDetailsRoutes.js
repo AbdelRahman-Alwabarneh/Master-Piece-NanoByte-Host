@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const dedicatedServerDetailsController = require("../Controllers/DedicatedServer_Controllers/dedicatedServerDetailsController");
+const dedicatedServerDetailsController = require("../../Controllers/DedicatedServer_Controllers/dedicatedServerDetailsController");
 
 router.get(
   "/:productLink",

@@ -2,9 +2,9 @@ const express = require("express");
 const mongoose = require("./Config/config"); // استيراد إعدادات الاتصال بقاعدة البيانات
 require("dotenv").config();
 const app = express();
-const passport = require('passport');
-require('./Config/passport');
-const cookieParser = require('cookie-parser');
+const passport = require("passport");
+require("./Config/passport");
+const cookieParser = require("cookie-parser");
 const PORT = process.env.PORT;
 app.use(express.json());
 const cors = require("cors");
@@ -35,16 +35,13 @@ const googleAuthRoutes = require("./Routes/googleAuthRoutes");
 
 app.use("/api/googleAuth", googleAuthRoutes);
 
-
 const discordAuthRoutes = require("./Routes/discordRoutes");
 
 app.use("/api/discordAuth", discordAuthRoutes);
 
-
 const githubAuthRoutes = require("./Routes/githubRoutes");
 
 app.use("/api/githubAuth", githubAuthRoutes);
-
 
 const userDataRoutes = require("./Routes/userDataRoutes");
 
@@ -58,27 +55,27 @@ const userProfileRoutes = require("./Routes/userProfileRoutes");
 
 app.use("/api/updateProfile", userProfileRoutes);
 
-const vpsGroupRoutes = require("./Routes/vpsGroupRoutes");
+const vpsGroupRoutes = require("./Routes/VPS_Routes/vpsGroupRoutes");
 
 app.use("/api/vpsGroup", vpsGroupRoutes);
 
-const vpsDetailsRoutes = require("./Routes/vpsDetailsRoutes");
+const vpsDetailsRoutes = require("./Routes/VPS_Routes/vpsDetailsRoutes");
 
 app.use("/api/vpsDetails", vpsDetailsRoutes);
 
-const dedicatedServerPlansRoutes = require("./Routes/dedicatedServerPlansRoutes");
+const dedicatedServerPlansRoutes = require("./Routes/dedicatedServer_Routes/dedicatedServerPlansRoutes");
 
 app.use("/api/dedicatedServerPlans", dedicatedServerPlansRoutes);
 
-const dedicatedServerDetailsRoutes = require("./Routes/dedicatedServerDetailsRoutes");
+const dedicatedServerDetailsRoutes = require("./Routes/dedicatedServer_Routes/dedicatedServerDetailsRoutes");
 
 app.use("/api/dedicatedServerDetails", dedicatedServerDetailsRoutes);
 
-const discountCodeRoutes = require("./Routes/discountCodeRoutes");
+const discountCodeRoutes = require("./Routes/DiscountCode_Routes/discountCodeRoutes");
 
 app.use("/api/discountCode", discountCodeRoutes);
 
-const ordersRoutes = require("./Routes/ordersRoutes");
+const ordersRoutes = require("./Routes/Orders_Routes/ordersRoutes");
 
 app.use("/api/orders", ordersRoutes);
 
@@ -86,7 +83,7 @@ const invoicesRoutes = require("./Routes/invoicesRoutes");
 
 app.use("/api/invoices", invoicesRoutes);
 
-const ServiceRoutes = require("./Routes/ServiceRoutes");
+const ServiceRoutes = require("./Routes/Service_Routes/ServiceRoutes");
 
 app.use("/api/service", ServiceRoutes);
 
@@ -106,11 +103,11 @@ const tutorialRoutes = require("./Routes/tutorialRoutes");
 
 app.use("/api/tutorial", tutorialRoutes);
 
-const GroupGameHostingRoutes = require("./Routes/GroupGameHostingRoutes");
+const GroupGameHostingRoutes = require("./Routes/GameHosting_Routes/GroupGameHostingRoutes");
 
 app.use("/api/GroupGameHosting", GroupGameHostingRoutes);
 
-const GameHostingRoutes = require("./Routes/GameHostingRoutes");
+const GameHostingRoutes = require("./Routes/GameHosting_Routes/GameHostingRoutes");
 
 app.use("/api/GameHosting", GameHostingRoutes);
 

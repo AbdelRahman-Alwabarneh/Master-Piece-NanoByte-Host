@@ -17,6 +17,11 @@ const OrdersSchema = new mongoose.Schema(
       enum: ['VPS', 'DedicatedServer'],
       required: true,
     },
+    serverId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      refPath: "Servicetype",
+    },
     Subscriptionduration: {
       type: String,
       enum: ["شهر واحد", "شهرين", "ثلاثة أشهر", "أربعة أشهر", "خمسة أشهر", "ستة أشهر"],
@@ -65,21 +70,6 @@ const OrdersSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    vpsId: { 
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "VPS", 
-      required: function() {
-        return this.serviceType === 'VPS';
-      },
-    },
-    dedicatedServerId: { 
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "DedicatedServer", 
-      required: function() {
-        return this.serviceType === 'DedicatedServer'; 
-      },
-    }
-
   },
   { timestamps: true }
 );

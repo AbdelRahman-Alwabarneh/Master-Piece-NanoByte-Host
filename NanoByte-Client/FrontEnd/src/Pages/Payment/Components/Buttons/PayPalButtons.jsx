@@ -1,6 +1,25 @@
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { useState } from "react";
 
-function PayPalButton({ onPayPalApprove, totalPrice }) {
+function PayPalButton({ onPayPalApprove, totalPrice, validateConsent }) {
+  const [paymentError, setPaymentError] = useState(null);
+
+  const handleCreateOrder = (data, actions) => {
+    // التحقق من الموافقة قبل إنشاء الطلب
+    if (validateConsent()) {
+      return actions.order.create({
+        purchase_units: [
+          {
+            amount: {
+              value: totalPrice,
+            },
+          },
+        ],
+      });
+    }
+    return false;
+  };
+
   return (
     <>
       <PayPalScriptProvider
@@ -16,18 +35,13 @@ function PayPalButton({ onPayPalApprove, totalPrice }) {
             color: "blue",
             tagline: false,
           }}
-          createOrder={(data, actions) => {
-            return actions.order.create({
-              purchase_units: [
-                {
-                  amount: {
-                    value: totalPrice,
-                  },
-                },
-              ],
-            });
+          createOrder={handleCreateOrder}
+          onApprove={(data, actions) => {
+            if (validateConsent()) {
+              return onPayPalApprove(data, actions);
+            }
+            return false;
           }}
-          onApprove={onPayPalApprove}
           onError={(err) => setPaymentError("فشل الدفع: " + err.message)}
         />
       </PayPalScriptProvider>

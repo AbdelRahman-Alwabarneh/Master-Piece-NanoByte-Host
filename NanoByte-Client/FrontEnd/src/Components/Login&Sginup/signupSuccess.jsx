@@ -8,6 +8,8 @@ function SignupSuccessfull() {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const login = queryParams.get("login");
+  const redirectPath = sessionStorage.getItem("redirectAfterLogin") || "/";
+
   useEffect(() => {
     // التحقق من وجود رسالة النجاح في الحالة
     if (location.state?.signedUp) {
@@ -32,7 +34,8 @@ function SignupSuccessfull() {
           background: "#fff", // شريط التقدم باللون الأبيض
         },
       });
-      navigate("/", { replace: true, state: {} });
+      navigate(`${redirectPath}`, { replace: true, state: {} });
+      sessionStorage.removeItem("redirectAfterLogin"); 
     }
     if (location.state?.login || login) {
       toast.success("تم تسجيل الدخول بنجاح", {
@@ -57,8 +60,10 @@ function SignupSuccessfull() {
         },
       });
       // تأخير التنقل قليلًا للتأكد من ظهور الرسالة
+      
       setTimeout(() => {
-        navigate("/", { replace: true, state: {} });
+        navigate(`${redirectPath}`, { replace: true, state: {} });
+        sessionStorage.removeItem("redirectAfterLogin"); 
       }, 50); // مدة التأخير تتوافق مع مدة إغلاق الرسالة
     }
   }, [location, navigate]);

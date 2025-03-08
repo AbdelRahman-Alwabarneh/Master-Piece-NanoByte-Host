@@ -65,7 +65,10 @@ function LogIn() {
         },
         { withCredentials: true }
       );
-      navigate("/", { state: { login: true } }); // الانتقال لصفحة أخرى عند التسجيل الناجح
+      const redirectPath = sessionStorage.getItem("redirectAfterLogin") || "/";
+      sessionStorage.removeItem("redirectAfterLogin"); 
+      
+      navigate(redirectPath, { state: { login: true } });  // الانتقال لصفحة أخرى عند التسجيل الناجح
     } catch (error) {
       if (error.response) {
         if (error.response.status === 401) {

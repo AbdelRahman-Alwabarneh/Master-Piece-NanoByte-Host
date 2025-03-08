@@ -39,11 +39,17 @@ function ContentPayment() {
   if (!serviceDetails || isLoadingDiscount) return <Loading />;
 
   const componentMap = {
-    vpsDetails: ` استضافة خوادم مشتركة - ${serviceDetails.planName}`,
+    vpsDetails: `استضافة خوادم مشتركة - ${serviceDetails.planName}`,
     dedicatedServerDetails: serviceDetails.planTitle,
   };
 
+  const serviceTypeMap = {
+    vpsDetails: "VPS",
+    dedicatedServerDetails: "DedicatedServer",
+  };
+
   const SelectedComponent = componentMap[Service_Type] || null;
+  const SelectedServiceType = serviceTypeMap[Service_Type] || null;
   const DurationText = getDurationText(Subscription_Duration);
   const price =
     serviceDetails.subscriptionDurations[Subscription_Duration].price;
@@ -56,6 +62,7 @@ function ContentPayment() {
     Service_Type,
     totalPrice,
     Product_Link,
+    SelectedServiceType,
     setPaymentError,
     navigate
   );
@@ -65,6 +72,7 @@ function ContentPayment() {
       <div className="min-h-screen bg-nano-bg-100 mt-[72px] text-nano-text-100 p-4 md:p-8 font-cairo">
         <AnimatePresence>
           <motion.h1
+            key="payment-heading"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}

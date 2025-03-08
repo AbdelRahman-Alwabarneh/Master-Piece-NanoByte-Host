@@ -40,14 +40,6 @@ function UserProfile() {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchUserProfile());
-    } else if (status === "failed") {
-      navigate("/Signup");
-    }
-  }, [dispatch, status, navigate]);
-
-  useEffect(() => {
     if (user) {
       setFormData({
         firstName: user.UsersData[0].firstName || "",

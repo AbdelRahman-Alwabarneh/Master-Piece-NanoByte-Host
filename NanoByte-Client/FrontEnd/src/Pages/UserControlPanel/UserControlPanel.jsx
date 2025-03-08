@@ -23,14 +23,7 @@ const ControlPanel = () => {
   const [tutorialGroups, setTutorialGroups] = useState([]);
   const [tutorialLoading, setTutorialLoading] = useState(true);
   const [tutorialError, setTutorialError] = useState(null);
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchUserProfile());
-    } else if (status === "failed") {
-      navigate("/Signup");
-    }
-  }, [dispatch, status, navigate]);
-
+  
   useEffect(() => {
     const fetchServices = async () => {
       try {
@@ -238,6 +231,8 @@ const ControlPanel = () => {
   const handleUserClick = (serviceid,OrderNumber) => {
     navigate(`/ServiceControlPanel/${serviceid}/${OrderNumber}`);
   };
+  console.log(services);
+  
   return (
     <>
       <title>منطقة العمل - NanoByte</title>
@@ -374,7 +369,7 @@ const ControlPanel = () => {
           </tr>
         </thead>
         <tbody className="bg-[#e0efff] divide-y divide-gray-200">
-          {services.slice(-5).reverse().map((service) => (
+          {services.map((service) => (
           (service.status === "expired" || service.status === "pending" || service.status === "active")
            ? <tr key={service._id} className="hover:bg-[#e0efff]">
            <td onClick={() => handleUserClick(service._id, service.OrderNumber)} className="px-3 py-4 whitespace-nowrap text-center">
@@ -392,11 +387,11 @@ const ControlPanel = () => {
            </td>
            {service.OrderdId.Servicetype === "VPS" ? 
             <td className="px-3 py-4 whitespace-nowrap text-center">
-             {service.OrderdId.vpsId.ram }
+             {service.OrderdId.serverId.ram }
            </td>  
            : <td className="px-3 py-4 text-center">
            <div className="max-h-[100px] max-w-[200px] whitespace-pre-wrap overflow-y-auto overflow-x-hidden mx-auto [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100">
-             {service.OrderdId.dedicatedServerId.planDescription}
+             {service.OrderdId.serverId.planDescription}
            </div>
          </td>}
         
@@ -408,10 +403,10 @@ const ControlPanel = () => {
            </td>
            {service.OrderdId.Servicetype === "VPS" ? 
              <td className="px-3 py-4 whitespace-nowrap text-center font-medium">
-             {service.OrderdId.vpsId.planName}
+             {service.OrderdId.serverId.planName}
            </td> 
            : <td className="px-3 py-4 whitespace-nowrap text-center">
-             {service.OrderdId.dedicatedServerId.planTitle}
+             {service.OrderdId.serverId.planTitle}
            </td>}
            
          </tr>:null
