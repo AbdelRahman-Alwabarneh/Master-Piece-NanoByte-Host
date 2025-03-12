@@ -87,7 +87,7 @@ const ServiceRoutes = require("./Routes/Service_Routes/ServiceRoutes");
 
 app.use("/api/service", ServiceRoutes);
 
-const checkAuthRoutes = require("./Routes/checkAuthRoutes");
+const checkAuthRoutes = require("./Routes/CheckAuth_Routes/checkAuthRoutes");
 
 app.use("/api/checkAuth", checkAuthRoutes);
 

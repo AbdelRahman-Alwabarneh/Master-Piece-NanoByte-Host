@@ -143,9 +143,7 @@ function SingUp() {
         { withCredentials: true }
       );
       const redirectPath = sessionStorage.getItem("redirectAfterLogin") || "/";
-      sessionStorage.removeItem("redirectAfterLogin"); 
-      
-      navigate(redirectPath, { state: { login: true } }); // الانتقال لصفحة أخرى عند التسجيل الناجح
+      navigate(redirectPath, { state: { signedUp: true } }); // الانتقال لصفحة أخرى عند التسجيل الناجح
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setAlertError("flex");

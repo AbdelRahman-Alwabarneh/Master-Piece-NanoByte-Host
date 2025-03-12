@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import AuthRedirect from "./Components/AuthRedirect/AuthRedirect";
 import Loading from "./Components/Loading/Loading";
 import "./App.css";
 
@@ -51,12 +52,14 @@ const GameHostingPage = lazy(() =>
 );
 const AboutUs = lazy(() => import("./Pages/AboutUs/AboutUsPage"));
 const ContactPage = lazy(() => import("./Pages/ContactPages/ContactPages"));
+const SignupSuccessfull = lazy(() => import("./Components/Login&Sginup/signupSuccess"));
 
 function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Suspense fallback={<Loading/>}>
+      <Suspense fallback={<Loading />}>
+      <SignupSuccessfull />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="*" element={<Error404 />} />
@@ -71,8 +74,8 @@ function App() {
             element={<WindowsWebsiteHosting />}
           />
           <Route path="/domains" element={<DomainsPage />} />
-          <Route path="/SignUp" element={<ProtectedRoute><SingUp /></ProtectedRoute>} />
-          <Route path="/LogIn" element={<ProtectedRoute><LogIn /></ProtectedRoute>} />
+          <Route path="/SignUp" element={<AuthRedirect><SingUp /></AuthRedirect>} />
+          <Route path="/LogIn" element={<AuthRedirect><LogIn /></AuthRedirect>} />
 
           <Route
             path="/UserControlPanel"
@@ -91,7 +94,10 @@ function App() {
             }
           />
 
-          <Route path="/OrderSetup/vpsDetails/:productLink" element={<OrderSetup />} />
+          <Route
+            path="/OrderSetup/vpsDetails/:productLink"
+            element={<OrderSetup />}
+          />
           <Route
             path="/OrderSetup/dedicatedServerDetails/:productLink"
             element={<OrderSetup />}

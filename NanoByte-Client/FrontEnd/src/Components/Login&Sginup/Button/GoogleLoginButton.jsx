@@ -30,10 +30,7 @@ const GoogleLoginButton = () => {
           },
           { withCredentials: true }
         );
-
         const redirectPath = sessionStorage.getItem("redirectAfterLogin") || "/";
-        sessionStorage.removeItem("redirectAfterLogin"); 
-        
         navigate(redirectPath, { state: { login: true } });
       } catch (error) {
         console.error(error);

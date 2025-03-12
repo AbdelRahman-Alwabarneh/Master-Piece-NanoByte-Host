@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -9,88 +9,67 @@ function SignupSuccessfull() {
   const queryParams = new URLSearchParams(location.search);
   const login = queryParams.get("login");
   const redirectPath = sessionStorage.getItem("redirectAfterLogin") || "/";
+  const [notificationShown, setNotificationShown] = useState(false);
+  const [currentPath, setCurrentPath] = useState(location.pathname);
 
   useEffect(() => {
-    // التحقق من وجود رسالة النجاح في الحالة
-    if (location.state?.signedUp) {
-      toast.success("تم إنشاء الحساب بنجاح", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce, // استخدام الترانزيشن بالشكل الصحيح
-        icon: (
-          <i className="fa-solid fa-circle-check text-white  text-[20px]"></i>
-        ), // أيقونة صح باللون الأبيض
-        style: {
-          backgroundColor: "#28a745", // اللون الأخضر للخلفية
-          color: "#fff", // اللون الأبيض للنص
-        },
-        progressStyle: {
-          background: "#fff", // شريط التقدم باللون الأبيض
-        },
-      });
-      navigate(`${redirectPath}`, { replace: true, state: {} });
-      sessionStorage.removeItem("redirectAfterLogin"); 
+    if (currentPath !== location.pathname) {
+      setNotificationShown(false);
+      setCurrentPath(location.pathname);
     }
-    if (location.state?.login || login) {
-      toast.success("تم تسجيل الدخول بنجاح", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce, // استخدام الترانزيشن بالشكل الصحيح
-        icon: (
-          <i className="fa-solid fa-circle-check text-white text-[20px]"></i>
-        ), // أيقونة صح باللون الأبيض
-        style: {
-          backgroundColor: "#28a745", // اللون الأخضر للخلفية
-          color: "#fff", // اللون الأبيض للنص
-        },
-        progressStyle: {
-          background: "#fff", // شريط التقدم باللون الأبيض
-        },
-      });
-      // تأخير التنقل قليلًا للتأكد من ظهور الرسالة
-      
-      setTimeout(() => {
-        navigate(`${redirectPath}`, { replace: true, state: {} });
-        sessionStorage.removeItem("redirectAfterLogin"); 
-      }, 50); // مدة التأخير تتوافق مع مدة إغلاق الرسالة
-    }
-  }, [location, navigate]);
-  
+  }, [location.pathname, currentPath]);
 
-  
+  useEffect(() => {
+    if (!notificationShown && (location.state?.login || login || location.state?.signedUp)) {
+      setNotificationShown(true);
+      toast.success(location.state?.login || login ? "تم تسجيل الدخول بنجاح": "تم إنشاء الحساب بنجاح",{
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+          icon: (
+            <i className="fa-solid fa-circle-check text-white text-[20px]"></i>
+          ),
+          style: {
+            backgroundColor: "#28a745",
+            color: "#fff",
+          },
+          progressStyle: {
+            background: "#fff",
+          },
+        }
+      );
+      navigate(`${redirectPath}`, { replace: true, state: {} });
+      setTimeout(() => {
+        sessionStorage.removeItem("redirectAfterLogin");
+      }, 50);
+    }
+  }, [location, navigate, notificationShown, redirectPath]);
+
   return (
     <>
-      <ToastContainer
-        closeButton={
-          // تخصيص الأكس باللون الأبيض
-          <i className="fa-solid fa-xmark text-white text-[15px]"></i>
-        }
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={true} // تعديل القيمة لتكون true لأن القيمة الافتراضية هي false
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-        theme="light"
-        transition={Bounce} // تعديل خاصية الترانزيشن بشكل صحيح
-      />
+      {notificationShown && (
+        <ToastContainer
+          closeButton={<i className="fa-solid fa-xmark text-white text-[15px]"></i>}
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={true}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover={false}
+          theme="light"
+          transition={Bounce}
+        />
+      )}
     </>
   );
 }
-
 export default SignupSuccessfull;

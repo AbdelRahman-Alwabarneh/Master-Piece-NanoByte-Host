@@ -66,8 +66,6 @@ function LogIn() {
         { withCredentials: true }
       );
       const redirectPath = sessionStorage.getItem("redirectAfterLogin") || "/";
-      sessionStorage.removeItem("redirectAfterLogin"); 
-      
       navigate(redirectPath, { state: { login: true } });  // الانتقال لصفحة أخرى عند التسجيل الناجح
     } catch (error) {
       if (error.response) {
