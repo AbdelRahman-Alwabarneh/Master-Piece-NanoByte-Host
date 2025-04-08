@@ -17,8 +17,11 @@ const ContentInvoice = () => {
     const fetchInvoice = async () => {
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/api/invoices/${orderNumber}`
+          `${import.meta.env.VITE_API_URL}/api/invoices/${orderNumber}`,
+          {},
+          { withCredentials: true }
         );
+
         setInvoice(response.data);
       } catch (err) {
         setError("حدث خطأ في جلب تفاصيل الفاتورة");
@@ -30,14 +33,12 @@ const ContentInvoice = () => {
     fetchInvoice();
   }, [orderNumber]);
 
- 
-
   if (loading) {
     return <Loading />;
   }
 
   if (error) {
-    return <NoDataFound/>;
+    return <NoDataFound />;
   }
 
   return (
@@ -45,22 +46,22 @@ const ContentInvoice = () => {
       <div className="min-h-screen py-8 sm:py-12 px-4 md:px-6 mt-[72px] font-cairo bg-nano-bg-100">
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row lg:gap-8 items-start">
-          <div className="w-full lg:w-2/3 order-2 lg:order-1 mb-8 lg:mb-0">
-            <MainInvoiceContent
-            motion={motion}
-            FileText={FileText}
-            AlertCircle={AlertCircle}
-            Check={Check}
-            invoice={invoice}
-            />
+            <div className="w-full lg:w-2/3 order-2 lg:order-1 mb-8 lg:mb-0">
+              <MainInvoiceContent
+                motion={motion}
+                FileText={FileText}
+                AlertCircle={AlertCircle}
+                Check={Check}
+                invoice={invoice}
+              />
             </div>
-          <InvoiceSummary
-          motion={motion}
-          AnimatePresence={AnimatePresence}
-          AlertCircle={AlertCircle}
-          invoice={invoice}
-          Download={Download}
-          />
+            <InvoiceSummary
+              motion={motion}
+              AnimatePresence={AnimatePresence}
+              AlertCircle={AlertCircle}
+              invoice={invoice}
+              Download={Download}
+            />
           </div>
         </div>
       </div>

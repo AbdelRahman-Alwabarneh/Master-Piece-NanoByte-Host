@@ -11,7 +11,9 @@ const useServiceDetails = ({ serviceType, productLink, duration }) => {
         const response = await axios.post(
           `${
             import.meta.env.VITE_API_URL
-          }/api/${serviceType}/${productLink}/${duration}` // تم تعديل الرابط ليشمل نوع الخدمة
+          }/api/${serviceType}/${productLink}/${duration}`, // تم تعديل الرابط ليشمل نوع الخدمة
+          {},
+          { withCredentials: true }
         );
 
         const details = response.data?.serviceDetailsPlan;
@@ -28,7 +30,7 @@ const useServiceDetails = ({ serviceType, productLink, duration }) => {
     fetchServiceDetails();
   }, [productLink, serviceType]);
 
-  return { serviceDetails , fetchError};
+  return { serviceDetails, fetchError };
 };
 
 export default useServiceDetails;
