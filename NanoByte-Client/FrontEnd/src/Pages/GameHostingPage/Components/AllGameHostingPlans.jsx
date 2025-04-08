@@ -41,7 +41,7 @@ const GameHostingGroupsAndPlans = ({ motion, AnimatePresence }) => {
   };
 
   const goToDetails = (productLink) => {
-    navigate(`/GameServerDetails/${productLink}`);
+    navigate(`/OrderSetup/GameHosting/${productLink}`);
   };
 
   return (

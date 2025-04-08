@@ -5,27 +5,31 @@ import { useParams } from "react-router-dom";
 const useServiceDetails = (serviceType) => {
   const [serviceDetails, setServiceDetails] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
-  const { productLink } = useParams(); // تم تعديل لاستقبال نوع الخدمة
-
+  const { productLink } = useParams(); 
+  const [fetchError, setFetchError] = useState(false);
   useEffect(() => {
     const fetchServiceDetails = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/${serviceType}/${productLink}` // تم تعديل الرابط ليشمل نوع الخدمة
+          `${import.meta.env.VITE_API_URL}/api/${serviceType}/${productLink}`
         );
-        setServiceDetails(response.data.serviceDetailsPlan); // تم تعديل المفتاح ليكون متناسب مع الخدمة
-        setTotalPrice(
-          response.data.serviceDetailsPlan.subscriptionDurations.oneMonth.price // نفس الفكرة ولكن مع بيانات الخدمة الجديدة
-        );
+        const details = response.data?.serviceDetailsPlan;
+
+        if (!details || !details.subscriptionDurations?.oneMonth?.price) {
+          throw new Error("تفاصيل الخطة غير كاملة أو غير موجودة");
+        }
+        setServiceDetails(details);
+        setTotalPrice(details.subscriptionDurations.oneMonth.price);
+        setFetchError(false);
       } catch (error) {
-        console.error(`خطأ في جلب تفاصيل ${serviceType}:`, error);
+        setFetchError(true);
       }
     };
 
     fetchServiceDetails();
   }, [productLink, serviceType]);
 
-  return { serviceDetails, totalPrice, setTotalPrice };
+  return { serviceDetails, totalPrice, setTotalPrice, fetchError };
 };
 
 export default useServiceDetails;

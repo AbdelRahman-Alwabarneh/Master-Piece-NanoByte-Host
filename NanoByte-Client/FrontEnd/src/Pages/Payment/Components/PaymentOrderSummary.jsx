@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import PayPalButton from "./Buttons/PayPalButtons";
 import CreditCardButton from "./Buttons/CreditCardButton";
-
 function PaymentOrderSummary({
   totalPrice,
   discountInfo,
   paymentError,
+  setPaymentError,
   serviceDetails,
   paymentMethod,
   price,
@@ -14,16 +14,25 @@ function PaymentOrderSummary({
   SelectedComponent,
   DurationText,
   motion,
+  Product_Link,
+  Service_Type,
 }) {
   const [isChecked, setIsChecked] = useState(false);
   const [showConsentAlert, setShowConsentAlert] = useState(false);
-  
+  const [paypalKey, setPaypalKey] = useState(0);
+
+  useEffect(() => {
+    if (paymentMethod === "paypal") {
+      setPaypalKey((prev) => prev + 1);
+    }
+  }, [isChecked, paymentMethod]);
+
   const handlePaymentClick = (callback) => {
     if (!isChecked) {
       setShowConsentAlert(true);
       return false;
     }
-    
+
     if (typeof callback === 'function') {
       callback();
     }
@@ -44,7 +53,7 @@ function PaymentOrderSummary({
             ملخص الطلب
           </h2>
           <div className="space-y-3 mb-4 text-sm">
-                      {/* رسالة التنبيه اللطيفة */}
+          {/* رسالة التنبيه اللطيفة */}
           {showConsentAlert && (
             <div className="bg-nano-warning-300/80 border border-nano-primary-200 text-white px-4 py-3 rounded-lg relative mb-4">
               <div className="flex items-center">
@@ -91,8 +100,10 @@ function PaymentOrderSummary({
             <label className="flex items-center space-x-2 mb-4 text-sm">
               <input
                 type="checkbox"
-                checked={isChecked}
-                onChange={() => setIsChecked(!isChecked, setShowConsentAlert(false))}
+                onChange={() => {
+                setIsChecked(!isChecked);
+                setShowConsentAlert(false);
+              }}
                 className="rounded w-5 h-4 text-nano-primary-300 focus:ring-0"
               />
 
@@ -110,27 +121,33 @@ function PaymentOrderSummary({
               </span>
             </label>
           </div>
-          
           {paymentError && (
             <div className="bg-nano-error-100 border border-nano-error-200 text-white px-4 py-3 rounded relative mb-4">
               {paymentError}
             </div>
           )}
-          {paymentMethod === "paypal" && (
-            <div onClick={() => handlePaymentClick()}>
-              <PayPalButton
-                totalPrice={totalPrice}
-                onPayPalApprove={onPayPalApprove}
-                validateConsent={handlePaymentClick}
-              />
+            <div>
+              {paymentMethod === "paypal" && (
+                  <PayPalButton
+                  key={paypalKey}
+                    totalPrice={totalPrice}
+                    onPayPalApprove={onPayPalApprove}
+                    validateConsent={() => {
+                      const consentValid = isChecked;
+                      if (!consentValid) setShowConsentAlert(true);
+                      return consentValid;
+                    }}
+                    Product_Link={Product_Link}
+                    Service_Type={Service_Type}
+                    setPaymentError={setPaymentError}
+                  />
+              )}
+              {paymentMethod === "credit-card" && (
+                  <CreditCardButton 
+                    validateConsent={() => handlePaymentClick()}
+                  />
+              )}
             </div>
-          )}
-          
-          {paymentMethod === "credit-card" && (
-            <div onClick={() => handlePaymentClick()}>
-              <CreditCardButton validateConsent={handlePaymentClick} />
-            </div>
-          )}
         </div>
       </motion.div>
     </>

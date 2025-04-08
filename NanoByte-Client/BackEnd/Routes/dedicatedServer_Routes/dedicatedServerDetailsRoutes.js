@@ -12,4 +12,7 @@ router.post(
 );
 router.post("/", dedicatedServerDetailsController.dedicatedServerQuantity);
 
+router.post('/checkServiceAvailability', dedicatedServerDetailsController.checkServiceAvailability);
+
+
 module.exports = router;

@@ -2,13 +2,11 @@ const Service = require("../../Models/ServiceModels");
 
 exports.createService = async (req, res) => {
   try {
-    const { orderNumber, receivedOrderID, SelectedServiceType } = req.body;
-    console.log(receivedOrderID);
-
+    const { receivedOrderNumber, receivedOrderID, SelectedServiceType } = req.body;
     // تحقق من الحقول المطلوبة
-    if (!req.user.id || !orderNumber) {
+    if (!req.user.id) {
       return res.status(400).json({
-        message: "userId,OrderNumber are required",
+        message: "userId are required",
       });
     }
 
@@ -16,8 +14,8 @@ exports.createService = async (req, res) => {
     const newService = await Service.create({
       userId: req.user.id,
       OrderdId: receivedOrderID,
-      OrderNumber: orderNumber,
       Servicetype: SelectedServiceType,
+      OrderNumber: receivedOrderNumber,
     });
 
     res.status(201).json({

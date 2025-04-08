@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import Cookies from "js-cookie";
 const handlePayPalApprove = (
   SelectedComponent,
   Service_Id,
@@ -9,22 +9,31 @@ const handlePayPalApprove = (
   totalPrice,
   Product_Link,
   SelectedServiceType,
+  price,
+  setupFee,
+  appliedDiscount,
   setPaymentError,
   navigate
 ) => {
   
   const onPayPalApprove = async (data, actions) => {
     try {
+      
       const captureResponse = await actions.order.capture();
+      const paymentCaptureId = captureResponse.purchase_units[0].payments.captures[0].id;
       const paymentData = {
         SelectedComponent,
         Service_Id,
-        orderNumber: captureResponse.id,
         DurationText,
         Discount_Code,
         Service_Type,
         SelectedServiceType,
+        paypalResourceID: paymentCaptureId,
         amount: parseFloat(totalPrice),
+        planPrice: price,
+        renewalFee: price,
+        setupFee,
+        appliedDiscount,
         paymentMethod: "PayPal",
       };
       const response = await axios.post(
@@ -35,7 +44,7 @@ const handlePayPalApprove = (
         }
       );
       const receivedOrderID = response.data._id;
-
+      const receivedOrderNumber = response.data.orderNumber;
       await axios.post(
         `${import.meta.env.VITE_API_URL}/api/${Service_Type}`,
         { Product_Link },
@@ -43,7 +52,7 @@ const handlePayPalApprove = (
       );
       await axios.post(
         `${import.meta.env.VITE_API_URL}/api/service`,
-        { orderNumber: captureResponse.id, receivedOrderID, SelectedServiceType },
+        { receivedOrderNumber, receivedOrderID, SelectedServiceType },
         { withCredentials: true }
       );
       if (Discount_Code && Discount_Code !== "null") {
@@ -53,11 +62,14 @@ const handlePayPalApprove = (
           { withCredentials: true }
         );
       }
-
-      navigate(`/InvoicePage/${captureResponse.id}`);
+      Cookies.remove("Service_Id");
+      Cookies.remove("Subscription_Duration");
+      Cookies.remove("Discount_Code");
+      Cookies.remove("Service_Type");
+      Cookies.remove("Product_Link");
+      navigate(`/InvoicePage/${receivedOrderNumber}`);
     } catch (error) {
       setPaymentError("حدث خطأ أثناء معالجة الدفع");
-      console.error("Payment Error:", error);
     }
   };
 

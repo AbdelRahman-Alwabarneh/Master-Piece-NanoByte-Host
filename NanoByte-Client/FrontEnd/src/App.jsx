@@ -53,6 +53,8 @@ const GameHostingPage = lazy(() =>
 const AboutUs = lazy(() => import("./Pages/AboutUs/AboutUsPage"));
 const ContactPage = lazy(() => import("./Pages/ContactPages/ContactPages"));
 const SignupSuccessfull = lazy(() => import("./Components/Login&Sginup/signupSuccess"));
+import PrintInvoice from "./Pages/Invoice/Components/PrintInvoice";
+
 
 function App() {
   return (
@@ -102,6 +104,10 @@ function App() {
             path="/OrderSetup/dedicatedServerDetails/:productLink"
             element={<OrderSetup />}
           />
+          <Route
+            path="/OrderSetup/GameHosting/:productLink"
+            element={<OrderSetup />}
+          />
 
           <Route
             path="/Payment"
@@ -119,6 +125,10 @@ function App() {
                 <InvoicePage />
               </ProtectedRoute>
             }
+          />
+          <Route
+            path="/PrintInvoice/:orderNumber"
+            element={<PrintInvoice />}
           />
           <Route
             path="/ServiceControlPanel/:serviceId/:orderNumber"

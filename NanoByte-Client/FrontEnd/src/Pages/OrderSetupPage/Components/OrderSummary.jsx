@@ -26,6 +26,7 @@ function OrderSummary({
   const componentMap = {
     vpsDetails: ` استضافة خوادم مشتركة - ${serviceDetails.planName}`,
     dedicatedServerDetails: serviceDetails.planTitle,
+    GameHosting:` إستضافة خوادم الألعاب - ${serviceDetails.planName}`,
   };
 
   const SelectedComponent = componentMap[serviceType] || null;

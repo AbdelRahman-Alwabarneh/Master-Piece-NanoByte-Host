@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const AutoIncrementFactory = require('mongoose-sequence')(mongoose);
 
 // تعريف سكيما الدفع
 const OrdersSchema = new mongoose.Schema(
@@ -14,7 +15,7 @@ const OrdersSchema = new mongoose.Schema(
     },
     Servicetype: {
       type: String,
-      enum: ['VPS', 'DedicatedServer'],
+      enum: ['VPS', 'DedicatedServer', 'GameHosting'],
       required: true,
     },
     serverId: {
@@ -28,10 +29,14 @@ const OrdersSchema = new mongoose.Schema(
       required: true,
     },
     orderNumber: {
-      type: String,
-      required: true,
+      type: Number,
       unique: true,
     },
+    paypalResourceID: {
+      type: String,
+      unique: true,
+      sparse: true,
+  },
     paymentMethod: {
       type: String,
       enum: ["Visa / MasterCard", "PayPal"],
@@ -57,6 +62,20 @@ const OrdersSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
+    planPrice: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    setupFee: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    appliedDiscount: {
+      type: Number,
+      min: 0,
+    },
     renewalFee: {
       type: Number,
       required: true,
@@ -70,8 +89,17 @@ const OrdersSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    failureReason: {
+      type: String,
+      default: null,
+    },
+    refundNote: {
+      type: String,
+      default: null,
+    }
   },
   { timestamps: true }
 );
+OrdersSchema.plugin(AutoIncrementFactory, { inc_field: 'orderNumber' });
 
 module.exports = mongoose.model("Order", OrdersSchema, "Orders");

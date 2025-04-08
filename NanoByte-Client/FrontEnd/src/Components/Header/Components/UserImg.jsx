@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import userImg from "../../../Assets/Photo/userImg.png";
+import userImg from "../../../Assets/Photo/nano-user-img.png";
 import { User, ShoppingBag, LogOut, Boxes, MailSearch } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { clearUserProfile } from "../../../Redux/Slice/profileSlice";

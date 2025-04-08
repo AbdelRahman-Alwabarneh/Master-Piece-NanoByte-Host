@@ -79,7 +79,7 @@ const ordersRoutes = require("./Routes/Orders_Routes/ordersRoutes");
 
 app.use("/api/orders", ordersRoutes);
 
-const invoicesRoutes = require("./Routes/invoicesRoutes");
+const invoicesRoutes = require("./Routes/Invoices_Routes/invoicesRoutes");
 
 app.use("/api/invoices", invoicesRoutes);
 
@@ -114,6 +114,18 @@ app.use("/api/GameHosting", GameHostingRoutes);
 const ContactRoutes = require("./Routes/ContactRoutes");
 
 app.use("/api/Contact", ContactRoutes);
+
+const paypalRoutes = require("./Routes/Paypal_Routes/paypalRoutes");
+
+app.use("/api/paypal-webhook", paypalRoutes);
+
+const InvoicePDFRoutes = require("./Routes/InvoicePDF_Routes/InvoicePDFRoutes");
+
+app.use("/api/InvoicePDF", InvoicePDFRoutes);
+
+const prerenderRoutes = require("./Routes/Prerender_Routes/prerenderRoutes");
+
+app.use("/api/prerender", prerenderRoutes);
 
 // بدء تشغيل الخادم
 app.listen(PORT, () => {

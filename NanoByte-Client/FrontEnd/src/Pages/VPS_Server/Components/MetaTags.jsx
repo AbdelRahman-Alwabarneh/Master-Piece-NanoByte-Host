@@ -1,4 +1,4 @@
-// MetaTags.js
+// MetaTagsVpsHosting.js
 import { Helmet } from "react-helmet-async";
 
 function MetaTags() {
@@ -7,26 +7,29 @@ function MetaTags() {
       <title>خوادم مشتركة - NanoByte</title>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta name="description" content="تعرف على خطط الخوادم المشتركة لدينا." />
-
+      <meta
+        name="description"
+        content="احصل على أداء موثوق ومرونة عالية مع استضافة VPS من نانوبايت. موارد مخصصة، حماية قوية، وتحكم كامل بخادمك."
+      />
       <meta
         name="keywords"
-        content="خوادم, استضافة, VPS, خطط استضافة, NanoByte, خوادم مشتركة, خادم, سيرفر, hosting, vps hosting , host "
+        content="خوادم, استضافة, VPS, استضافة VPS, NanoByte, سيرفر خاص افتراضي, خادم, hosting, vps hosting, virtual private server"
       />
+      <meta name="author" content="NanoByte" />
 
       {/* Open Graph Tags */}
       <meta property="og:title" content="خوادم مشتركة - NanoByte" />
       <meta
         property="og:description"
-        content="تعرف على خطط الخوادم المشتركة لدينا."
+        content="احصل على أداء موثوق ومرونة عالية مع استضافة VPS من نانوبايت. موارد مخصصة، حماية قوية، وتحكم كامل بخادمك."
       />
       <meta property="og:url" content="https://test.nanobyte.host/VpsServer" />
       <meta
         property="og:image"
-        content="https://test.nanobyte.host/assets/Logo_NanoByte-ZZ38TVGA.png"
+        content="https://test.nanobyte.host/Logo_NanoByte.png"
       />
       <meta property="og:type" content="website" />
-      <meta property="og:site_name" content="NanoByte VPS" />
+      <meta property="og:site_name" content="NanoByte VPS Hosting" />
       <meta property="og:locale" content="ar_AR" />
 
       {/* Twitter Card Tags */}
@@ -34,11 +37,11 @@ function MetaTags() {
       <meta name="twitter:title" content="خوادم مشتركة - NanoByte" />
       <meta
         name="twitter:description"
-        content="تعرف على خطط الخوادم المشتركة لدينا."
+        content="احصل على أداء موثوق ومرونة عالية مع استضافة VPS من نانوبايت. موارد مخصصة، حماية قوية، وتحكم كامل بخادمك."
       />
       <meta
         name="twitter:image"
-        content="https://test.nanobyte.host/assets/Logo_NanoByte-ZZ38TVGA.png"
+        content="https://test.nanobyte.host/Logo_NanoByte.png"
       />
       <meta name="twitter:creator" content="@NanoByte" />
 
@@ -49,32 +52,27 @@ function MetaTags() {
       <link
         rel="apple-touch-icon"
         sizes="180x180"
-        href="https://test.nanobyte.host/assets/Logo_NanoByte-ZZ38TVGA.png"
+        href="https://test.nanobyte.host/Logo_NanoByte.png"
       />
       <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-title" content="NanoByte VPS" />
-      <meta
-        name="apple-mobile-web-app-status-bar-style"
-        content="nano-primary-300"
-      />
+      <meta name="apple-mobile-web-app-title" content="NanoByte VPS Hosting" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       <link
         rel="apple-touch-startup-image"
-        href="https://test.nanobyte.host/assets/Logo_NanoByte-ZZ38TVGA.png"
+        href="https://test.nanobyte.host/Logo_NanoByte.png"
       />
 
-      {/* Mask Icon */}
-      <link
-        rel="mask-icon"
-        href="https://test.nanobyte.host/assets/Logo_NanoByte-ZZ38TVGA.png"
-        color="#1F3A5F"
-      />
-
-      {/* Favicon */}
+      {/* Favicon and Mask */}
       <link
         rel="icon"
         type="image/png"
         sizes="32x32"
-        href="https://test.nanobyte.host/assets/Logo_NanoByte-ZZ38TVGA.png"
+        href="https://test.nanobyte.host/Logo_NanoByte.png"
+      />
+      <link
+        rel="mask-icon"
+        href="https://test.nanobyte.host/Logo_NanoByte.png"
+        color="#1F3A5F"
       />
       <meta name="theme-color" content="#1F3A5F" />
 
@@ -84,12 +82,20 @@ function MetaTags() {
           "@context": "https://schema.org",
           "@type": "WebPage",
           name: "خوادم مشتركة - NanoByte",
-          description: "تعرف على خطط الخوادم المشتركة لدينا بأفضل جودة.",
+          description:
+            "احصل على أداء موثوق ومرونة عالية مع استضافة VPS من نانوبايت. موارد مخصصة، حماية قوية، وتحكم كامل بخادمك.",
           url: "https://test.nanobyte.host/VpsServer",
+          mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": "https://test.nanobyte.host/VpsServer",
+          },
           publisher: {
             "@type": "Organization",
             name: "NanoByte",
-            logo: "https://test.nanobyte.host/assets/Logo_NanoByte-ZZ38TVGA.png",
+            logo: {
+              "@type": "ImageObject",
+              url: "https://test.nanobyte.host/Logo_NanoByte.png",
+            },
           },
         })}
       </script>

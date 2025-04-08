@@ -77,7 +77,7 @@ const gameServerSchema = new mongoose.Schema(
     groupId: {
       type: mongoose.Schema.Types.ObjectId,
       default: null,
-      ref: "Group",
+      ref: "GameHostingGroup",
     },
     groupName: {
       type: String,

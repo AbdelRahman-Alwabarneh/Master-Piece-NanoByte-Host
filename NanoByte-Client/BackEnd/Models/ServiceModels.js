@@ -12,12 +12,12 @@ const ServiceSchema = new mongoose.Schema({
         required: true,
       },
       OrderNumber: {
-        type: String,
+        type: Number,
         required: true
     },
     Servicetype: {
         type: String,
-        enum: ['VPS', 'DedicatedServer'],
+        enum: ['VPS', 'DedicatedServer', 'GameHosting'],
         required: true,
       },
     domain: {

@@ -29,6 +29,7 @@ exports.GroupsData = async (req, res) => {
       match: { isHidden: false },
       select:
         "planName ram cpu storage connectionSpeed security databases subscriptionDurations.oneMonth.price quantity productLink isUnlimited",
+        options: { sort: { createdAt: 1 } },
     }); // إذا كنت تريد معلومات عن الخطط
 
     // التحقق من وجود بيانات وإرجاعها

@@ -1,20 +1,47 @@
-const Payment = require("../Models/ordersModels");
+const Payment = require("../../Models/ordersModels");
 
-// البحث عن الدفع بواسطة orderNumber
 exports.getPaymentByOrderNumber = async (req, res) => {
-  const { orderNumber } = req.params; // استخدم باراميتر من URL للبحث
-
+  const { orderNumber } = req.params; 
+  const userId = req.user?.id; 
+  
+  if (!userId) {
+    return res.status(401).json({ message: "User not authenticated" });
+  }
   try {
-    // استرجاع الدفع بواسطة orderNumber
-    const payment = await Payment.findOne({ orderNumber }).populate(
-      "userId",
-      "firstName email"
-    ); // استبدل 'name email' بالحقول التي تريد عرضها من نموذج المستخدم
+    const payment = await Payment.findOne({userId, orderNumber })
+    .select("orderNumber planName amount createdAt paymentStatus paymentMethod appliedDiscount setupFee planPrice") 
+    .populate("userId", "firstName email");
 
     if (!payment) {
       return res.status(404).json({ message: "Payment not found" });
     }
+    if (payment.userId._id.toString() !== userId) {
+      return res.status(403).json({ message: "You are not authorized to view this invoice" });
+    }
+    res.status(200).json(payment);
+  } catch (err) {
+    console.error("Error retrieving payment:", err.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
+exports.getPaymentByOrderNumberToPrintInvoice = async (req, res) => {
+  const { orderNumber } = req.params;
+  const userId = req.user?.id;
+  if (!userId) {
+    return res.status(401).json({ message: "User not authenticated" });
+  }
+  try {
+    const payment = await Payment.findOne({userId, orderNumber })
+    .select("orderNumber planName amount createdAt paymentStatus paymentMethod appliedDiscount setupFee planPrice")
+    .populate("userId", "firstName email");
+
+    if (!payment) {
+      return res.status(404).json({ message: "Payment not found" });
+    }
+    if (payment.userId._id.toString() !== userId) {
+      return res.status(403).json({ message: "You are not authorized to view this invoice" });
+    }
     res.status(200).json(payment);
   } catch (err) {
     console.error("Error retrieving payment:", err.message);

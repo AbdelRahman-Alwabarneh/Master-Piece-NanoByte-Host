@@ -1,0 +1,5 @@
+.fetch-error-blur {
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(100px);
+  -webkit-backdrop-filter: blur(100px);
+}

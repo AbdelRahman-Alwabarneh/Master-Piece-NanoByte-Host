@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Suspense, lazy } from "react";
 import Cookies from "js-cookie";
 import { CreditCard, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,6 +11,8 @@ import SectionPayPal from "./PaymentSection/SectionPayPal";
 import useDiscount from "../Hook/useDiscount";
 import handlePayPalApprove from "../Hook/handlePayPalApprove";
 import Loading from "../../../Components/Loading/Loading";
+import PlanChecker from "../../../Components/OutOfStockAlert/OutOfStockAlert";
+const ServiceFetchErrorAlert = lazy(() => import("../../../Components/ServiceFetchErrorAlert/ServiceFetchErrorAlert"));
 
 function ContentPayment() {
   const Service_Id = Cookies.get("Service_Id");
@@ -21,13 +23,11 @@ function ContentPayment() {
   const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState("credit-card");
   const [paymentError, setPaymentError] = useState("");
-
-  const { serviceDetails } = useServiceDetails({
+  const { serviceDetails, fetchError } = useServiceDetails({
     serviceType: Service_Type,
     productLink: Product_Link,
     duration: Subscription_Duration,
   });
-
   const { totalPrice, discountInfo, isLoadingDiscount } = useDiscount(
     Discount_Code,
     serviceDetails,
@@ -35,24 +35,45 @@ function ContentPayment() {
     Subscription_Duration,
     setPaymentError
   );
+  if (fetchError) {
+    return <Suspense fallback={<Loading />}><ServiceFetchErrorAlert hasError={fetchError} redirectTo="/" /></Suspense>;
+  }
+  
+  if (!serviceDetails || isLoadingDiscount) {
+    return <Loading />;
+  }
+  const serviceMap = {
+    vpsDetails: {
+      SelectedComponent: `استضافة خوادم مشتركة - ${serviceDetails.planName}`,
+      SelectedServiceType: "VPS",
+      redirectTo: "/VpsServer",
 
-  if (!serviceDetails || isLoadingDiscount) return <Loading />;
-
-  const componentMap = {
-    vpsDetails: `استضافة خوادم مشتركة - ${serviceDetails.planName}`,
-    dedicatedServerDetails: serviceDetails.planTitle,
+    },
+    dedicatedServerDetails: {
+      SelectedComponent: serviceDetails.planTitle,
+      SelectedServiceType: "DedicatedServer",
+      redirectTo: "/DedicatedServer",
+    },
+    GameHosting: {
+      SelectedComponent: serviceDetails.planName,
+      SelectedServiceType: "GameHosting",
+      redirectTo: "/GameHostingPage",
+    },
   };
-
-  const serviceTypeMap = {
-    vpsDetails: "VPS",
-    dedicatedServerDetails: "DedicatedServer",
+  const {
+    SelectedComponent,
+    SelectedServiceType,
+    redirectTo
+  } = serviceMap[Service_Type] || {
+    SelectedComponent: null,
+    SelectedServiceType: null,
+    redirectTo: "/",
   };
-
-  const SelectedComponent = componentMap[Service_Type] || null;
-  const SelectedServiceType = serviceTypeMap[Service_Type] || null;
   const DurationText = getDurationText(Subscription_Duration);
   const price =
     serviceDetails.subscriptionDurations[Subscription_Duration].price;
+    const setupFee = serviceDetails.setupFee;
+    const appliedDiscount = discountInfo?.discountValue ?? null;
 
   const onPayPalApprove = handlePayPalApprove(
     SelectedComponent,
@@ -63,13 +84,16 @@ function ContentPayment() {
     totalPrice,
     Product_Link,
     SelectedServiceType,
+    price,
+    setupFee,
+    appliedDiscount,
     setPaymentError,
     navigate
   );
-
   return (
     <>
       <div className="min-h-screen bg-nano-bg-100 mt-[72px] text-nano-text-100 p-4 md:p-8 font-cairo">
+      <PlanChecker Product_Link={Product_Link} Service_Type={Service_Type} redirectTo={redirectTo}/>
         <AnimatePresence>
           <motion.h1
             key="payment-heading"
@@ -138,6 +162,7 @@ function ContentPayment() {
               totalPrice={totalPrice}
               discountInfo={discountInfo}
               paymentError={paymentError}
+              setPaymentError={setPaymentError}
               serviceDetails={serviceDetails}
               paymentMethod={paymentMethod}
               onPayPalApprove={onPayPalApprove}
@@ -145,7 +170,8 @@ function ContentPayment() {
               SelectedComponent={SelectedComponent}
               DurationText={DurationText}
               motion={motion}
-              AnimatePresence={AnimatePresence}
+              Product_Link={Product_Link}
+              Service_Type={Service_Type}
             />
           </div>
         </AnimatePresence>
